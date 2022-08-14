@@ -1,3 +1,4 @@
+<link rel="icon" type="image/png" href="{{ asset('/img/385-logo.png') }}">
 <x-guest-layout>
     <x-jet-authentication-card>
         <x-slot name="logo">
