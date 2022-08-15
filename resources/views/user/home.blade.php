@@ -119,7 +119,7 @@
                 <div class="col-12 col-md-12 col-lg-6">
                     <div class="card text-white text-center bg-dark pb-2">
                         <div class="card-body">
-                            <i class="bi bi-subtract"></i>
+                        <i class="bi bi-person-lines-fill"></i>
                             <h3 class="card-title">Blotter</h3>
                             <p class="lead">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Possimus quo
                                 dignissimos officia, neque ducimus ab enim optio voluptates omnis nesciunt incidunt
@@ -132,7 +132,7 @@
                 <div class="col-12 col-md-12 col-lg-6">
                     <div class="card text-white text-center bg-dark pb-2">
                         <div class="card-body">
-                            <i class="bi bi-slack"></i>
+                            <i class="bi bi-megaphone"></i>
                             <h3 class="card-title">Hearings</h3>
                             <p class="lead">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Possimus quo
                                 dignissimos officia, neque ducimus ab enim optio voluptates omnis nesciunt incidunt
@@ -149,7 +149,7 @@
                 <div class="col-12 col-md-12 col-lg-6">
                     <div class="card text-white text-center bg-dark pb-2">
                         <div class="card-body">
-                            <i class="bi bi-playstation"></i>
+                            <i class="bi bi-journal-text"></i>
                             <h3 class="card-title">Incidents</h3>
                             <p class="lead">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Possimus quo
                                 dignissimos officia, neque ducimus ab enim optio voluptates omnis nesciunt incidunt
@@ -162,7 +162,7 @@
                 <div class="col-12 col-md-12 col-lg-6">
                     <div class="card text-white text-center bg-dark pb-2">
                         <div class="card-body">
-                            <i class="bi bi-playstation"></i>
+                            <i class="bi bi-envelope-paper"></i>
                             <h3 class="card-title">Notices</h3>
                             <p class="lead">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Possimus quo
                                 dignissimos officia, neque ducimus ab enim optio voluptates omnis nesciunt incidunt
@@ -193,7 +193,7 @@
                     <div class="card text-center bg-white pb-2">
                         <div class="card-body text-dark">
                             <div class="img-area mb-4">
-                                <img src="../img/project-1.jpg" alt="" class="img-fluid">
+                                <img src="../img/feature-1.png" alt="" class="img-fluid">
                             </div>
                             <h3 class="card-title">Building Make</h3>
                             <p class="lead">Lorem ipsum dolor sit amet consectetur adipisicing elit. Vitae recusandae
@@ -208,7 +208,7 @@
                     <div class="card text-center bg-white pb-2">
                         <div class="card-body text-dark">
                             <div class="img-area mb-4">
-                                <img src="../img/project-2.jpg" alt="" class="img-fluid">
+                                <img src="../img/feature-2.png" alt="" class="img-fluid">
                             </div>
                             <h3 class="card-title">Building Make</h3>
                             <p class="lead">Lorem ipsum dolor sit amet consectetur adipisicing elit. Vitae recusandae
@@ -223,7 +223,7 @@
                     <div class="card text-center bg-white pb-2">
                         <div class="card-body text-dark">
                             <div class="img-area mb-4">
-                                <img src="../img/project-3.jpg" alt="" class="img-fluid">
+                                <img src="../img/feature-3.png" alt="" class="img-fluid">
                             </div>
                             <h3 class="card-title">Building Make</h3>
                             <p class="lead">Lorem ipsum dolor sit amet consectetur adipisicing elit. Vitae recusandae
@@ -244,7 +244,7 @@
             <div class="row">
                 <div class="col-lg-4 col-md-12 col-12">
                     <div class="about-img">
-                        <img src="../img/about.jpg" alt="" class="img-fluid">
+                        <img src="../img/barangay-385.jpg" alt="" class="img-fluid">
                     </div>
                 </div>
                 <div class="col-lg-8 col-md-12 col-12 ps-lg-5 mt-md-5">
