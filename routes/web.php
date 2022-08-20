@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
+use App\Http\Livewire\BlotterController;
 
 /*
 |--------------------------------------------------------------------------
@@ -16,7 +17,7 @@ use App\Http\Controllers\HomeController;
 
 Route::get('/',[HomeController::class, 'index']);
 
-Route::get('/home',[HomeController::class, 'redirect'])->middleware('auth','verified');
+Route::get('/home',[HomeController::class, 'redirect'])->middleware('auth','verified')->name('home');
 
 Route::middleware([
     'auth:sanctum',
@@ -27,3 +28,8 @@ Route::middleware([
         return view('dashboard');
     })->name('dashboard');
 });
+
+
+// ADMIN CONTROLS - BLOTTER
+Route::get('blotter/create', [BlotterController::class, 'create'])->name('blotter.create');
+Route::post('blotter/store', [BlotterController::class, 'store'])->name('blotter.store');
