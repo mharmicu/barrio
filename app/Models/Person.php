@@ -27,4 +27,9 @@ class Person extends Model
     {
         return $this->belongsTo(Blotter::class);
     }
+
+    public function case_involved()
+    {
+        return $this->belongsTo(Case_Involved::class);
+    }
 }

@@ -12,6 +12,7 @@ use Livewire\Component;
 use Illuminate\Support\Facades\DB;
 
 use Illuminate\Support\Facades\Auth;
+use DataTables;
 
 class BlotterController extends Component
 {
@@ -67,7 +68,7 @@ class BlotterController extends Component
                 $blotter->processed_by = Auth::user()->id;
                 $blotter->compliance = 0;
                 $blotter->date_of_execution = date("Y-m-d H:i:s");
-                $blotter->remarks = 'Lorem ipsum nullam laoreet felis'; 
+                $blotter->remarks = '';
                 $blotter->save();
 
                 $incident_case = new Incident_Case();
@@ -105,14 +106,155 @@ class BlotterController extends Component
                 $person_signature->person_id = $person_complainant->person_id;
                 $person_signature->save();
 
-                
-                
+
+
                 return back()->with('success', '');
             } else {
                 return redirect()->back();
             }
         } else {
             return redirect('login');
+        }
+    }
+
+    public function show()
+    {
+        if (Auth::id()) {
+            if (Auth::user()->user_type_id == 1) {
+
+                return view('blotter.show');
+            } else {
+                return redirect()->back();
+            }
+        } else {
+            return redirect('login');
+        }
+    }
+
+    public function getBlotterReports(Request $request)
+    {
+        if ($request->ajax()) {
+            $data = Blotter::latest()->get();
+            return Datatables::of($data)
+                ->addIndexColumn()
+                ->addColumn('action', function ($row) {
+                    $actionBtn = '<a href="javascript:void(0)" class="edit btn btn-success btn-sm">Edit</a> <a href="javascript:void(0)" class="delete btn btn-danger btn-sm">Delete</a>';
+                    return $actionBtn;
+                })
+
+                ->addColumn('status', function ($row) {
+                    $statusBadge = '<span class="badge rounded-pill bg-dark">N/A</span>';
+                    return $statusBadge;
+                })
+                ->rawColumns(['action', 'status'])
+                ->make(true);
+        }
+    }
+
+    public function summary()
+    {
+        if (Auth::id()) {
+            if (Auth::user()->user_type_id == 1) {
+
+                $search = request()->query('search');
+                if ($search) {
+                    $blotter_report = DB::table('blotter_report')->where('case_no', $search)->get();
+
+                    if ($blotter_report->isEmpty()) {
+                        return redirect()->back()->with('none', '');
+                    } else {
+                        $case_involved = DB::table('case_involved')->where('case_no', $search)->get();
+                        foreach ($case_involved as $involved) {
+                            $complainant = $involved->complainant_id;
+                            $respondent = $involved->respondent_id;
+                        }
+
+                        $complainant = DB::table('person')->where('person_id', $complainant)->first();
+                        $respondent = DB::table('person')->where('person_id', $respondent)->first();
+
+                        return view('blotter.summary', compact('blotter_report', 'complainant', 'respondent'));
+                    }
+                } else {
+                    $blotter_report = DB::table('blotter_report')->where('case_no', $search)->get();
+                    return view('blotter.summary', compact('blotter_report'));
+                }
+            } else {
+                return redirect()->back();
+            }
+        } else {
+            return redirect('login');
+        }
+    }
+
+    public function edit($id, Request $request)
+    {
+        if (Auth::id()) {
+            if (Auth::user()->user_type_id == 1) {
+
+                $request->validate([
+                    'compliance' => 'required|in:0,1',
+                    'executionDate' => 'required',
+                    'remarks' => 'required|max:255'
+                ], [
+                    //custom error message here if ever meron
+                ]);
+
+                $blotter = Blotter::findOrFail($id);
+                $blotter->compliance = $request->compliance;
+                $blotter->date_of_execution = $request->executionDate;
+                $blotter->remarks = $request->remarks;
+                $blotter->save();
+
+                return redirect()->back()->with('updated', '');
+            } else {
+                return redirect()->back();
+            }
+        } else {
+            return redirect('login');
+        }
+    }
+
+    public function settledCases()
+    {
+        if (Auth::id()) {
+            if (Auth::user()->user_type_id == 1) {
+
+                return view('blotter.settled-cases');
+            } else {
+                return redirect()->back();
+            }
+        } else {
+            return redirect('login');
+        }
+    }
+
+    public function getSettledCases(Request $request)
+    {
+        if ($request->ajax()) {
+            //$incident_case = DB::table('incident_case')->select('*')->get();
+            //$incident_case = Incident_Case::latest()->get();
+            //$blotter = Blotter::latest()->get();
+            $data = DB::table('blotter_report')
+                ->join('incident_case', 'blotter_report.case_no', '=', 'incident_case.case_no')
+                ->get();
+
+
+            return Datatables::of($data)
+                ->addIndexColumn()
+                ->addColumn('action', function ($row) {
+                    $actionBtn = '<a href="/blotter/summary?_token=E0rjs8jNI5IVBuKPBrN832WXf78goi0UM7qRI8Iv&search=' . $row->case_no  . ' " class="edit btn btn-primary btn-sm">Details</a> ';
+                    return $actionBtn;
+                })
+                ->editColumn('article_no', function ($article_no) {
+                    return 'Article No. ' . $article_no->article_no;
+                })
+                ->editColumn('compliance', function ($compliance) {
+                    if ($compliance->compliance == 0) return '<span class="badge rounded-pill bg-secondary">NON-COMPLIANCE</span>';
+                    if ($compliance->compliance == 1) return '<span class="badge rounded-pill bg-dark">COMPLIANCE</span>';
+                })
+                ->addColumn('status', '<span class="badge rounded-pill bg-dark">N/A</span>')
+                ->rawColumns(['status', 'compliance', 'action'])
+                ->make(true);
         }
     }
 }

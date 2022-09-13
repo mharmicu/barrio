@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Livewire\BlotterController;
+use App\Models\Blotter;
 
 /*
 |--------------------------------------------------------------------------
@@ -33,3 +34,10 @@ Route::middleware([
 // ADMIN CONTROLS - BLOTTER
 Route::get('blotter/create', [BlotterController::class, 'create'])->name('blotter.create');
 Route::post('blotter/store', [BlotterController::class, 'store'])->name('blotter.store');
+Route::get('blotter/show', [BlotterController::class, 'show'])->name('blotter.show');
+Route::get('blotter/show/list', [BlotterController::class, 'getBlotterReports'])->name('blotter.list');
+Route::get('blotter/settled', [BlotterController::class, 'settledCases'])->name('blotter.settled');
+Route::get('blotter/settled/list', [BlotterController::class, 'getSettledCases'])->name('blotter.settled-list');
+Route::get('blotter/summary', [BlotterController::class, 'summary'])->name('blotter.summary');
+//EDIT BLOTTER
+Route::post('edit-blotter/{id}', [BlotterController::class, 'edit'])->name('editBlotter');

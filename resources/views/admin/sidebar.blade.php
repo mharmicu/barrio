@@ -1,3 +1,5 @@
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css">
+
 <!-- Sidebar-->
 <div class="border-end" id="sidebar-wrapper">
 
@@ -14,10 +16,10 @@
                 document.write(date + ' ' + time);
             </script>
         </a>
-        <a class="list-group-item list-group-item-action  p-3" href="{{route('home')}}">Dashboard</a>
+        <a class="list-group-item list-group-item-action  p-3" href="{{route('home')}}"><i class="bi bi-house-door-fill"></i> Dashboard</a>
         <br>
 
-        <a class="list-group-item list-group-item-action  p-3 dropdown-toggle" href="#incidentSubMenu" data-bs-toggle="collapse" aria-expanded="false">Incident Report</a>
+        <a class="list-group-item list-group-item-action  p-3 dropdown-toggle" href="#incidentSubMenu" data-bs-toggle="collapse" aria-expanded="false"><i class="bi bi-file-earmark-text-fill"></i> Incident Report</a>
         <ul class="collapse" id="incidentSubMenu">
             <li>
                 <a href="#" class="subMenu">Home 1</a>
@@ -33,21 +35,21 @@
             </li>
         </ul>
 
-        <a class="list-group-item list-group-item-action  p-3 dropdown-toggle" href="#blotterSubmenu" data-bs-toggle="collapse" aria-expanded="false">Blotter</a>
+        <a class="list-group-item list-group-item-action  p-3 dropdown-toggle" href="#blotterSubmenu" data-bs-toggle="collapse" aria-expanded="false"><i class="bi bi-archive-fill"></i> Blotter</a>
         <ul class="collapse" id="blotterSubmenu">
             <li>
                 <a href="{{route('blotter.create')}}"  :active="request()->routeIs('blotter.create')" class="subMenu">Create Blotter Report</a>
                 <hr>
             </li>
             <li>
-                <a href="#" class="subMenu">Display Ongoing Cases</a>
+                <a href="{{route('blotter.show')}}" class="subMenu">Display Ongoing Cases</a>
                 <hr>
             </li>
         </ul>
-        <a class="list-group-item list-group-item-action  p-3 dropdown-toggle" href="#noticesSubmenu">Notices</a>
-        <a class="list-group-item list-group-item-action  p-3 dropdown-toggle" href="#hearingSubmenu">Hearing Process</a>
-        <a class="list-group-item list-group-item-action  p-3 dropdown-toggle" href="#">Accounts</a>
-        <a class="list-group-item list-group-item-action  p-3 dropdown-toggle" href="#">Activity Log</a>
+        <a class="list-group-item list-group-item-action  p-3 dropdown-toggle" href="#noticesSubmenu"><i class="bi bi-exclamation-diamond-fill"></i> Notices</a>
+        <a class="list-group-item list-group-item-action  p-3 dropdown-toggle" href="#hearingSubmenu"><i class="bi bi-file-earmark-person-fill"></i> Hearing Process</a>
+        <a class="list-group-item list-group-item-action  p-3 dropdown-toggle" href="#"><i class="bi bi-person-circle"></i> Accounts</a>
+        <a class="list-group-item list-group-item-action  p-3 dropdown-toggle" href="#"><i class="bi bi-flag-fill"></i> Activity Log</a>
 
     </div>
 </div>

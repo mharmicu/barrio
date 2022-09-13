@@ -6,6 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="../css/styles.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css">
 </head>
 
 <body>
@@ -22,8 +23,21 @@
             <!-- Page content-->
             <div class="container-fluid">
 
+
+
                 <div class="row d-flex justify-content-center mt-4">
                     <div class="col-sm">
+
+                        <img src="{{ asset('/img/385-logo.png')}}" class="img-fluid rounded mx-auto d-block" alt="..." width="300" height="300">
+
+                        <div class="text-center mt-5">
+                            <!-- Button trigger modal -->
+                            <button type="button" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+                                <i class="bi bi-plus-square-fill"></i> New Blotter Record
+                            </button>
+                        </div>
+
+
                         @if(session()->has('success'))
                         <script>
                             Swal.fire({
@@ -34,145 +48,166 @@
                         </script>
                         @else
                         @endif
-                        <!-- card -->
-                        <div class="card p-3">
-                            <h2 class="mt-3">Create Blotter Record</h2>
-                            <p class="card-text mb-3">Please fill out all the fields below and click on the "Submit" button to save the blotter record to the database.</p>
-                            <hr>
 
-                            <!-- form -->
-                            <form method="POST" action="{{route('blotter.store')}}" enctype="multipart/form-data" id="form">
-                                @csrf
-                                <div class="mb-3" id="textboxDiv">
-                                    <label for="complainant" class="form-label">Complainant(s)</label>
-                                    <button type="button" class="btn btn-light btn-sm" id="addComplainant">Add another complainant</button>
-                                    <!-- <button type="button" class="btn btn-light btn-sm" id="Remove">Remove</button> -->
-                                    <div class="row">
-                                        <div class="col-sm-1 mb-1">
-                                            <select class="form-select shadow-none  @error('salutation') is-invalid @enderror" name="salutation" id="salutation" required>
 
-                                                <option selected disabled>Salutation</option>
-                                                <option value="Mr." {{ old('salutation') == "Mr." ? 'selected' : '' }}>Mr.</option>
-                                                <option value="Ms." {{ old('salutation') == "Ms." ? 'selected' : '' }}>Ms.</option>
-                                                <option value="Mrs." {{ old('salutation') == "Mrs." ? 'selected' : '' }}>Mrs.</option>
-                                                <option value="">--prefer not to say--</option>
-                                            </select>
-                                        </div>
-
-                                        <div class="col">
-                                            <input type="text" placeholder="Last name" class="form-control shadow-none  @error('lastname') is-invalid @enderror" value="{{old('lastname')}}" name="lastname" id="lastname" required>
-                                            @error('lastname')
-                                            <small id="helpId" class="form-text text-danger">{{$message}}</small>
-                                            @enderror
-                                        </div>
-                                        <div class="col">
-                                            <input type="text" placeholder="First name" class="form-control shadow-none  @error('firstname') is-invalid @enderror" value="{{old('firstname')}}" name="firstname" id="firstname" required>
-                                            @error('firstname')
-                                            <small id="helpId" class="form-text text-danger">{{$message}}</small>
-                                            @enderror
-                                        </div>
-                                        <div class="col">
-                                            <input type="text" placeholder="Middle name" class="form-control shadow-none  @error('middlename') is-invalid @enderror" value="{{old('middlename')}}" name="middlename" id="middlename" required>
-                                            @error('middlename')
-                                            <small id="helpId" class="form-text text-danger">{{$message}}</small>
-                                            @enderror
-                                        </div>
+                        <!-- Modal -->
+                        <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                            <div class="modal-dialog  modal-dialog-centered modal-dialog-scrollable modal-xl">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="staticBackdropLabel">Create a Blotter Record</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                     </div>
-                                </div>
+                                    <div class="modal-body">
 
 
-                                <div class="mb-3">
-                                    <label for="case" class="form-label">Incident Case</label>
-                                    <select class="form-select shadow-none  @error('case') is-invalid @enderror" name="case" id="case" required>
-                                        <option selected disabled>Verify the incident report case</option>
-                                        @foreach($kp_cases as $case)
-                                        <option value="{{$case->article_no}}" {{ old('case') == $case->article_no ? 'selected' : '' }}>{{$case->article_no}} - {{$case->case_name}}</option>
-                                        @endforeach
-                                    </select>
+                                        <!-- card -->
+                                        <div class="card p-3">
+                                            <h2 class="mt-3">Blotter Record</h2>
 
-                                </div>
+                                            <p class="card-text mb-3">Please fill out all the fields below and click on the "Submit" button to save the blotter record to the database.</p>
+                                            <hr>
 
-                                <div class="mb-3">
-                                    <label for="complaint_desc" class="form-label">Description of Violation</label>
-                                    <textarea class="form-control shadow-none  @error('complaint_desc') is-invalid @enderror" value="{{old('complaint_desc')}}" name="complaint_desc" id="complaint_desc" required>{{old('complaint_desc')}}</textarea>
-                                    @error('complaint_desc')
-                                    <small id="helpId" class="form-text text-danger">{{$message}}</small>
-                                    @enderror
-                                </div>
+                                            <!-- form -->
+                                            <form method="POST" action="{{route('blotter.store')}}" enctype="multipart/form-data" id="form">
+                                                @csrf
+                                                <div class="mb-3" id="textboxDiv">
+                                                    <label for="complainant" class="form-label">Complainant(s)</label>
+                                                    <button type="button" class="btn btn-light btn-sm" id="addComplainant">Add another complainant</button>
+                                                    <!-- <button type="button" class="btn btn-light btn-sm" id="Remove">Remove</button> -->
+                                                    <div class="row">
+                                                        <div class="col-sm-1 mb-1">
+                                                            <select class="form-select shadow-none  @error('salutation') is-invalid @enderror" name="salutation" id="salutation" required>
 
-                                <div class="mb-3">
-                                    <label for="relief_desc" class="form-label">Relief/s Asked</label>
-                                    <textarea class="form-control shadow-none  @error('relief_desc') is-invalid @enderror" value="{{old('relief_desc')}}" name="relief_desc" id="relief_desc" required>{{old('relief_desc')}}</textarea>
-                                    @error('relief_desc')
-                                    <small id="helpId" class="form-text text-danger">{{$message}}</small>
-                                    @enderror
-                                </div>
+                                                                <option selected disabled>Salutation</option>
+                                                                <option value="Mr." {{ old('salutation') == "Mr." ? 'selected' : '' }}>Mr.</option>
+                                                                <option value="Ms." {{ old('salutation') == "Ms." ? 'selected' : '' }}>Ms.</option>
+                                                                <option value="Mrs." {{ old('salutation') == "Mrs." ? 'selected' : '' }}>Mrs.</option>
+                                                                <option value="">--prefer not to say--</option>
+                                                            </select>
+                                                        </div>
 
-                                <div class="mb-3" id="textboxDiv">
-                                    <label for="respondent" class="form-label">Respondent(s)</label>
-                                    <button type="button" class="btn btn-light btn-sm" id="addComplainant">Add another respondent</button>
-                                    <!-- <button type="button" class="btn btn-light btn-sm" id="Remove">Remove</button> -->
-                                    <div class="row">
-                                        <div class="col-sm-1 mb-1">
-                                            <select class="form-select shadow-none  @error('salutation_res') is-invalid @enderror" name="salutation_res" id="salutation_res" required>
-                                                <option selected disabled>Salutation</option>
-                                                <option value="Mr." {{ old('salutation') == "Mr." ? 'selected' : '' }}>Mr.</option>
-                                                <option value="Ms." {{ old('salutation') == "Ms." ? 'selected' : '' }}>Ms.</option>
-                                                <option value="Mrs." {{ old('salutation') == "Mrs." ? 'selected' : '' }}>Mrs.</option>
-                                                <option value="">--prefer not to say--</option>
-                                            </select>
+                                                        <div class="col">
+                                                            <input type="text" placeholder="Last name" class="form-control shadow-none  @error('lastname') is-invalid @enderror" value="{{old('lastname')}}" name="lastname" id="lastname" required>
+                                                            @error('lastname')
+                                                            <small id="helpId" class="form-text text-danger">{{$message}}</small>
+                                                            @enderror
+                                                        </div>
+                                                        <div class="col">
+                                                            <input type="text" placeholder="First name" class="form-control shadow-none  @error('firstname') is-invalid @enderror" value="{{old('firstname')}}" name="firstname" id="firstname" required>
+                                                            @error('firstname')
+                                                            <small id="helpId" class="form-text text-danger">{{$message}}</small>
+                                                            @enderror
+                                                        </div>
+                                                        <div class="col">
+                                                            <input type="text" placeholder="Middle name" class="form-control shadow-none  @error('middlename') is-invalid @enderror" value="{{old('middlename')}}" name="middlename" id="middlename" required>
+                                                            @error('middlename')
+                                                            <small id="helpId" class="form-text text-danger">{{$message}}</small>
+                                                            @enderror
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+
+                                                <div class="mb-3">
+                                                    <label for="case" class="form-label">Incident Case</label>
+                                                    <select class="form-select shadow-none  @error('case') is-invalid @enderror" name="case" id="case" required>
+                                                        <option selected disabled>Verify the incident report case</option>
+                                                        @foreach($kp_cases as $case)
+                                                        <option value="{{$case->article_no}}" {{ old('case') == $case->article_no ? 'selected' : '' }}>{{$case->article_no}} - {{$case->case_name}}</option>
+                                                        @endforeach
+                                                    </select>
+
+                                                </div>
+
+                                                <div class="mb-3">
+                                                    <label for="complaint_desc" class="form-label">Description of Violation</label>
+                                                    <textarea class="form-control shadow-none  @error('complaint_desc') is-invalid @enderror" value="{{old('complaint_desc')}}" name="complaint_desc" id="complaint_desc" required>{{old('complaint_desc')}}</textarea>
+                                                    @error('complaint_desc')
+                                                    <small id="helpId" class="form-text text-danger">{{$message}}</small>
+                                                    @enderror
+                                                </div>
+
+                                                <div class="mb-3">
+                                                    <label for="relief_desc" class="form-label">Relief/s Asked</label>
+                                                    <textarea class="form-control shadow-none  @error('relief_desc') is-invalid @enderror" value="{{old('relief_desc')}}" name="relief_desc" id="relief_desc" required>{{old('relief_desc')}}</textarea>
+                                                    @error('relief_desc')
+                                                    <small id="helpId" class="form-text text-danger">{{$message}}</small>
+                                                    @enderror
+                                                </div>
+
+                                                <div class="mb-3" id="textboxDiv">
+                                                    <label for="respondent" class="form-label">Respondent(s)</label>
+                                                    <button type="button" class="btn btn-light btn-sm" id="addComplainant">Add another respondent</button>
+                                                    <!-- <button type="button" class="btn btn-light btn-sm" id="Remove">Remove</button> -->
+                                                    <div class="row">
+                                                        <div class="col-sm-1 mb-1">
+                                                            <select class="form-select shadow-none  @error('salutation_res') is-invalid @enderror" name="salutation_res" id="salutation_res" required>
+                                                                <option selected disabled>Salutation</option>
+                                                                <option value="Mr." {{ old('salutation') == "Mr." ? 'selected' : '' }}>Mr.</option>
+                                                                <option value="Ms." {{ old('salutation') == "Ms." ? 'selected' : '' }}>Ms.</option>
+                                                                <option value="Mrs." {{ old('salutation') == "Mrs." ? 'selected' : '' }}>Mrs.</option>
+                                                                <option value="">--prefer not to say--</option>
+                                                            </select>
+                                                        </div>
+                                                        <div class="col">
+                                                            <input type="text" placeholder="Last name" class="form-control shadow-none  @error('lastname_res') is-invalid @enderror" value="{{old('lastname_res')}}" name="lastname_res" id="lastname_res" required>
+                                                            @error('lastname_res')
+                                                            <small id="helpId" class="form-text text-danger">{{$message}}</small>
+                                                            @enderror
+                                                        </div>
+                                                        <div class="col">
+                                                            <input type="text" placeholder="First name" class="form-control shadow-none  @error('firstname_res') is-invalid @enderror" value="{{old('firstname_res')}}" name="firstname_res" id="firstname_res" required>
+                                                            @error('firstname_res')
+                                                            <small id="helpId" class="form-text text-danger">{{$message}}</small>
+                                                            @enderror
+                                                        </div>
+                                                        <div class="col">
+                                                            <input type="text" placeholder="Middle name" class="form-control shadow-none  @error('middlename_res') is-invalid @enderror" value="{{old('middlename_res')}}" name="middlename_res" id="middlename_res" required>
+                                                            @error('middlename_res')
+                                                            <small id="helpId" class="form-text text-danger">{{$message}}</small>
+                                                            @enderror
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="mb-3">
+                                                    <label for="date_of_incident" class="form-label">Date of Incident</label>
+                                                    <input type="date" class="form-control shadow-none  @error('date_of_incident') is-invalid @enderror" value="{{old('date_of_incident')}}" name="date_of_incident" id="date_of_incident" required>
+                                                    @error('date_of_incident')
+                                                    <small id="helpId" class="form-text text-danger">{{$message}}</small>
+                                                    @enderror
+                                                </div>
+
+                                                <div class="mb-3">
+                                                    <label for="file" class="form-label">Complainant(s) Digital Signature</label>
+                                                    <input type="file" class="form-control shadow-none  @error('file') is-invalid @enderror" onchange="previewFile(this)" name="file" required>
+                                                    <img id="previewImg" alt="digital signature" style="max-width:15rem; margin-top:2rem;">
+                                                    @error('file')
+                                                    <small id="helpId" class="form-text text-danger">{{$message}}</small>
+                                                    @enderror
+                                                </div>
+
+                                                <div class="mb-3">
+                                                    <div class="form-check form-switch">
+                                                        <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault">
+                                                        <label class="form-check-label" for="flexSwitchCheckDefault">Signed by the Punong Barangay</label>
+                                                    </div>
+                                                </div>
                                         </div>
-                                        <div class="col">
-                                            <input type="text" placeholder="Last name" class="form-control shadow-none  @error('lastname_res') is-invalid @enderror" value="{{old('lastname_res')}}" name="lastname_res" id="lastname_res" required>
-                                            @error('lastname_res')
-                                            <small id="helpId" class="form-text text-danger">{{$message}}</small>
-                                            @enderror
-                                        </div>
-                                        <div class="col">
-                                            <input type="text" placeholder="First name" class="form-control shadow-none  @error('firstname_res') is-invalid @enderror" value="{{old('firstname_res')}}" name="firstname_res" id="firstname_res" required>
-                                            @error('firstname_res')
-                                            <small id="helpId" class="form-text text-danger">{{$message}}</small>
-                                            @enderror
-                                        </div>
-                                        <div class="col">
-                                            <input type="text" placeholder="Middle name" class="form-control shadow-none  @error('middlename_res') is-invalid @enderror" value="{{old('middlename_res')}}" name="middlename_res" id="middlename_res" required>
-                                            @error('middlename_res')
-                                            <small id="helpId" class="form-text text-danger">{{$message}}</small>
-                                            @enderror
-                                        </div>
+
+
                                     </div>
-                                </div>
-
-                                <div class="mb-3">
-                                    <label for="date_of_incident" class="form-label">Date of Incident</label>
-                                    <input type="date" class="form-control shadow-none  @error('date_of_incident') is-invalid @enderror" value="{{old('date_of_incident')}}" name="date_of_incident" id="date_of_incident" required>
-                                    @error('date_of_incident')
-                                    <small id="helpId" class="form-text text-danger">{{$message}}</small>
-                                    @enderror
-                                </div>
-
-                                <div class="mb-3">
-                                    <label for="file" class="form-label">Complainant(s) Digital Signature</label>
-                                    <input type="file" class="form-control shadow-none  @error('file') is-invalid @enderror" onchange="previewFile(this)" name="file" required>
-                                    <img id="previewImg" alt="digital signature" style="max-width:15rem; margin-top:2rem;">
-                                    @error('file')
-                                    <small id="helpId" class="form-text text-danger">{{$message}}</small>
-                                    @enderror
-                                </div>
-
-                                <div class="mb-3">
-                                    <div class="form-check form-switch">
-                                        <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault">
-                                        <label class="form-check-label" for="flexSwitchCheckDefault">Signed by the Punong Barangay</label>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                        <button type="submit" class="btn btn-warning ">Create Blotter Report</button>
                                     </div>
+                                    </form>
                                 </div>
-
-
-
-                                <button type="submit" class="btn btn-dark ">Create Blotter Report</button>
-                            </form>
-
+                            </div>
                         </div>
+
+
                     </div>
                 </div>
 

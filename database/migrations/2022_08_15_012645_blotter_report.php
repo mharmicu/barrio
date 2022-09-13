@@ -14,7 +14,7 @@ return new class extends Migration
     public function up()
     {
         Schema::create('blotter_report', function (Blueprint $table) {
-            $table->id('case_no');
+            $table->id('case_no')->from('2022000');
             $table->string('case_title')->nullable();
             $table->string('complaint_desc')->nullable();
             $table->string('relief_desc')->nullable();

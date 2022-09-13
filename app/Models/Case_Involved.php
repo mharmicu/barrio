@@ -20,4 +20,9 @@ class Case_Involved extends Model
     {
         return $this->belongsTo(Blotter::class);
     }
+
+    public function person()
+    {
+        return $this->belongsTo(Person::class);
+    }
 }
