@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Livewire\BlotterController;
+use App\Http\Livewire\NoticeController;
 use App\Models\Blotter;
 
 /*
@@ -41,3 +42,13 @@ Route::get('blotter/settled/list', [BlotterController::class, 'getSettledCases']
 Route::get('blotter/summary', [BlotterController::class, 'summary'])->name('blotter.summary');
 //EDIT BLOTTER
 Route::post('edit-blotter/{id}', [BlotterController::class, 'edit'])->name('editBlotter');
+
+
+//NOTICE MODULE
+Route::get('notice/show', [NoticeController::class, 'show'])->name('notice.show');
+Route::get('notice/show/list', [NoticeController::class, 'getNoticeList'])->name('notice.list');
+Route::get('notice/schedule/{id}', [NoticeController::class, 'schedule'])->name('notice.schedule');
+//EDIT HEARING SCHEDULE
+Route::post('edit-hearing-schedule/{id}', [NoticeController::class, 'edit'])->name('editHearingSched');
+//CREATE
+Route::get('notice/create/{id}', [NoticeController::class, 'create'])->name('notice.create');

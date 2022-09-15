@@ -6,6 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="../css/styles.css" rel="stylesheet" />
+    <link rel="icon" type="image/png" href="{{ asset('/img/385-logo.png') }}">
 
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <link href="https://cdn.datatables.net/1.10.21/css/jquery.dataTables.min.css" rel="stylesheet">

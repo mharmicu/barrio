@@ -146,6 +146,14 @@ class BlotterController extends Component
                     $statusBadge = '<span class="badge rounded-pill bg-dark">N/A</span>';
                     return $statusBadge;
                 })
+                ->editColumn('date_of_incident', function ($row) {
+                    $strdate = date('F d, Y', strtotime($row->date_of_incident));
+                    return  $strdate;
+                })
+                ->editColumn('date_reported', function ($row) {
+                    $strdate = date('F d, Y', strtotime($row->date_reported));
+                    return  $strdate;
+                })
                 ->rawColumns(['action', 'status'])
                 ->make(true);
         }

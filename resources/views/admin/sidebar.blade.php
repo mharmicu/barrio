@@ -46,7 +46,7 @@
                 <hr>
             </li>
         </ul>
-        <a class="list-group-item list-group-item-action  p-3 dropdown-toggle" href="#noticesSubmenu"><i class="bi bi-exclamation-diamond-fill"></i> Notices</a>
+        <a class="list-group-item list-group-item-action  p-3 dropdown-toggle" href="{{route('notice.show')}}"><i class="bi bi-exclamation-diamond-fill"></i> Notices</a>
         <a class="list-group-item list-group-item-action  p-3 dropdown-toggle" href="#hearingSubmenu"><i class="bi bi-file-earmark-person-fill"></i> Hearing Process</a>
         <a class="list-group-item list-group-item-action  p-3 dropdown-toggle" href="#"><i class="bi bi-person-circle"></i> Accounts</a>
         <a class="list-group-item list-group-item-action  p-3 dropdown-toggle" href="#"><i class="bi bi-flag-fill"></i> Activity Log</a>

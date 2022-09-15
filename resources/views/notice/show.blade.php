@@ -8,7 +8,6 @@
     <link href="../css/styles.css" rel="stylesheet" />
     <link rel="icon" type="image/png" href="{{ asset('/img/385-logo.png') }}">
 
-    <meta name="csrf-token" content="{{ csrf_token() }}">
     <link href="https://cdn.datatables.net/1.10.21/css/jquery.dataTables.min.css" rel="stylesheet">
     <link href="https://cdn.datatables.net/1.10.21/css/dataTables.bootstrap4.min.css" rel="stylesheet">
 </head>
@@ -29,7 +28,7 @@
                         <ul class="navbar-nav ms-auto mt-2 mt-lg-0">
                             <li class="nav-item active"><a class="nav-link" href="{{route('blotter.settled')}}">Settled Cases</a></li>
                             <li class="nav-item"><a class="nav-link" href="{{route('blotter.summary')}}">Search Case</a></li>
-                            
+
                             <x-app-layout>
                             </x-app-layout>
                         </ul>
@@ -45,13 +44,11 @@
                             <thead>
                                 <tr>
                                     <th>Case No.</th>
-                                    <th>Title</th>
-                                    <th>Hearing Status</th>
-                                    <th>Incident Description</th>
-                                    <th>Relief Description</th>
-                                    <th>Date of Incident</th>
+                                    <th>Case Title</th>
                                     <th>Date Reported</th>
-                                    <th>Action</th>
+                                    <th>Processed By</th>
+                                    <th>Date of Hearing</th>
+                                    <th>Actions</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -64,10 +61,10 @@
         </div>
     </div>
 
-
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <!-- Bootstrap core JS-->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+
 </body>
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.js"></script>
@@ -81,7 +78,7 @@
         var table = $('.yajra-datatable').DataTable({
             processing: true,
             serverSide: true,
-            ajax: "{{ route('blotter.list') }}",
+            ajax: "{{ route('notice.list') }}",
             columns: [{
                     data: 'case_no',
                     name: 'case_no'
@@ -91,26 +88,18 @@
                     name: 'case_title'
                 },
                 {
-                    data: 'status',
-                    name: 'status',
-                    orderable: true,
-                    searchable: true
-                },
-                {
-                    data: 'complaint_desc',
-                    name: 'complaint_desc'
-                },
-                {
-                    data: 'relief_desc',
-                    name: 'relief_desc'
-                },
-                {
-                    data: 'date_of_incident',
-                    name: 'date_of_incident'
-                },
-                {
                     data: 'date_reported',
                     name: 'date_reported'
+                },
+                {
+                    data: 'processed_by',
+                    name: 'processed_by'
+                },
+                {
+                    data: 'date_of_hearing',
+                    name: 'date_of_hearing',
+                    orderable: true,
+                    searchable: true
                 },
                 {
                     data: 'action',
@@ -123,7 +112,5 @@
 
     });
 </script>
-
-
 
 </html>
