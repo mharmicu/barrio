@@ -52,3 +52,14 @@ Route::get('notice/schedule/{id}', [NoticeController::class, 'schedule'])->name(
 Route::post('edit-hearing-schedule/{id}', [NoticeController::class, 'edit'])->name('editHearingSched');
 //CREATE
 Route::get('notice/create/{id}', [NoticeController::class, 'create'])->name('notice.create');
+//CREATE HEARING RECORD
+Route::get('notice/create/hearing/{id}', [NoticeController::class, 'hearing'])->name('notice.hearing');
+//CREATE HEARING RECORD
+Route::get('notice/create/summon/{id}', [NoticeController::class, 'summon'])->name('notice.summon');
+//CREATE HEARING RECORD
+Route::get('notice/create/constitution/{id}', [NoticeController::class, 'constitution'])->name('notice.constitution');
+//NOTIFY
+Route::get('notice/create/notify/{id}', [NoticeController::class, 'notify'])->name('notice.notify');
+//DOWNLOAD PDF
+Route::get('notice/download/hearing/{id}', [NoticeController::class, 'hearingPDF'])->name('hearing.pdf');
+Route::get('notice/download/summon/{id}', [NoticeController::class, 'summonPDF'])->name('summon.pdf');

@@ -37,6 +37,16 @@
             <div class="container-fluid">
 
                 <div class="row d-flex justify-content-center  p-5">
+
+                    @if(session()->has('success'))
+                    <script>
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Notice created successfully',
+                        })
+                    </script>
+                    @endif
+
                     <div class="card p-3 shadow">
                         <p class="fw-bolder text-primary fs-5">Notice of Case <u><i>{{$notice->case_no}}</i></u> </p>
                         <p class="fst-italic text-primary">{{$blotter_report->case_title}}</p>
@@ -53,7 +63,7 @@
                             </div>
                         </div>
                         <div class="row text-right">
-                            <a href="#">Change schedule?</a>
+                            <a href="{{route('notice.schedule', $notice->case_no)}}">Change schedule?</a>
                         </div>
 
 
@@ -72,20 +82,64 @@
                                         <tr>
                                             <th scope="row">Hearing Notice</th>
                                             <td>{{$complainant->salutation}} {{$complainant->first_name}} {{$complainant->middle_name}} {{$complainant->last_name}}</td>
-                                            <td class="text-danger"><b>TO NOTIFY</b></td>
-                                            <td><button type="button" class="btn btn-success">Set to Notified</button></td>
+                                            <td>
+                                                @if($hearing)
+                                                @if($hearing->notified == 1)
+                                                <b class="text-success">NOTIFIED</b>
+                                                @else
+                                                <b class="text-danger">TO NOTIFY</b>
+                                                @endif
+                                                @endif
+                                            </td>
+
+                                            @if($hearing)
+                                            <div class="btn-group" role="group">
+                                                <td><a href="{{route('notice.notify', $hearing->notice_id)}}" class="btn btn-success">NOTIFY</a><a href="{{route('hearing.pdf', $hearing->notice_id)}}" class="btn btn-dark">DOWNLOAD</a></td>
+                                            </div>
+                                            @else
+                                            <td><a href="{{route('notice.hearing', $notice->case_no)}}" class="btn btn-primary">Create Hearing Record</a></td>
+                                            @endif
+
                                         </tr>
                                         <tr>
                                             <th scope="row">Summon Notice</th>
                                             <td>{{$respondent->salutation}} {{$respondent->first_name}} {{$respondent->middle_name}} {{$respondent->last_name}}</td>
-                                            <td class="text-danger"><b></b></td>
-                                            <td><button type="button" class="btn btn-light">PB Signature</button><button type="button" class="btn btn-primary">Create Summon Record</button></td>
+                                            <td class="text-danger">
+                                                @if($summon)
+                                                @if($summon->notified == 1)
+                                                <b class="text-success">NOTIFIED</b>
+                                                @else
+                                                <b class="text-danger">TO NOTIFY</b>
+                                                @endif
+                                                @endif
+                                            </td>
+                                            @if($summon)
+                                            <div class="btn-group" role="group">
+                                                <td><a href="{{route('notice.notify', $summon->notice_id)}}" class="btn btn-success">NOTIFY</a><a href="{{route('summon.pdf', $summon->notice_id)}}" class="btn btn-dark">DOWNLOAD</a></td>
+                                            </div>
+                                            @else
+                                            <td><a href="{{route('notice.summon', $notice->case_no)}}" class="btn btn-primary">Create Summon Record</a></td>
+                                            @endif
                                         </tr>
                                         <tr>
                                             <th scope="row">Pangkat Notice</th>
                                             <td>-</td>
-                                            <td class="text-danger"><b></b></td>
-                                            <td><button type="button" class="btn btn-light">PB Signature</button><button type="button" class="btn btn-primary">Create Pangkat Constitution Notice</button></td>
+                                            <td class="text-danger">
+                                                @if($constitution)
+                                                @if($constitution->notified == 1)
+                                                <b class="text-success">NOTIFIED</b>
+                                                @else
+                                                <b class="text-danger">TO NOTIFY</b>
+                                                @endif
+                                                @endif
+                                            </td>
+                                            @if($constitution)
+                                            <div class="btn-group" role="group">
+                                                <td><a href="{{route('notice.notify', $constitution->notice_id)}}" class="btn btn-success">NOTIFY</a><a href="{{route('notice.hearing', $constitution->notice_id)}}" class="btn btn-dark">DOWNLOAD</a></td>
+                                            </div>
+                                            @else
+                                            <td><a href="{{route('notice.constitution', $notice->case_no)}}" class="btn btn-primary">Create Pangkat Constitution Notice</a></td>
+                                            @endif
                                         </tr>
                                         <tr>
                                             <th scope="row">Subpoena Notice</th>
@@ -123,9 +177,11 @@
                                         </div>
 
                                         <div class="row text-right">
-                                            <div class="col ">
-                                                <button type="button" class="btn btn-light">PB Signature</button>
-                                                <button type="button" class="btn btn-primary">Create Witness Record</button>
+                                            <div class="col">
+                                                <div class="btn-grou" role="group">
+                                                    <button type="button" class="btn btn-light">PB Signature</button>
+                                                    <button type="button" class="btn btn-primary">Create Witness Record</button>
+                                                </div>
                                             </div>
                                         </div>
 
