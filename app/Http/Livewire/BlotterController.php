@@ -120,7 +120,7 @@ class BlotterController extends Component
     public function show()
     {
         if (Auth::id()) {
-            if (Auth::user()->user_type_id == 1) {
+            if (Auth::user()->user_type_id == 1 || Auth::user()->user_type_id == 2) {
 
                 return view('blotter.show');
             } else {
@@ -162,7 +162,7 @@ class BlotterController extends Component
     public function summary()
     {
         if (Auth::id()) {
-            if (Auth::user()->user_type_id == 1) {
+            if (Auth::user()->user_type_id == 1  || Auth::user()->user_type_id == 2) {
 
                 $search = request()->query('search');
                 if ($search) {
@@ -197,7 +197,7 @@ class BlotterController extends Component
     public function edit($id, Request $request)
     {
         if (Auth::id()) {
-            if (Auth::user()->user_type_id == 1) {
+            if (Auth::user()->user_type_id == 1 || Auth::user()->user_type_id == 2) {
 
                 $request->validate([
                     'compliance' => 'required|in:0,1',
@@ -225,7 +225,7 @@ class BlotterController extends Component
     public function settledCases()
     {
         if (Auth::id()) {
-            if (Auth::user()->user_type_id == 1) {
+            if (Auth::user()->user_type_id == 1 || Auth::user()->user_type_id == 2) {
 
                 return view('blotter.settled-cases');
             } else {

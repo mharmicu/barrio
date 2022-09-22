@@ -296,17 +296,42 @@ class NoticeController extends Component
             if (Auth::user()->user_type_id == 1) {
                 $notice = DB::table('notices')->where('notice_id', $id)->first();
                 $blotter_report = DB::table('blotter_report')->where('blotter_report.case_no', '=', $notice->case_no)->first();
-                
+
                 $incident_case = DB::table('incident_case')->where('case_no', $notice->case_no)->first();
                 $kp_case = DB::table('kp_cases')->where('kp_cases.article_no', $incident_case->article_no)->first();
-                
+
                 $involved = DB::table('case_involved')->where('case_involved.case_no', '=', $blotter_report->case_no)->first();
                 $complainant = DB::table('person')->where('person_id', $involved->complainant_id)->first();
                 $respondent = DB::table('person')->where('person_id', $involved->respondent_id)->first();
 
-                $pdf = PDF::loadView('notice.pdf.summon', compact('notice', 'kp_case' ,'complainant', 'respondent'))->setPaper('a4');
+                $pdf = PDF::loadView('notice.pdf.summon', compact('notice', 'kp_case', 'complainant', 'respondent'))->setPaper('a4');
                 //return view('notice.pdf.summon', compact('notice', 'kp_case' ,'complainant', 'respondent'));
                 return $pdf->download('summon.pdf');
+            } else {
+                return redirect()->back();
+            }
+        } else {
+            return redirect('login');
+        }
+    }
+
+    public function summary()
+    {
+        if (Auth::id()) {
+            if (Auth::user()->user_type_id == 1 || Auth::user()->user_type_id == 2) {
+
+                $notice = Notice::all();
+
+
+                foreach ($notice as $not) {
+                    $blotter_report = DB::table('blotter_report')->where('blotter_report.case_no', '=', $not->case_no)->first();
+                }
+
+                $involved = DB::table('case_involved')->where('case_involved.case_no', '=', $blotter_report->case_no)->first();
+                $complainant = DB::table('person')->where('person_id', $involved->complainant_id)->first();
+                $respondent = DB::table('person')->where('person_id', $involved->respondent_id)->first();
+
+                return view('notice.summary', compact('notice', 'complainant'));
             } else {
                 return redirect()->back();
             }

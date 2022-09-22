@@ -63,3 +63,5 @@ Route::get('notice/create/notify/{id}', [NoticeController::class, 'notify'])->na
 //DOWNLOAD PDF
 Route::get('notice/download/hearing/{id}', [NoticeController::class, 'hearingPDF'])->name('hearing.pdf');
 Route::get('notice/download/summon/{id}', [NoticeController::class, 'summonPDF'])->name('summon.pdf');
+//SUMMARY
+Route::get('notice/summary', [NoticeController::class, 'summary'])->name('notice.summary');

@@ -10,7 +10,7 @@ class HomeController extends Controller
     public function redirect()
     {
         if (Auth::id()) {
-            if (Auth::user()->user_type_id == '1') {
+            if (Auth::user()->user_type_id == '1' || Auth::user()->user_type_id == 2) {
                 return view('admin.home');
             } else {
                 return view('user.home');

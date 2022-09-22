@@ -37,16 +37,30 @@
 
         <a class="list-group-item list-group-item-action  p-3 dropdown-toggle" href="#blotterSubmenu" data-bs-toggle="collapse" aria-expanded="false"><i class="bi bi-archive-fill"></i> Blotter</a>
         <ul class="collapse" id="blotterSubmenu">
+            @if(Auth::user()->user_type_id == 1)
             <li>
-                <a href="{{route('blotter.create')}}"  :active="request()->routeIs('blotter.create')" class="subMenu">Create Blotter Report</a>
+                <a href="{{route('blotter.create')}}" :active="request()->routeIs('blotter.create')" class="subMenu">Create Blotter Report</a>
                 <hr>
             </li>
+            @endif
             <li>
                 <a href="{{route('blotter.show')}}" class="subMenu">Display Ongoing Cases</a>
                 <hr>
             </li>
         </ul>
-        <a class="list-group-item list-group-item-action  p-3 dropdown-toggle" href="{{route('notice.show')}}"><i class="bi bi-exclamation-diamond-fill"></i> Notices</a>
+        <a class="list-group-item list-group-item-action  p-3 dropdown-toggle" href="#noticesSubMenu" data-bs-toggle="collapse" aria-expanded="false"><i class="bi bi-exclamation-diamond-fill"></i> Notices</a>
+        <ul class="collapse" id="noticesSubMenu">
+            @if(Auth::user()->user_type_id == 1)
+            <li>
+                <a href="{{route('notice.show')}}" :active="request()->routeIs('{{route('notice.show')}}')" class="subMenu">Show Notices (Incomplete)</a>
+                <hr>
+            </li>
+            @endif
+            <li>
+                <a href="{{route('notice.summary')}}" class="subMenu">List of All Cases' Notices</a>
+                <hr>
+            </li>
+        </ul>
         <a class="list-group-item list-group-item-action  p-3 dropdown-toggle" href="#hearingSubmenu"><i class="bi bi-file-earmark-person-fill"></i> Hearing Process</a>
         <a class="list-group-item list-group-item-action  p-3 dropdown-toggle" href="#"><i class="bi bi-person-circle"></i> Accounts</a>
         <a class="list-group-item list-group-item-action  p-3 dropdown-toggle" href="#"><i class="bi bi-flag-fill"></i> Activity Log</a>
