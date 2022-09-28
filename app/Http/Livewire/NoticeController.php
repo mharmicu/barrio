@@ -41,9 +41,9 @@ class NoticeController extends Component
                 ->addColumn('action', function ($row) {
                     $notice = DB::table('notices')->where('case_no', $row->case_no)->first();
                     if ($notice) {
-                        $actionBtn = '<a href="create/' . $row->case_no   . '" class="edit btn btn-primary" >Create Notice Form(s)</a>';
+                        $actionBtn = '<a href="create/' . $row->case_no   . '" class="edit btn btn-primary" ><i class="bi bi-envelope"></i> Create Notice Form(s)</a>';
                     } else {
-                        $actionBtn = '<a href="schedule/' . $row->case_no . '" class="edit btn btn-secondary" >Set Meeting Schedule</a>';
+                        $actionBtn = '<a href="schedule/' . $row->case_no . '" class="edit btn btn-secondary"><i class="bi bi-calendar2-date"></i> Set Meeting Schedule</a>';
                     }
                     return $actionBtn;
                 })
@@ -281,7 +281,7 @@ class NoticeController extends Component
 
                 $pdf = PDF::loadView('notice.pdf.hearing', compact('notice', 'complainant'));
                 //return view('notice.pdf.hearing', compact('notice', 'complainant'));
-                return $pdf->download('hearing.pdf');
+                return $pdf->download("Hearing Notice ($notice->case_no).pdf");
             } else {
                 return redirect()->back();
             }
@@ -306,7 +306,28 @@ class NoticeController extends Component
 
                 $pdf = PDF::loadView('notice.pdf.summon', compact('notice', 'kp_case', 'complainant', 'respondent'))->setPaper('a4');
                 //return view('notice.pdf.summon', compact('notice', 'kp_case' ,'complainant', 'respondent'));
-                return $pdf->download('summon.pdf');
+                return $pdf->download("Summon Notice ($notice->case_no).pdf");
+            } else {
+                return redirect()->back();
+            }
+        } else {
+            return redirect('login');
+        }
+    }
+
+    public function pangkatPDF($id)
+    {
+        if (Auth::id()) {
+            if (Auth::user()->user_type_id == 1) {
+                $notice = DB::table('notices')->where('notice_id', $id)->first();
+
+                $involved = DB::table('case_involved')->where('case_involved.case_no', '=', $notice->case_no)->first();
+                $complainant = DB::table('person')->where('person_id', $involved->complainant_id)->first();
+                $respondent = DB::table('person')->where('person_id', $involved->respondent_id)->first();
+
+                $pdf = PDF::loadView('notice.pdf.pangkat', compact('notice', 'complainant', 'respondent'))->setPaper('a4');
+                //return view('notice.pdf.pangkat', compact('notice','complainant', 'respondent'));
+                return $pdf->download("Pangkat Constitution ($notice->case_no).pdf");
             } else {
                 return redirect()->back();
             }

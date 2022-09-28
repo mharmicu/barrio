@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\DB;
 
 use Illuminate\Support\Facades\Auth;
 use DataTables;
+use PDF;
 
 class BlotterController extends Component
 {
@@ -263,6 +264,29 @@ class BlotterController extends Component
                 ->addColumn('status', '<span class="badge rounded-pill bg-dark">N/A</span>')
                 ->rawColumns(['status', 'compliance', 'action'])
                 ->make(true);
+        }
+    }
+
+    public function complaintPDF($id)
+    {
+        if (Auth::id()) {
+            if (Auth::user()->user_type_id == 1) {
+                $blotter_report = DB::table('blotter_report')->where('blotter_report.case_no', '=', $id)->first();
+                $incident_case = DB::table('incident_case')->where('case_no', $id)->first();
+                $kp_case = DB::table('kp_cases')->where('kp_cases.article_no', $incident_case->article_no)->first();
+                
+                $involved = DB::table('case_involved')->where('case_involved.case_no', $id)->first();
+                $complainant = DB::table('person')->where('person_id', $involved->complainant_id)->first();
+                $respondent = DB::table('person')->where('person_id', $involved->respondent_id)->first();
+
+                $pdf = PDF::loadView('blotter.pdf.complaint', compact('blotter_report' ,'kp_case' ,'complainant', 'respondent'));
+                //return view('blotter.pdf.complaint', compact('blotter_report' ,'kp_case' ,'complainant', 'respondent'));
+                return $pdf->download("Complaint-Form ($id).pdf");
+            } else {
+                return redirect()->back();
+            }
+        } else {
+            return redirect('login');
         }
     }
 }

@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Summon Notice</title>
+    <title>Pangkat Notice</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
 </head>
 
@@ -20,8 +20,7 @@
             <p class="text-center">Republic of the Philippines <br>
                 Province of Metro Manila <br>
                 CITY/MUNICIPALITY OF MANILA <br>
-                Barangay 385 / Zone 39 <br><br>
-
+                Barangay 385 / Zone 39 <br>
                 OFFICE OF THE LUPONG TAGAPAMAYAPA <br><br>
             </p>
         </div>
@@ -39,39 +38,43 @@
 
             <div class="col-2">
                 Barangay Case No. <b>{{$kp_case->article_no}}</b> <br>
-                For: <b>{{$kp_case->case_name}}</b> <br><br><br>
+                For: <b>{{$kp_case->case_name}}</b> <br>
             </div>
 
         </div>
 
         <div class="row mt-3">
-            <p class="h5 text-center">S U M M O N S</p>
+            <p class="h5 text-center fw-bold">C O M P L A I N T</p>
         </div>
 
         <div class="row">
-            <div class="col">
-                TO: <u><b>{{$respondent->salutation}} {{$respondent->first_name}} {{$respondent->middle_name}} {{$respondent->last_name}}</b></u><br>
-                Respondent <br> <br>
-            </div>
-        </div>
+            <p class="lh-lg">I/WE hereby complain against above named respondent/s for violating my/our rights and interests in the following manner:
+                <br><b><u> {{$blotter_report->complaint_desc}}. </u></b>
+            </p>
+            <p class="lh-lg">THEREFORE, I/WE pray that the following relief/s be granted to me/us in accordance with law and/or equity:
+                <br><b><u> {{$blotter_report->relief_desc}}. </u></b>
+            </p>
 
-        <div class="row">
             <?php
-            $day = date('F d, Y, h:iA', strtotime($notice->date_of_meeting));
-            $day = date('jS', strtotime($notice->date_of_meeting));
-            $month = date('F', strtotime($notice->date_of_meeting));
-            $year = date('Y', strtotime($notice->date_of_meeting));
-            $time = date('h:i', strtotime($notice->date_of_meeting));
+            $dayI = date('jS', strtotime($blotter_report->date_of_incident));
+            $monthI = date('F', strtotime($blotter_report->date_of_incident));
+            $yearI = date('Y', strtotime($blotter_report->date_of_incident));
 
-
+            $dayR = date('jS', strtotime($blotter_report->date_reported));
+            $monthR = date('F', strtotime($blotter_report->date_reported));
+            $yearR = date('Y', strtotime($blotter_report->date_reported));
             ?>
 
-            <p class="lh-lg">You are hereby summoned to appear before me in person, together with your witnesses, on the <b>{{$day}}</b> day of <b>{{$month}}, {{$year}}</b> at <b>{{$time}}</b> o'clock in the morning/afternoon, then and there to answer to a complaint made before me, copy of which is attached hereto, for mediation/conciliation of your dispute with complainant/s.</p>
-            <p class="lh-lg">You are hereby warned that if you refuse or willfully fail to appear in obedience to this summons, you may be barred from filing any counterclaim arising from said complaint.</p>
-            <p class="lh-lg">FAIL NOT or else face punishment as for contempt of court</p>
-            <p class="lh-lg">This <b>{{date('jS')}}</b> day of <b>{{date('F')}}, {{date('Y')}}.</b>.</p>
+            <p class="lh-lg">Made this <b>{{$dayI}}</b> day of <b>{{$monthI}}</b>, <b>{{$yearI}}</b>.</p>
+            <p class="lh-lg"><u><b>{{$complainant->salutation}} {{$complainant->first_name}} {{$complainant->middle_name}} {{$complainant->last_name}}</b></u><br>
+                Complainant</p>
+            <p class="lh-lg">Received and filed this <b>{{$dayR}}</b> day of <b>{{$monthR}}</b>, <b>{{$yearR}}</b>.</p>
             <p class="lh-lg"> _______________________<br>Punong Barangay/Lupon Chairman</p>
         </div>
+
+
+
+
     </div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>

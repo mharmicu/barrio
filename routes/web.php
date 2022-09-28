@@ -40,6 +40,7 @@ Route::get('blotter/show/list', [BlotterController::class, 'getBlotterReports'])
 Route::get('blotter/settled', [BlotterController::class, 'settledCases'])->name('blotter.settled');
 Route::get('blotter/settled/list', [BlotterController::class, 'getSettledCases'])->name('blotter.settled-list');
 Route::get('blotter/summary', [BlotterController::class, 'summary'])->name('blotter.summary');
+Route::get('blotter/summary/complaint/{id}', [BlotterController::class, 'complaintPDF'])->name('complaint.pdf');
 //EDIT BLOTTER
 Route::post('edit-blotter/{id}', [BlotterController::class, 'edit'])->name('editBlotter');
 
@@ -63,5 +64,6 @@ Route::get('notice/create/notify/{id}', [NoticeController::class, 'notify'])->na
 //DOWNLOAD PDF
 Route::get('notice/download/hearing/{id}', [NoticeController::class, 'hearingPDF'])->name('hearing.pdf');
 Route::get('notice/download/summon/{id}', [NoticeController::class, 'summonPDF'])->name('summon.pdf');
+Route::get('notice/download/pangkat/{id}', [NoticeController::class, 'pangkatPDF'])->name('pangkat.pdf');
 //SUMMARY
 Route::get('notice/summary', [NoticeController::class, 'summary'])->name('notice.summary');

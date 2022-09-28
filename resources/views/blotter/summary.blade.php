@@ -104,7 +104,7 @@
                                                             <p class="fw-bold text-primary">Complainant's Form (KP #7) </p>
                                                         </div>
                                                         <div class="col text-right">
-                                                            <button type="button" class="btn btn-success">Generate | <span><i class="bi bi-printer-fill"></i></span></button>
+                                                            <a href="{{route('complaint.pdf', $blotter->case_no)}}" class="btn btn-success">Generate | <span><i class="bi bi-printer-fill"></i></span></a>
                                                         </div>
 
                                                     </div>

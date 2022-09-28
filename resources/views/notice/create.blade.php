@@ -135,7 +135,7 @@
                                             </td>
                                             @if($constitution)
                                             <div class="btn-group" role="group">
-                                                <td><a href="{{route('notice.notify', $constitution->notice_id)}}" class="btn btn-success">NOTIFY</a><a href="{{route('notice.hearing', $constitution->notice_id)}}" class="btn btn-dark">DOWNLOAD</a></td>
+                                                <td><a href="{{route('notice.notify', $constitution->notice_id)}}" class="btn btn-success">NOTIFY</a><a href="{{route('pangkat.pdf', $constitution->notice_id)}}" class="btn btn-dark">DOWNLOAD</a></td>
                                             </div>
                                             @else
                                             <td><a href="{{route('notice.constitution', $notice->case_no)}}" class="btn btn-primary">Create Pangkat Constitution Notice</a></td>
