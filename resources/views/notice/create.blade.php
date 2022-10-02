@@ -8,6 +8,34 @@
     <link href="../../css/styles.css" rel="stylesheet" />
     <link rel="icon" type="image/png" href="{{ asset('/img/385-logo.png') }}">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css">
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script>
+        $(document).ready(function() {
+            var maxField = 10;
+            var addButton = $('.add_button');
+            var wrapper = $('.field_wrapper');
+            var fieldHTML = '<div class="row justify-content-center"><div class="col form-floating mb-3 px-2"><input type="text" id="lastName" class="form-control" name="lastName[]" required><label for="lastName">Last Name</label></div><div class="col form-floating mb-3 px-2"><input type="text" id="firstName" class="form-control" name="firstName[]" required><label for="firstName">First Name</label></div><div class="col form-floating mb-3 px-2"><input type="text" id="middleName" class="form-control" name="middleName[]" required><label for="middleName">Middle Name</label></div><div class="col-auto"><a href="javascript:void(0);" class="remove_button btn btn-danger" title="Remove field"><i class="bi bi-dash-circle"></i> REMOVE</a></div></div>';
+
+            var x = 1;
+
+            //Once add button is clicked
+            $(addButton).click(function() {
+                if (x < maxField) {
+                    x++;
+                    $(wrapper).append(fieldHTML);
+                }
+            });
+
+            //Once remove button is clicked
+            $(wrapper).on('click', '.remove_button', function(e) {
+                e.preventDefault();
+                $(this).parent('div').parent('div').remove(); //Remove fields html
+                x--; //Decrement field counter
+            });
+        });
+    </script>
+
 </head>
 
 <body>
@@ -37,12 +65,28 @@
             <div class="container-fluid">
 
                 <div class="row d-flex justify-content-center  p-5">
-
+                    
                     @if(session()->has('success'))
                     <script>
                         Swal.fire({
                             icon: 'success',
                             title: 'Notice created successfully',
+                        })
+                    </script>
+                    @endif
+                    @if(session()->has('added'))
+                    <script>
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Witness added successfully',
+                        })
+                    </script>
+                    @endif
+                    @if(session()->has('deleted'))
+                    <script>
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Witness removed successfully',
                         })
                     </script>
                     @endif
@@ -144,7 +188,13 @@
                                         <tr>
                                             <th scope="row">Subpoena Notice</th>
                                             <td>-</td>
-                                            <td class="text-danger"><b></b></td>
+                                            <td class="text-danger">@if($constitution)
+                                                @if($subpoena->notified == 1)
+                                                <b class="text-success">NOTIFIED</b>
+                                                @else
+                                                <b class="text-danger">TO NOTIFY</b>
+                                                @endif
+                                                @endif</td>
                                             <td><button type="button" class="btn btn-secondary" data-bs-toggle="collapse" data-bs-target="#collapseExample">Create Witness Record <i class="bi bi-caret-down-fill"></i></button></td>
                                         </tr>
                                     </tbody>
@@ -155,37 +205,48 @@
                                     <div class="card card-body">
                                         Subpoena Notice
                                         <hr>
-                                        <p class="text-right align-text-bottom"><a href="#">Add another withness</a></p>
-                                        <p class="fw-bold">Witness</p>
+                                        <p class="fw-bold">WITNESSES</p>
 
-                                        <div class="row justify-content-center">
-                                            <div class="col form-floating mb-3 px-2">
-                                                <input type="text" id="lastName" class="form-control">
-                                                <label for="lastName">Last Name</label>
-                                            </div>
-                                            <div class="col form-floating mb-3 px-2">
-                                                <input type="text" id="firstName" class="form-control">
-                                                <label for="firstName">First Name</label>
-                                            </div>
-                                            <div class="col form-floating mb-3 px-2">
-                                                <input type="text" id="middleName" class="form-control">
-                                                <label for="middleName">Middle Name</label>
-                                            </div>
-                                            <div class="col-auto">
-                                                <button type="button" class="btn btn-danger">Remove</button>
-                                            </div>
-                                        </div>
-
-                                        <div class="row text-right">
-                                            <div class="col">
-                                                <div class="btn-grou" role="group">
-                                                    <button type="button" class="btn btn-light">PB Signature</button>
-                                                    <button type="button" class="btn btn-primary">Create Witness Record</button>
+                                        @forelse($persons as $person)
+                                        <p class="font-monospace lh-1">{{ $loop->index+1 }}.) {{$person->last_name}}, {{$person->first_name}} {{$person->middle_name}} | <a href="{{route('notice.removeWitness', $person->person_id)}}">Remove this witness</a></p>
+                                        @empty
+                                        <p class="font-monospace fw-bold">No Witnesses...</b></p>
+                                        
+                                        @endforelse
+                                        <hr>
+                                        <form action="{{route('notice.addWitness', $notice->case_no)}}" method="POST" enctype="multipart/form-data">
+                                            @csrf
+                                            <div class="field_wrapper">
+                                                <div class="row justify-content-center">
+                                                    <div class="col form-floating mb-3 px-2">
+                                                        <input type="text" id="lastName" class="form-control" name="lastName[]" required>
+                                                        <label for="lastName">Last Name</label>
+                                                    </div>
+                                                    <div class="col form-floating mb-3 px-2">
+                                                        <input type="text" id="firstName" class="form-control" name="firstName[]" required>
+                                                        <label for="firstName">First Name</label>
+                                                    </div>
+                                                    <div class="col form-floating mb-3 px-2">
+                                                        <input type="text" id="middleName" class="form-control" name="middleName[]" required>
+                                                        <label for="middleName">Middle Name</label>
+                                                    </div>
+                                                    <div class="col-auto">
+                                                        <a href="javascript:void(0);" class="add_button btn btn-success" title="Add field"><i class="bi bi-plus-circle"></i> ADD</a>
+                                                    </div>
                                                 </div>
                                             </div>
-                                        </div>
 
-
+                                            <div class="row text-right">
+                                                <div class="col">
+                                                    <div class="btn-grou" role="group">
+                                                        <input type="submit" name="submit" class="btn btn-warning" value="Add to Witnesses" />
+                                                        @if($persons)
+                                                        <a href="{{route('subpoena.pdf', $subpoena->notice_id)}}" class="btn btn-dark">Download Subpoena Notice</a>
+                                                        @endif
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </form>
                                     </div>
                                 </div>
                             </div>

@@ -65,5 +65,10 @@ Route::get('notice/create/notify/{id}', [NoticeController::class, 'notify'])->na
 Route::get('notice/download/hearing/{id}', [NoticeController::class, 'hearingPDF'])->name('hearing.pdf');
 Route::get('notice/download/summon/{id}', [NoticeController::class, 'summonPDF'])->name('summon.pdf');
 Route::get('notice/download/pangkat/{id}', [NoticeController::class, 'pangkatPDF'])->name('pangkat.pdf');
+Route::get('notice/download/subpoena/{id}', [NoticeController::class, 'subpoenaPDF'])->name('subpoena.pdf');
 //SUMMARY
 Route::get('notice/summary', [NoticeController::class, 'summary'])->name('notice.summary');
+//ADD WITNESS
+Route::post('notice/add-witness/{id}', [NoticeController::class, 'addWitness'])->name('notice.addWitness');
+//REMOVE WITNESS
+Route::get('notice/remove-witness/{id}', [NoticeController::class, 'removeWitness'])->name('notice.removeWitness');

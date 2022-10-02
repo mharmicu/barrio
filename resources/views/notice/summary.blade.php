@@ -36,6 +36,23 @@
             <!-- Page content-->
             <div class="container-fluid">
                 <div class="row d-flex justify-content-center mt-5 px-5">
+                    @if(session()->has('none'))
+                    <script>
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'No Record Found. Please check the case no.',
+                            footer: '<a href="/blotter/summary">Return to case summary</a>'
+                        })
+                    </script>
+                    @endif
+                    @if(session()->has('success'))
+                    <script>
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Notice notified',
+                        })
+                    </script>
+                    @endif
                     <h5 class="text-primary">Search for an blotter case report</h5>
 
                     <div class="p-2">
@@ -50,12 +67,12 @@
 
 
                     <div class="card p-3 shadow">
-                        @foreach($notice as $not)
+                        @foreach($blotter_report as $blotter)
                         <div class="card-body bg-light mb-3">
                             <div class="row">
                                 <div class="col">
-                                    <h5 class="card-title"><b><u>Case #</u></b></h5>
-                                    <p class="card-text"><i>Case Title</i></p>
+                                    <h5 class="card-title"><b><u>Case #{{$blotter->case_no}}</u></b></h5>
+                                    <p class="card-text fw-bold text-primary"><i>{{$blotter->case_title}}</i></p>
                                 </div>
                                 <div class="col">
                                     <p class="card-text text-end"><b>Hearing Type</b></p>
@@ -80,34 +97,202 @@
                                         <tbody>
                                             <tr>
                                                 <th scope="row">Hearing Notice</th>
-                                                <td>{{$complainant->salutation}} {{$complainant->first_name}} {{$complainant->middle_name}} {{$complainant->last_name}}</td>
-                                                <td><b class="text-danger">TO NOTIFY</b></td>
-                                                <td><i>September 22, 2022</i></td>
-                                                <td><a href="" class="btn btn-outline-success ">Set to Notified</a></td>
+                                                <td>{{$complainant[$loop->index]->salutation}} {{$complainant[$loop->index]->first_name}} {{$complainant[$loop->index]->middle_name}} {{$complainant[$loop->index]->last_name}}</td>
+                                                <td>
+                                                    @forelse($notices[$loop->index] as $notice)
+                                                        @if ($notice->notice_type_id == 1)
+                                                            @if ($notice->notified == 1) 
+                                                                <b class="text-success">NOTIFIED</b>
+                                                            @else
+                                                                <b class="text-danger">TO NOTIFY</b>
+                                                            @endif
+                                                        @else
+                                                                                                          
+                                                        @endif       
+                                                    @empty
+                                                    <b class="text-danger">Notice not yet created</b>                                          
+                                                    @endforelse
+                                                </td>
+                                                <td>
+                                                    @forelse($notices[$loop->index] as $notice)
+                                                        @if ($notice->notice_type_id == 1)
+                                                            @if ($notice->notified == 1) 
+                                                                <i>{{$notice->date_notified}}</i>
+                                                            @else
+                                                                
+                                                            @endif
+                                                        @else
+                                                                                                          
+                                                        @endif       
+                                                    @empty
+                                                    <b class="text-danger">---</b>                                          
+                                                    @endforelse
+                                                </td>
+                                                <td>
+                                                    @forelse($notices[$loop->index] as $notice)
+                                                        @if ($notice->notice_type_id == 1)
+                                                            @if ($notice->notified == 1) 
+                                                                
+                                                            @else
+                                                                <a href="{{route('notice.notify', $notice->notice_id)}}" class="btn btn-outline-success ">Set to Notified</a>
+                                                            @endif
+                                                        @else
+                                                                                                          
+                                                        @endif       
+                                                    @empty
+                                                    <b class="text-danger">---</b>                                          
+                                                    @endforelse
+                                                </td>
                                             </tr>
 
                                             <tr>
                                                 <th scope="row">Summon Notice</th>
-                                                <td>{{$complainant->salutation}} {{$complainant->first_name}} {{$complainant->middle_name}} {{$complainant->last_name}}</td>
-                                                <td><b class="text-danger">TO NOTIFY</b></td>
-                                                <td><i>September 22, 2022</i></td>
-                                                <td><a href="" class="btn btn-outline-success ">Set to Notified</a></td>
+                                                <td>{{$respondent[$loop->index]->salutation}} {{$respondent[$loop->index]->first_name}} {{$complainant[$loop->index]->middle_name}} {{$respondent[$loop->index]->last_name}}</td>
+                                                <td>
+                                                    @forelse($notices[$loop->index] as $notice)
+                                                        @if ($notice->notice_type_id == 2)
+                                                            @if ($notice->notified == 1) 
+                                                                <b class="text-success">NOTIFIED</b>
+                                                            @else
+                                                                <b class="text-danger">TO NOTIFY</b>
+                                                            @endif
+                                                        @else
+                                                                                                          
+                                                        @endif
+                                                    @empty
+                                                    <b class="text-danger">Notice not yet created</b>                                               
+                                                    @endforelse
+                                                </td>
+                                                <td>
+                                                    @forelse($notices[$loop->index] as $notice)
+                                                        @if ($notice->notice_type_id == 2)
+                                                            @if ($notice->notified == 1) 
+                                                                <i>{{$notice->date_notified}}</i>
+                                                            @else
+                                                                
+                                                            @endif
+                                                        @else
+                                                                                                          
+                                                        @endif       
+                                                    @empty
+                                                    <b class="text-danger">---</b>                                          
+                                                    @endforelse
+                                                </td>
+                                                <td>
+                                                    @forelse($notices[$loop->index] as $notice)
+                                                        @if ($notice->notice_type_id == 2)
+                                                            @if ($notice->notified == 1) 
+                                                                
+                                                            @else
+                                                                <a href="{{route('notice.notify', $notice->notice_id)}}" class="btn btn-outline-success ">Set to Notified</a>
+                                                            @endif
+                                                        @else
+                                                                                                          
+                                                        @endif       
+                                                    @empty
+                                                    <b class="text-danger">---</b>                                          
+                                                    @endforelse
+                                                </td>
                                             </tr>
 
                                             <tr>
                                                 <th scope="row">Pangkat Constitution Notice</th>
-                                                <td>{{$complainant->salutation}} {{$complainant->first_name}} {{$complainant->middle_name}} {{$complainant->last_name}}</td>
-                                                <td><b class="text-danger">TO NOTIFY</b></td>
-                                                <td><i>September 22, 2022</i></td>
-                                                <td><a href="" class="btn btn-outline-success ">Set to Notified</a></td>
+                                                <td></td>
+                                                <td>
+                                                    @forelse($notices[$loop->index] as $notice)
+                                                        @if ($notice->notice_type_id == 4)
+                                                            @if ($notice->notified == 1) 
+                                                                <b class="text-success">NOTIFIED</b>
+                                                            @else
+                                                                <b class="text-danger">TO NOTIFY</b>
+                                                            @endif
+                                                        @else
+                                                                                                          
+                                                        @endif
+                                                    @empty
+                                                    <b class="text-danger">Notice not yet created</b>                                                  
+                                                    @endforelse
+                                                </td>
+                                                <td>
+                                                    @forelse($notices[$loop->index] as $notice)
+                                                        @if ($notice->notice_type_id == 4)
+                                                            @if ($notice->notified == 1) 
+                                                                <i>{{$notice->date_notified}}</i>
+                                                            @else
+                                                                
+                                                            @endif
+                                                        @else
+                                                                                                          
+                                                        @endif       
+                                                    @empty
+                                                    <b class="text-danger">---</b>                                          
+                                                    @endforelse
+                                                </td>
+                                                <td>
+                                                    @forelse($notices[$loop->index] as $notice)
+                                                        @if ($notice->notice_type_id == 4)
+                                                            @if ($notice->notified == 1) 
+                                                                
+                                                            @else
+                                                                <a href="{{route('notice.notify', $notice->notice_id)}}" class="btn btn-outline-success ">Set to Notified</a>
+                                                            @endif
+                                                        @else
+                                                                                                          
+                                                        @endif       
+                                                    @empty
+                                                    <b class="text-danger">---</b>                                          
+                                                    @endforelse
+                                                </td>
                                             </tr>
 
                                             <tr>
                                                 <th scope="row">Subpoena Notice</th>
-                                                <td>{{$complainant->salutation}} {{$complainant->first_name}} {{$complainant->middle_name}} {{$complainant->last_name}}</td>
-                                                <td><b class="text-danger">TO NOTIFY</b></td>
-                                                <td><i>September 22, 2022</i></td>
-                                                <td><a href="" class="btn btn-outline-success ">Set to Notified</a></td>
+                                                <td></td>
+                                                <td>
+                                                    @forelse($notices[$loop->index] as $notice)
+                                                        @if ($notice->notice_type_id == 3)
+                                                            @if ($notice->notified == 1) 
+                                                                <b class="text-success">NOTIFIED</b>
+                                                            @else
+                                                                <b class="text-danger">TO NOTIFY</b>
+                                                            @endif
+                                                        @else
+                                                                                                          
+                                                        @endif
+                                                    @empty
+                                                    <b class="text-danger">Notice not yet created</b>                                                  
+                                                    @endforelse
+                                                </td>
+                                                <td>
+                                                    @forelse($notices[$loop->index] as $notice)
+                                                        @if ($notice->notice_type_id == 3)
+                                                            @if ($notice->notified == 1) 
+                                                                <i>{{$notice->date_notified}}</i>
+                                                            @else
+                                                                
+                                                            @endif
+                                                        @else
+                                                                                                          
+                                                        @endif       
+                                                    @empty
+                                                    <b class="text-danger">---</b>                                          
+                                                    @endforelse
+                                                </td>
+                                                <td>
+                                                    @forelse($notices[$loop->index] as $notice)
+                                                        @if ($notice->notice_type_id == 3)
+                                                            @if ($notice->notified == 1) 
+                                                                
+                                                            @else
+                                                                <a href="{{route('notice.notify', $notice->notice_id)}}" class="btn btn-outline-success ">Set to Notified</a>
+                                                            @endif
+                                                        @else
+                                                                                                          
+                                                        @endif       
+                                                    @empty
+                                                    <b class="text-danger">---</b>                                          
+                                                    @endforelse
+                                                </td>
                                             </tr>
 
                                         </tbody>
@@ -117,6 +302,7 @@
                         </div>
                         @endforeach
                     </div>
+                    <div class="mx-auto d-flex justify-content-end p-3">{{ $blotter_report->appends(['search'=>request()->query('search')])->links() }} </div>
                 </div>
             </div>
         </div>
