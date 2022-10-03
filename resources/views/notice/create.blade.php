@@ -188,7 +188,7 @@
                                         <tr>
                                             <th scope="row">Subpoena Notice</th>
                                             <td>-</td>
-                                            <td class="text-danger">@if($constitution)
+                                            <td class="text-danger">@if($subpoena)
                                                 @if($subpoena->notified == 1)
                                                 <b class="text-success">NOTIFIED</b>
                                                 @else
