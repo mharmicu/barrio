@@ -1,0 +1,317 @@
+<?php
+
+namespace App\Http\Livewire;
+
+use App\Models\Amicable_Settlement;
+use App\Models\Blotter;
+use App\Models\CaseHearing;
+use App\Models\Hearing;
+use App\Models\Person_Signature;
+use Livewire\Component;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use DataTables;
+
+
+class SettlementController extends Component
+{
+    public function render()
+    {
+        if (Auth::id()) {
+            if (Auth::user()->user_type_id == 1 || 2) {
+            } else {
+                return redirect()->back();
+            }
+        } else {
+            return redirect('login');
+        }
+
+        return view('livewire.settlement-controller');
+    }
+
+    public function show_mediation()
+    {
+        if (Auth::id()) {
+            if (Auth::user()->user_type_id == 1 || 2) {
+                return view('settlement.show-mediation');
+            } else {
+                return redirect()->back();
+            }
+        } else {
+            return redirect('login');
+        }
+    }
+
+    public function show_conciliation()
+    {
+        if (Auth::id()) {
+            if (Auth::user()->user_type_id == 1 || 2) {
+                return view('settlement.show-conciliation');
+            } else {
+                return redirect()->back();
+            }
+        } else {
+            return redirect('login');
+        }
+    }
+
+    public function show_arbitration()
+    {
+        if (Auth::id()) {
+            if (Auth::user()->user_type_id == 1 || 2) {
+                return view('settlement.show-arbitration');
+            } else {
+                return redirect()->back();
+            }
+        } else {
+            return redirect('login');
+        }
+    }
+
+    public function getMediation(Request $request)
+    {
+        if ($request->ajax()) {
+            //$data = Blotter::get();
+            $mediation_hearing = Hearing::where('hearing_type_id', 1)->get();
+            $blotter_report = array();
+            foreach ($mediation_hearing as $mediation) {
+                $case_hearing = CaseHearing::where('hearing_id', $mediation->hearing_id)->first();
+                $blotter_report[] = Blotter::where('case_no', $case_hearing->case_no)->first();
+            }
+
+            return Datatables::of($blotter_report)
+                ->addIndexColumn()
+                ->addColumn('action', function ($row) {
+                    $actionBtn = '<div class="d-grid gap-2"><a href="mediation/' . $row->case_no   . '" class="btn btn-primary btn-sm">Go to Hearing</a><a href="../notice/create/' . $row->case_no   . '" class="btn btn-secondary btn-sm">Add Witness</a><a href="file-court-action/' . $row->case_no   . '" class="btn btn-outline-danger btn-sm">File Court Action</a></div>';
+                    return $actionBtn;
+                })
+                ->addColumn('complainant', function ($row) {
+                    $case_involved = DB::table('case_involved')->where('case_no', $row->case_no)->first();
+                    $complainant = DB::table('person')->where('person_id', $case_involved->complainant_id)->first();
+
+                    $comp = '<span class="badge rounded-pill bg-primary">' . $complainant->first_name . ' ' . $complainant->middle_name . ' ' . $complainant->last_name . '</span>';
+                    return $comp;
+                })
+                ->addColumn('respondent', function ($row) {
+                    $case_involved = DB::table('case_involved')->where('case_no', $row->case_no)->first();
+                    $respondent = DB::table('person')->where('person_id', $case_involved->respondent_id)->first();
+
+                    $resp = '<span class="badge rounded-pill bg-primary">' . $respondent->first_name . ' ' . $respondent->middle_name . ' ' . $respondent->last_name . '</span>';
+                    return $resp;
+                })
+                ->addColumn('witness', function ($row) {
+                    $witnesses = DB::table('witnesses')->where('case_no', $row->case_no)->get();
+                    $persons = array();
+                    $names = '';
+                    foreach ($witnesses as $key => $value) {
+                        $persons[] = DB::table('person')->where('person_id', $value->witness_id)->first();
+                        $names = $names . ' ' . '<span class="badge rounded-pill bg-secondary">' . $persons[$key]->first_name . ' ' . $persons[$key]->middle_name . ' ' . $persons[$key]->last_name . '</span>';
+                    }
+                    return $names;
+                })
+                ->addColumn('date_of_meeting', function ($row) {
+                    $case_hearing = DB::table('case_hearings')->where('case_no', $row->case_no)->first();
+                    $hearing = DB::table('hearings')->where('hearing_id', $case_hearing->hearing_id)->first();
+
+                    $date_of_meeting = '<span class="badge rounded-pill bg-danger">' . date('F d, Y @ h:i A', strtotime($hearing->date_of_meeting)) . '</span>';
+                    return $date_of_meeting;
+                })
+                ->rawColumns(['action', 'complainant', 'respondent', 'witness', 'date_of_meeting'])
+                ->make(true);
+        }
+    }
+
+    public function getConciliation(Request $request)
+    {
+        if ($request->ajax()) {
+            //$data = Blotter::get();
+            $conciliation_hearing = Hearing::where('hearing_type_id', 2)->get();
+            $blotter_report = array();
+            foreach ($conciliation_hearing as $conciliation) {
+                $case_hearing = CaseHearing::where('hearing_id', $conciliation->hearing_id)->first();
+                $blotter_report[] = Blotter::where('case_no', $case_hearing->case_no)->first();
+            }
+
+            return Datatables::of($blotter_report)
+                ->addIndexColumn()
+                ->addColumn('action', function ($row) {
+                    $actionBtn = '<div class="d-grid gap-2"><a href="mediation/' . $row->case_no   . '" class="btn btn-primary btn-sm">Go to Hearing</a><a href="../notice/create/' . $row->case_no   . '" class="btn btn-secondary btn-sm">Add Witness</a><a href="file-court-action/' . $row->case_no   . '" class="btn btn-outline-danger btn-sm">File Court Action</a></div>';
+                    return $actionBtn;
+                })
+                ->addColumn('complainant', function ($row) {
+                    $case_involved = DB::table('case_involved')->where('case_no', $row->case_no)->first();
+                    $complainant = DB::table('person')->where('person_id', $case_involved->complainant_id)->first();
+
+                    $comp = '<span class="badge rounded-pill bg-primary">' . $complainant->first_name . ' ' . $complainant->middle_name . ' ' . $complainant->last_name . '</span>';
+                    return $comp;
+                })
+                ->addColumn('respondent', function ($row) {
+                    $case_involved = DB::table('case_involved')->where('case_no', $row->case_no)->first();
+                    $respondent = DB::table('person')->where('person_id', $case_involved->respondent_id)->first();
+
+                    $resp = '<span class="badge rounded-pill bg-primary">' . $respondent->first_name . ' ' . $respondent->middle_name . ' ' . $respondent->last_name . '</span>';
+                    return $resp;
+                })
+                ->addColumn('witness', function ($row) {
+                    $witnesses = DB::table('witnesses')->where('case_no', $row->case_no)->get();
+                    $persons = array();
+                    $names = '';
+                    foreach ($witnesses as $key => $value) {
+                        $persons[] = DB::table('person')->where('person_id', $value->witness_id)->first();
+                        $names = $names . ' ' . '<span class="badge rounded-pill bg-secondary">' . $persons[$key]->first_name . ' ' . $persons[$key]->middle_name . ' ' . $persons[$key]->last_name . '</span>';
+                    }
+                    return $names;
+                })
+                ->addColumn('date_of_meeting', function ($row) {
+                    $case_hearing = DB::table('case_hearings')->where('case_no', $row->case_no)->first();
+                    $hearing = DB::table('hearings')->where('hearing_id', $case_hearing->hearing_id)->first();
+
+                    $date_of_meeting = '<span class="badge rounded-pill bg-danger">' . date('F d, Y @ h:i A', strtotime($hearing->date_of_meeting)) . '</span>';
+                    return $date_of_meeting;
+                })
+                ->rawColumns(['action', 'complainant', 'respondent', 'witness', 'date_of_meeting'])
+                ->make(true);
+        }
+    }
+
+    public function getArbitration(Request $request)
+    {
+        if ($request->ajax()) {
+            //$data = Blotter::get();
+            $arbitration_hearing = Hearing::where('hearing_type_id', 3)->get();
+            $blotter_report = array();
+            foreach ($arbitration_hearing as $arbitration) {
+                $case_hearing = CaseHearing::where('hearing_id', $arbitration->hearing_id)->first();
+                $blotter_report[] = Blotter::where('case_no', $case_hearing->case_no)->first();
+            }
+
+            return Datatables::of($blotter_report)
+                ->addIndexColumn()
+                ->addColumn('action', function ($row) {
+                    $actionBtn = '<div class="d-grid gap-2"><a href="mediation/' . $row->case_no   . '" class="btn btn-primary btn-sm">Go to Hearing</a><a href="../notice/create/' . $row->case_no   . '" class="btn btn-secondary btn-sm">Add Witness</a><a href="file-court-action/' . $row->case_no   . '" class="btn btn-outline-danger btn-sm">File Court Action</a></div>';
+                    return $actionBtn;
+                })
+                ->addColumn('complainant', function ($row) {
+                    $case_involved = DB::table('case_involved')->where('case_no', $row->case_no)->first();
+                    $complainant = DB::table('person')->where('person_id', $case_involved->complainant_id)->first();
+
+                    $comp = '<span class="badge rounded-pill bg-primary">' . $complainant->first_name . ' ' . $complainant->middle_name . ' ' . $complainant->last_name . '</span>';
+                    return $comp;
+                })
+                ->addColumn('respondent', function ($row) {
+                    $case_involved = DB::table('case_involved')->where('case_no', $row->case_no)->first();
+                    $respondent = DB::table('person')->where('person_id', $case_involved->respondent_id)->first();
+
+                    $resp = '<span class="badge rounded-pill bg-primary">' . $respondent->first_name . ' ' . $respondent->middle_name . ' ' . $respondent->last_name . '</span>';
+                    return $resp;
+                })
+                ->addColumn('witness', function ($row) {
+                    $witnesses = DB::table('witnesses')->where('case_no', $row->case_no)->get();
+                    $persons = array();
+                    $names = '';
+                    foreach ($witnesses as $key => $value) {
+                        $persons[] = DB::table('person')->where('person_id', $value->witness_id)->first();
+                        $names = $names . ' ' . '<span class="badge rounded-pill bg-secondary">' . $persons[$key]->first_name . ' ' . $persons[$key]->middle_name . ' ' . $persons[$key]->last_name . '</span>';
+                    }
+                    return $names;
+                })
+                ->addColumn('date_of_meeting', function ($row) {
+                    $case_hearing = DB::table('case_hearings')->where('case_no', $row->case_no)->first();
+                    $hearing = DB::table('hearings')->where('hearing_id', $case_hearing->hearing_id)->first();
+
+                    $date_of_meeting = '<span class="badge rounded-pill bg-danger">' . date('F d, Y @ h:i A', strtotime($hearing->date_of_meeting)) . '</span>';
+                    return $date_of_meeting;
+                })
+                ->rawColumns(['action', 'complainant', 'respondent', 'witness', 'date_of_meeting'])
+                ->make(true);
+        }
+    }
+
+    public function mediation($id)
+    {
+        if (Auth::id()) {
+            if (Auth::user()->user_type_id == 1 || 2) {
+                $blotter_report = Blotter::find($id);
+                $case_involved = DB::table('case_involved')->where('case_no', $id)->first();
+                $complainant = DB::table('person')->where('person_id', $case_involved->complainant_id)->first();
+                $respondent = DB::table('person')->where('person_id', $case_involved->respondent_id)->first();
+                $witnesses = DB::table('witnesses')->where('case_no', $id)->get();
+
+                $persons = array();
+                foreach ($witnesses as $witness) {
+                    $persons[] = DB::table('person')->where('person_id', $witness->witness_id)->first();
+                }
+
+                return view('settlement.mediation', compact('blotter_report', 'complainant', 'respondent', 'persons'));
+            } else {
+
+                return redirect()->back();
+            }
+        } else {
+            return redirect('login');
+        }
+    }
+
+    public function store_mediation($id, Request $request)
+    {
+        if (Auth::id()) {
+            if (Auth::user()->user_type_id == 1 || 2) {
+                $request->validate([
+                    'agreement_desc' => 'required|max:2500|regex:"^[^-]{1}?[^\"\']*$"', //regex for alphanumeric and some special characters and spaces only
+                    'complainant_sign' => ['nullable', 'mimes:jpg,bmp,jpeg,png', 'max:15000'],
+                    'respondent_sign' => ['nullable', 'mimes:jpg,bmp,jpeg,png', 'max:15000']
+                    // niremove ko validation sa image hahaha pag nilagyan ko ayaw masaveeeeeee
+                ], [
+                    // custom error message here if ever meron
+                ]);
+                $blotter_report = Blotter::find($id);
+                $case_hearing = CaseHearing::where('case_no', $id)->latest()->first();
+                $case_involved = DB::table('case_involved')->where('case_involved.case_no', '=', $blotter_report->case_no)->first();
+                //$respondent = DB::table('person')->where('person_id', $case_involved->respondent_id)->first();
+                
+                $hearing = Hearing::where('hearing_id', $case_hearing->hearing_id)->where('hearing_type_id', 1)->first();
+                
+                //making amicable settlement record
+                $amicable_settlement_record = new Amicable_Settlement();
+                $amicable_settlement_record->date_agreed = date("Y-m-d H:i:s");
+                $amicable_settlement_record->agreement_desc = $request->agreement_desc;
+                $amicable_settlement_record->save();
+
+                //updating hearings table
+                $hearing->settlement_id = $amicable_settlement_record->settlement_id;
+                $hearing->save();
+
+                //saving image - respondent signature lang
+                $image = $request->file('respondent_sign');
+                $imageName = time() . '.' . $image->extension();
+                $image->move(public_path('images'), $imageName);
+
+                $person_signature = new Person_Signature();
+                $person_signature->file_address = $imageName;
+                $person_signature->person_id = $case_involved->respondent_id;
+                $person_signature->save();
+
+                return redirect('settlement/show-mediation')->with('success', '');
+            } else {
+
+                return redirect()->back();
+            }
+        } else {
+            return redirect('login');
+        }
+    }
+
+    public function fileCourtAction($id)
+    {
+        if (Auth::id()) {
+            if (Auth::user()->user_type_id == 1 || 2) {
+                return view('settlement.file-court-action');
+            } else {
+                return redirect()->back();
+            }
+        } else {
+            return redirect('login');
+        }
+    }
+}

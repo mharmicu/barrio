@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Livewire\BlotterController;
 use App\Http\Livewire\NoticeController;
+use App\Http\Livewire\SettlementController;
 use App\Models\Blotter;
 
 /*
@@ -72,3 +73,17 @@ Route::get('notice/summary', [NoticeController::class, 'summary'])->name('notice
 Route::post('notice/add-witness/{id}', [NoticeController::class, 'addWitness'])->name('notice.addWitness');
 //REMOVE WITNESS
 Route::get('notice/remove-witness/{id}', [NoticeController::class, 'removeWitness'])->name('notice.removeWitness');
+
+//SETTLEMENT
+Route::get('settlement/show-mediation', [SettlementController::class, 'show_mediation'])->name('settlement.show.mediation');
+Route::get('settlement/show-mediation/list', [SettlementController::class, 'getMediation'])->name('settlement.mediation.list');
+Route::get('settlement/mediation/{id}', [SettlementController::class, 'mediation'])->name('settlement.mediation');
+Route::post('settlement/mediation/store/{id}', [SettlementController::class, 'store_mediation'])->name('settlement.mediation.store');
+
+Route::get('settlement/show-conciliation', [SettlementController::class, 'show_conciliation'])->name('settlement.show.conciliation');
+Route::get('settlement/show-conciliation/list', [SettlementController::class, 'getConciliation'])->name('settlement.conciliation.list');
+
+Route::get('settlement/show-arbitration', [SettlementController::class, 'show_arbitration'])->name('settlement.show.arbitration');
+Route::get('settlement/show-arbitration/list', [SettlementController::class, 'getArbitration'])->name('settlement.arbitration.list');
+
+Route::get('settlement/file-court-action/{id}', [SettlementController::class, 'fileCourtAction'])->name('settlement.file-court-action');

@@ -40,6 +40,7 @@
             <!-- Page content-->
             <div class="container-fluid">
                 <div class="row d-flex justify-content-center mt-5">
+                    <p class="fs-4 fw-bold">Settled Cases</p>
                     <div class="table-responsive">
                         <table class="table table-bordered  yajra-datatable">
                             <thead>
@@ -109,8 +110,8 @@
                     name: 'date_of_execution'
                 },
                 {
-                    data: 'remarks',
-                    name: 'remarks'
+                    data: 'agreement',
+                    name: 'agreement'
                 },
                 {
                     data: 'compliance',

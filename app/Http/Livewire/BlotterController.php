@@ -4,6 +4,8 @@ namespace App\Http\Livewire;
 
 use App\Models\Blotter;
 use App\Models\Case_Involved;
+use App\Models\CaseHearing;
+use App\Models\Hearing;
 use App\Models\Incident_Case;
 use App\Models\Person;
 use App\Models\Person_Signature;
@@ -139,12 +141,58 @@ class BlotterController extends Component
             return Datatables::of($data)
                 ->addIndexColumn()
                 ->addColumn('action', function ($row) {
-                    $actionBtn = '<a href="javascript:void(0)" class="edit btn btn-success btn-sm">Edit</a> <a href="javascript:void(0)" class="delete btn btn-danger btn-sm">Delete</a>';
-                    return $actionBtn;
+                    $case_hearing = CaseHearing::where('case_no', $row->case_no)->latest()->first();
+                    $notice = DB::table('notices')->where('case_no', $row->case_no)->first();
+                    if ($notice) {
+                        $noticeBtn = '<a href="../notice/create/' . $row->case_no   . '" class="edit btn btn-sm btn-primary" >Show Notices</a>';
+                    } else {
+                        $noticeBtn = '<a href="../notice/schedule/' . $row->case_no . '" class="edit btn btn-sm btn-secondary">Set Meeting Schedule</a>';
+                    }
+                    if ($case_hearing) {
+                        $hearing = Hearing::where('hearing_id', $case_hearing->hearing_id)->where('hearing_type_id', 1)->first();
+                        $hearing_type = DB::table('hearing_types')->where('hearing_type_id', $hearing->hearing_type_id)->first();
+                        switch ($hearing_type->type_name) {
+                            case "Mediation":
+                                $hearingBtn = '<div class="d-grid gap-2"><a href="../settlement/mediation/' . $row->case_no   . '" class=" btn btn-warning btn-sm">Hearing</a></div>';
+                                break;
+                            case "Conciliation":
+                                $hearingBtn = '<div class="d-grid gap-2"><a href="javascript:void(0)" class=" btn btn-warning btn-sm">Hearing</a></div>';
+                                break;
+                            case "Arbitration":
+                                $hearingBtn = '<div class="d-grid gap-2"><a href="javascript:void(0)" class=" btn btn-warning btn-sm">Hearing</a></div>';
+                                break;
+                            default:
+                                $hearingBtn = '<div class="d-grid gap-2"><a href="javascript:void(0)" class=" btn btn-warning btn-sm">Hearing</a></div>';
+                        }
+                    } else {
+                        $hearingBtn = '';
+                    }
+                    $div = '<div class="d-grid gap-2">' . $noticeBtn . $hearingBtn . '</div>';
+                    return $div;
                 })
 
                 ->addColumn('status', function ($row) {
-                    $statusBadge = '<span class="badge rounded-pill bg-dark">N/A</span>';
+                    $case_hearing = CaseHearing::where('case_no', $row->case_no)->latest()->first();
+                    if ($case_hearing) {
+                        $hearing = Hearing::where('hearing_id', $case_hearing->hearing_id)->first();
+                        $hearing_type = DB::table('hearing_types')->where('hearing_type_id', $hearing->hearing_type_id)->first();
+
+                        switch ($hearing_type->type_name) {
+                            case "Mediation":
+                                $statusBadge = '<span class="badge rounded-pill bg-primary text-uppercase">' . $hearing_type->type_name . '</span>';
+                                break;
+                            case "Conciliation":
+                                $statusBadge = '<span class="badge rounded-pill bg-warning text-uppercase">' . $hearing_type->type_name . '</span>';
+                                break;
+                            case "Arbitration":
+                                $statusBadge = '<span class="badge rounded-pill bg-danger text-uppercase">' . $hearing_type->type_name . '</span>';
+                                break;
+                            default:
+                                $statusBadge = '<span class="badge rounded-pill bg-dark">N/A</span>';
+                        }
+                    } else {
+                        $statusBadge = '<span class="badge rounded-pill bg-dark">N/A</span>';
+                    }
                     return $statusBadge;
                 })
                 ->editColumn('date_of_incident', function ($row) {
@@ -243,10 +291,19 @@ class BlotterController extends Component
             //$incident_case = DB::table('incident_case')->select('*')->get();
             //$incident_case = Incident_Case::latest()->get();
             //$blotter = Blotter::latest()->get();
-            $data = DB::table('blotter_report')
-                ->join('incident_case', 'blotter_report.case_no', '=', 'incident_case.case_no')
-                ->get();
+            $case_hearing = CaseHearing::all();
+            $blotter_report = array();
+            $data = array();
 
+            foreach ($case_hearing as $ch) {
+                $blotter_report[] = DB::table('blotter_report')->where('case_no', $ch->case_no)->first();
+            }
+
+            foreach ($blotter_report as $br) {
+                $data[] = DB::table('blotter_report')
+                    ->join('incident_case', 'blotter_report.case_no', '=', 'incident_case.case_no')
+                    ->first();
+            }
 
             return Datatables::of($data)
                 ->addIndexColumn()
@@ -261,8 +318,52 @@ class BlotterController extends Component
                     if ($compliance->compliance == 0) return '<span class="badge rounded-pill bg-secondary">NON-COMPLIANCE</span>';
                     if ($compliance->compliance == 1) return '<span class="badge rounded-pill bg-dark">COMPLIANCE</span>';
                 })
-                ->addColumn('status', '<span class="badge rounded-pill bg-dark">N/A</span>')
-                ->rawColumns(['status', 'compliance', 'action'])
+                ->addColumn('agreement', function ($row) {
+                    $case_hearing = CaseHearing::where('case_no', $row->case_no)->latest()->first();
+                    if ($case_hearing) {
+                        $hearing = Hearing::where('hearing_id', $case_hearing->hearing_id)->first();
+                        if ($hearing->settlement_id) {
+                            $amicable_settlement = DB::table('amicable_settlements')->where('settlement_id', $hearing->settlement_id)->first();
+                            $agreement = $amicable_settlement->agreement_desc;
+                        } elseif ($hearing->award_id) {
+
+
+
+
+                        } else {
+                            $agreement = "ERROR: NO RECORD???.";
+                        }
+                    } else {
+                        $agreement = "No agreement yet.";
+                    }
+                    return $agreement;
+                })
+                ->addColumn('status', function ($row) {
+                    $case_hearing = CaseHearing::where('case_no', $row->case_no)->latest()->first();
+                    if ($case_hearing) {
+                        $hearing = Hearing::where('hearing_id', $case_hearing->hearing_id)->where('hearing_type_id', 1)->first();
+                        $hearing_type = DB::table('hearing_types')->where('hearing_type_id', $hearing->hearing_type_id)->first();
+
+                        switch ($hearing_type->type_name) {
+                            case "Mediation":
+                                $statusBadge = '<span class="badge rounded-pill bg-primary text-uppercase">' . $hearing_type->type_name . '</span>';
+                                break;
+                            case "Conciliation":
+                                $statusBadge = '<span class="badge rounded-pill bg-warning text-uppercase">' . $hearing_type->type_name . '</span>';
+                                break;
+                            case "Arbitration":
+                                $statusBadge = '<span class="badge rounded-pill bg-danger text-uppercase">' . $hearing_type->type_name . '</span>';
+                                break;
+                            default:
+                                $statusBadge = '<span class="badge rounded-pill bg-dark">N/A</span>';
+                        }
+                    } else {
+                        $statusBadge = '<span class="badge rounded-pill bg-dark">N/A</span>';
+                    }
+                    return $statusBadge;
+                })
+
+                ->rawColumns(['agreement', 'status', 'compliance', 'action'])
                 ->make(true);
         }
     }
@@ -274,12 +375,12 @@ class BlotterController extends Component
                 $blotter_report = DB::table('blotter_report')->where('blotter_report.case_no', '=', $id)->first();
                 $incident_case = DB::table('incident_case')->where('case_no', $id)->first();
                 $kp_case = DB::table('kp_cases')->where('kp_cases.article_no', $incident_case->article_no)->first();
-                
+
                 $involved = DB::table('case_involved')->where('case_involved.case_no', $id)->first();
                 $complainant = DB::table('person')->where('person_id', $involved->complainant_id)->first();
                 $respondent = DB::table('person')->where('person_id', $involved->respondent_id)->first();
 
-                $pdf = PDF::loadView('blotter.pdf.complaint', compact('blotter_report' ,'kp_case' ,'complainant', 'respondent'));
+                $pdf = PDF::loadView('blotter.pdf.complaint', compact('blotter_report', 'kp_case', 'complainant', 'respondent'));
                 //return view('blotter.pdf.complaint', compact('blotter_report' ,'kp_case' ,'complainant', 'respondent'));
                 return $pdf->download("Complaint-Form ($id).pdf");
             } else {

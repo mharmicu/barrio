@@ -5,16 +5,17 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="../css/styles.css" rel="stylesheet" />
+    <title>Conciliation Hearing</title>
+    <link href="../../css/styles.css" rel="stylesheet" />
     <link rel="icon" type="image/png" href="{{ asset('/img/385-logo.png') }}">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css">
 
-    <meta name="csrf-token" content="{{ csrf_token() }}">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <link href="https://cdn.datatables.net/1.10.21/css/jquery.dataTables.min.css" rel="stylesheet">
     <link href="https://cdn.datatables.net/1.10.21/css/dataTables.bootstrap4.min.css" rel="stylesheet">
 </head>
 
 <body>
-
     <div class="d-flex " id="wrapper">
         @include('admin.sidebar')
 
@@ -27,8 +28,8 @@
                     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
                     <div class="collapse navbar-collapse" id="navbarSupportedContent">
                         <ul class="navbar-nav ms-auto mt-2 mt-lg-0">
-                            <li class="nav-item active"><a class="nav-link" href="{{route('blotter.settled')}}">Settled Cases</a></li>
-                            <li class="nav-item"><a class="nav-link" href="{{route('blotter.summary')}}">Search Case</a></li>
+                            <li class="nav-item"><a class="nav-link" href="{{route('blotter.settled')}}">Settled Cases</a></li>
+                            <li class="nav-item active"><a class="nav-link" href="{{route('blotter.summary')}}">Search Case</a></li>
 
                             <x-app-layout>
                             </x-app-layout>
@@ -39,26 +40,30 @@
 
             <!-- Page content-->
             <div class="container-fluid">
-                <div class="row d-flex justify-content-center mt-5">
-                    <p class="fs-4 fw-bold">Ongoing Blotter Cases</p>
-                    <div class="table-responsive">
-                        <table class="table table-bordered  yajra-datatable">
-                            <thead>
-                                <tr>
-                                    <th>Case No.</th>
-                                    <th>Title</th>
-                                    <th>Hearing Status</th>
-                                    <th>Incident Description</th>
-                                    <th>Relief Description</th>
-                                    <th>Date of Incident</th>
-                                    <th>Date Reported</th>
-                                    <th>Action</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                            </tbody>
 
-                        </table>
+                <div class="row d-flex justify-content-center  p-5">
+                    <div class="card p-3 shadow">
+                        <p class="fs-4 fw-bold">Conciliation Hearings</p>
+
+                        <div class="table-responsive">
+                            <table class="table table-bordered  yajra-datatable">
+                                <thead>
+                                    <tr>
+                                        <th>Case No.</th>
+                                        <th>Case Title</th>
+                                        <th>Complainant</th>
+                                        <th>Respondent</th>
+                                        <th>Witness</th>
+                                        <th>Hearing Date</th>
+                                        <th>Conciliation Requirement</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                </tbody>
+
+                            </table>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -82,7 +87,7 @@
         var table = $('.yajra-datatable').DataTable({
             processing: true,
             serverSide: true,
-            ajax: "{{ route('blotter.list') }}",
+            ajax: "{{ route('settlement.conciliation.list') }}",
             columns: [{
                     data: 'case_no',
                     name: 'case_no'
@@ -92,26 +97,24 @@
                     name: 'case_title'
                 },
                 {
-                    data: 'status',
-                    name: 'status',
-                    orderable: true,
-                    searchable: true
+                    data: 'complainant',
+                    name: 'complainant'
                 },
                 {
-                    data: 'complaint_desc',
-                    name: 'complaint_desc'
+                    data: 'respondent',
+                    name: 'respondent'
                 },
                 {
-                    data: 'relief_desc',
-                    name: 'relief_desc'
+                    data: 'witness',
+                    name: 'witness',
                 },
                 {
-                    data: 'date_of_incident',
-                    name: 'date_of_incident'
+                    data: 'date_of_meeting',
+                    name: 'date_of_meeting',
                 },
                 {
-                    data: 'date_reported',
-                    name: 'date_reported'
+                    data: '',
+                    name: '',
                 },
                 {
                     data: 'action',
@@ -124,7 +127,5 @@
 
     });
 </script>
-
-
 
 </html>

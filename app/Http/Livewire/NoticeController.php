@@ -3,6 +3,9 @@
 namespace App\Http\Livewire;
 
 use App\Models\Blotter;
+use App\Models\CaseHearing;
+use App\Models\Hearing;
+use App\Models\HearingNotices;
 use App\Models\Notice;
 use App\Models\Person;
 use App\Models\Witness;
@@ -84,8 +87,9 @@ class NoticeController extends Component
 
                 $complainant = DB::table('person')->where('person_id', $case_involved->complainant_id)->first();
                 $respondent = DB::table('person')->where('person_id', $case_involved->respondent_id)->first();
-                $present_sched = DB::table('notices')->join('blotter_report', 'blotter_report.case_no', '=', 'notices.case_no')->get();
-
+                $distinct_notice = DB::table('notices')->select('case_no')->distinct()->get();
+                $present_sched = Notice::join('blotter_report', 'blotter_report.case_no', '=', 'notices.case_no')->get()->unique('case_no');
+                //dd($distinct_notice);
 
                 return view('notice.schedule', compact('blotter_report', 'complainant', 'respondent', 'present_sched'));
             } else {
@@ -274,6 +278,36 @@ class NoticeController extends Component
                 $notice->notified = 1;
                 $notice->date_notified = date('Y-m-d H:i:s');
                 $notice->save();
+                
+                #in order to have hearing record, must both have hearing notice and summon notice and both notified
+                $hearingNotice = Notice::where('case_no', $notice->case_no)->where('notice_type_id', 1)->where('notified', 1)->first();
+                $summonNotice = Notice::where('case_no', $notice->case_no)->where('notice_type_id', 2)->where('notified', 1)->first();
+                if ($hearingNotice && $summonNotice) {
+                    $hearingRecord = new Hearing();
+                    $hearingRecord->date_of_meeting = $notice->date_of_meeting;
+                    $hearingRecord->date_filed = date("Y-m-d H:i:s");
+
+                    $hearingRecord->hearing_type_id = 1;
+                    $hearingRecord->save();
+
+                    #case hearing
+                    $case_hearing = new CaseHearing();
+                    $case_hearing->case_no = $notice->case_no;
+                    $case_hearing->hearing_id = $hearingRecord->hearing_id;
+                    $case_hearing->save();
+
+                    #hearing notices
+                    $hearing_notices = new HearingNotices();
+                    $hearing_notices->notice_id = $hearingNotice->notice_id;
+                    $hearing_notices->hearing_id = $hearingRecord->hearing_id;
+                    $hearing_notices->save();
+
+                    #summon notices
+                    $hearing_notices2 = new HearingNotices();
+                    $hearing_notices2->notice_id = $summonNotice->notice_id;
+                    $hearing_notices2->hearing_id = $hearingRecord->hearing_id;
+                    $hearing_notices2->save();
+                }
 
                 return back()->with('success', '');
             } else {
@@ -359,6 +393,7 @@ class NoticeController extends Component
             if (Auth::user()->user_type_id == 1 || Auth::user()->user_type_id == 2) {
 
                 $blotter_report = Blotter::paginate('4');
+
                 $case_involved = array();
                 $complainant = array();
                 $notices = array();
@@ -366,7 +401,7 @@ class NoticeController extends Component
                     $case_involved[] = DB::table('case_involved')->where('case_involved.case_no', '=', $value->case_no)->first();
                     $complainant[] = DB::table('person')->where('person_id', $case_involved[$key]->complainant_id)->first();
                     $respondent[] = DB::table('person')->where('person_id', $case_involved[$key]->respondent_id)->first();
-                    $notices[] = DB::table('notices')->where('case_no', $value->case_no)->get();                   
+                    $notices[] = DB::table('notices')->where('case_no', $value->case_no)->get();
                 }
 
                 //dd($notices[0][2]);

@@ -8,6 +8,13 @@ use Illuminate\Database\Eloquent\Model;
 class Amicable_Settlement extends Model
 {
     use HasFactory;
+    /**
+     * The table associated with the model.
+     *
+     * @var string
+     */
+    protected $table = 'amicable_settlements';
+
      /**
      * The primary key associated with the table.
      *

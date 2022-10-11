@@ -65,7 +65,6 @@
             <div class="container-fluid">
 
                 <div class="row d-flex justify-content-center  p-5">
-                    
                     @if(session()->has('success'))
                     <script>
                         Swal.fire({
@@ -240,7 +239,7 @@
                                                 <div class="col">
                                                     <div class="btn-grou" role="group">
                                                         <input type="submit" name="submit" class="btn btn-warning" value="Add to Witnesses" />
-                                                        @if($persons)
+                                                        @if($subpoena)
                                                         <a href="{{route('subpoena.pdf', $subpoena->notice_id)}}" class="btn btn-dark">Download Subpoena Notice</a>
                                                         @endif
                                                     </div>

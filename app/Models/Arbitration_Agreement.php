@@ -9,6 +9,13 @@ class Arbitration_Agreement extends Model
 {
     use HasFactory;
     /**
+     * The table associated with the model.
+     *
+     * @var string
+     */
+    protected $table = 'arbitration_agreements';
+
+    /**
      * The primary key associated with the table.
      *
      * @var string

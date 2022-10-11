@@ -69,7 +69,20 @@
                 <hr>
             </li>
         </ul>
-        <a class="list-group-item list-group-item-action  p-3 dropdown-toggle" href="#hearingSubmenu"><i class="bi bi-file-earmark-person-fill"></i> Hearing Process</a>
+        <a class="list-group-item list-group-item-action  p-3 dropdown-toggle" href="#hearingSubmenu" data-bs-toggle="collapse" aria-expanded="false"><i class="bi bi-file-earmark-person-fill"></i> Hearing Process</a>
+        <ul class="collapse" id="hearingSubmenu">
+            <li>
+                <a href="{{route('settlement.show.mediation')}}" :active="request()->routeIs('{{route('settlement.show.mediation')}}')" class="subMenu">Mediation Hearings</a>
+                <hr>
+            </li>
+            <li>
+                <a href="{{route('settlement.show.conciliation')}}" :active="request()->routeIs('{{route('settlement.show.conciliation')}}')" class="subMenu">Conciliation Hearings</a>
+                <hr>
+            </li><li>
+                <a href="{{route('settlement.show.arbitration')}}" :active="request()->routeIs('{{route('settlement.show.arbitration')}}')" class="subMenu">Arbitration Hearings</a>
+                <hr>
+            </li>
+        </ul>
         <a class="list-group-item list-group-item-action  p-3 dropdown-toggle" href="#"><i class="bi bi-person-circle"></i> Accounts</a>
         <a class="list-group-item list-group-item-action  p-3 dropdown-toggle" href="#"><i class="bi bi-flag-fill"></i> Activity Log</a>
 

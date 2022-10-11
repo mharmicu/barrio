@@ -75,8 +75,10 @@
                                     <p class="card-text fw-bold text-primary"><i>{{$blotter->case_title}}</i></p>
                                 </div>
                                 <div class="col">
+                                    <!--
                                     <p class="card-text text-end"><b>Hearing Type</b></p>
                                     <p class="card-text text-end"><b>Hearing Schedule</b></p>
+                    -->
                                 </div>
                             </div>
 

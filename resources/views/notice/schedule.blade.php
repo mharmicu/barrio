@@ -97,7 +97,7 @@
                                         <p class="fw-bold fst-italic text-primary">Present Hearing Schedule(s)</p>
                                         @forelse ($present_sched as $sched)
                                         <?php
-                                            $strSched = date('F d, Y, h:iA', strtotime($sched->date_of_meeting)); 
+                                            $strSched = date('F d, Y @ h:iA', strtotime($sched->date_of_meeting)); 
                                         ?>
 
                                         <p class="fw-normal">{{$strSched}} <b><i>{{$sched->case_title}}</i></b></p>
