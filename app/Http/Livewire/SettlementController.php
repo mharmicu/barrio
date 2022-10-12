@@ -6,6 +6,7 @@ use App\Models\Amicable_Settlement;
 use App\Models\Blotter;
 use App\Models\CaseHearing;
 use App\Models\Hearing;
+use App\Models\Notice;
 use App\Models\Person_Signature;
 use Livewire\Component;
 use Illuminate\Support\Facades\Auth;
@@ -61,6 +62,33 @@ class SettlementController extends Component
         if (Auth::id()) {
             if (Auth::user()->user_type_id == 1 || 2) {
                 return view('settlement.show-arbitration');
+            } else {
+                return redirect()->back();
+            }
+        } else {
+            return redirect('login');
+        }
+    }
+
+    public function proceed_to_conciliation($id)
+    {
+        if (Auth::id()) {
+            if (Auth::user()->user_type_id == 1 || 2) {
+                $hearingNotice = Notice::where('case_no', $id)->where('notice_type_id', 1)->where('notified', 1)->first();
+                $hearingRecord = new Hearing();
+                $hearingRecord->date_of_meeting = $hearingNotice->date_of_meeting;
+                $hearingRecord->date_filed = date("Y-m-d H:i:s");
+
+                $hearingRecord->hearing_type_id = 2;
+                $hearingRecord->save();
+
+                #case hearing
+                $case_hearing = new CaseHearing();
+                $case_hearing->case_no = $hearingNotice->case_no;
+                $case_hearing->hearing_id = $hearingRecord->hearing_id;
+                $case_hearing->save();
+
+                return redirect('settlement/show-mediation');
             } else {
                 return redirect()->back();
             }
@@ -136,7 +164,15 @@ class SettlementController extends Component
             return Datatables::of($blotter_report)
                 ->addIndexColumn()
                 ->addColumn('action', function ($row) {
-                    $actionBtn = '<div class="d-grid gap-2"><a href="mediation/' . $row->case_no   . '" class="btn btn-primary btn-sm">Go to Hearing</a><a href="../notice/create/' . $row->case_no   . '" class="btn btn-secondary btn-sm">Add Witness</a><a href="file-court-action/' . $row->case_no   . '" class="btn btn-outline-danger btn-sm">File Court Action</a></div>';
+                    //check whether it has PANGKAT CONSTITUTION NOTICE
+                    $notice = DB::table('notices')->where('case_no', $row->case_no)->where('notice_type_id', 4)->where('notified', 1)->first();
+                    if($notice){
+                        $requirementButton = '<a href="conciliation/' . $row->case_no   . '" class="btn btn-primary btn-sm">Go to Hearing</a>';
+                    }
+                    else{
+                        $requirementButton = '<a href="../notice/create/' . $row->case_no   . '" class="btn btn-info btn-sm">Create Notice</a>';
+                    }
+                    $actionBtn = '<div class="d-grid gap-2">' . $requirementButton  . '<a href="../notice/create/' . $row->case_no   . '" class="btn btn-secondary btn-sm">Add Witness</a><a href="file-court-action/' . $row->case_no   . '" class="btn btn-outline-danger btn-sm">File Court Action</a></div>';
                     return $actionBtn;
                 })
                 ->addColumn('complainant', function ($row) {
@@ -170,7 +206,17 @@ class SettlementController extends Component
                     $date_of_meeting = '<span class="badge rounded-pill bg-danger">' . date('F d, Y @ h:i A', strtotime($hearing->date_of_meeting)) . '</span>';
                     return $date_of_meeting;
                 })
-                ->rawColumns(['action', 'complainant', 'respondent', 'witness', 'date_of_meeting'])
+                ->addColumn('conciliation_requirement', function ($row) {
+                    //check whether it has PANGKAT CONSTITUTION NOTICE
+                    $notice = DB::table('notices')->where('case_no', $row->case_no)->where('notice_type_id', 4)->where('notified', 1)->first();
+                    if ($notice) {
+                        $requirement = '<p class="badge rounded-pill bg-primary">-</p>';
+                    } else {
+                        $requirement = '<p class="text-danger fw-bold">Needs Pangkat Constitution Notice</p>';
+                    }
+                    return $requirement;
+                })
+                ->rawColumns(['action', 'complainant', 'respondent', 'witness', 'date_of_meeting', 'conciliation_requirement'])
                 ->make(true);
         }
     }
@@ -269,9 +315,9 @@ class SettlementController extends Component
                 $case_hearing = CaseHearing::where('case_no', $id)->latest()->first();
                 $case_involved = DB::table('case_involved')->where('case_involved.case_no', '=', $blotter_report->case_no)->first();
                 //$respondent = DB::table('person')->where('person_id', $case_involved->respondent_id)->first();
-                
+
                 $hearing = Hearing::where('hearing_id', $case_hearing->hearing_id)->where('hearing_type_id', 1)->first();
-                
+
                 //making amicable settlement record
                 $amicable_settlement_record = new Amicable_Settlement();
                 $amicable_settlement_record->date_agreed = date("Y-m-d H:i:s");
@@ -293,6 +339,31 @@ class SettlementController extends Component
                 $person_signature->save();
 
                 return redirect('settlement/show-mediation')->with('success', '');
+            } else {
+
+                return redirect()->back();
+            }
+        } else {
+            return redirect('login');
+        }
+    }
+
+    public function conciliation($id)
+    {
+        if (Auth::id()) {
+            if (Auth::user()->user_type_id == 1 || 2) {
+                $blotter_report = Blotter::find($id);
+                $case_involved = DB::table('case_involved')->where('case_no', $id)->first();
+                $complainant = DB::table('person')->where('person_id', $case_involved->complainant_id)->first();
+                $respondent = DB::table('person')->where('person_id', $case_involved->respondent_id)->first();
+                $witnesses = DB::table('witnesses')->where('case_no', $id)->get();
+
+                $persons = array();
+                foreach ($witnesses as $witness) {
+                    $persons[] = DB::table('person')->where('person_id', $witness->witness_id)->first();
+                }
+
+                return view('settlement.conciliation', compact('blotter_report', 'complainant', 'respondent', 'persons'));
             } else {
 
                 return redirect()->back();

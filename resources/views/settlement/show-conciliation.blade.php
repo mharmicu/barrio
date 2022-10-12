@@ -113,8 +113,8 @@
                     name: 'date_of_meeting',
                 },
                 {
-                    data: '',
-                    name: '',
+                    data: 'conciliation_requirement',
+                    name: 'conciliation_requirement',
                 },
                 {
                     data: 'action',

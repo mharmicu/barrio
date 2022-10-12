@@ -89,6 +89,14 @@
                         })
                     </script>
                     @endif
+                    @if(session()->has('fail_to_notify'))
+                    <script>
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Failed to notify. Not yet in conciliation process.',
+                        })
+                    </script>
+                    @endif
 
                     <div class="card p-3 shadow">
                         <p class="fw-bolder text-primary fs-5">Notice of Case <u><i>{{$notice->case_no}}</i></u> </p>

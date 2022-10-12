@@ -53,6 +53,14 @@
                         })
                     </script>
                     @endif
+                    @if(session()->has('fail_to_notify'))
+                    <script>
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Failed to notify. Not yet in conciliation process.',
+                        })
+                    </script>
+                    @endif
                     <h5 class="text-primary">Search for an blotter case report</h5>
 
                     <div class="p-2">
@@ -85,7 +93,7 @@
                             <div class="row mt-3">
 
                                 <div class="table-responsive">
-                                    <table class="table ">
+                                    <table class="table table-hover">
                                         <thead>
                                             <tr>
                                                 <th>Type of Notice</th>
@@ -295,6 +303,10 @@
                                                     <b class="text-danger">---</b>                                          
                                                     @endforelse
                                                 </td>
+                                            </tr>
+
+                                            <tr>
+                                                <td class="text-right" colspan="5"><a href="{{route('notice.create', $notice->case_no)}}" class="btn btn-sm btn-primary text-right">Manage Notice</a></td>
                                             </tr>
 
                                         </tbody>

@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mediation Settlement</title>
+    <title>Conciliation Settlement</title>
     <link href="../../css/styles.css" rel="stylesheet" />
     <link rel="icon" type="image/png" href="{{ asset('/img/385-logo.png') }}">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css">
@@ -59,35 +59,12 @@
                         <div class="row">
                             <div class="col">
 
-                                <p class="fs-4 fw-bold">MEDIATION Hearing Record for Case <u><b>#{{$blotter_report->case_no}}</b></u></p>
+                                <p class="fs-4 fw-bold">Conciliation Hearing Record for Case <u><b>#{{$blotter_report->case_no}}</b></u></p>
                                 <p class="fst-italic">{{$blotter_report->case_title}}</p>
 
                             </div>
                             <div class="col text-right">
                                 <div class="btn-group btn-group-sm" role="group" aria-label="Basic example">
-                                    <a class="btn btn-primary proceed_conciliation" href="{{route('settlement.proceed.conciliation', $blotter_report->case_no)}}">Proceed to CONCILIATION</a>
-                                    <script>
-                                        $('.proceed_conciliation').on('click', function(e) {
-                                            e.preventDefault();
-                                            var self = $(this);
-                                            console.log(self.data('title'));
-                                            Swal.fire({
-                                                title: 'Do you want to proceed the case?',
-                                                showDenyButton: true,
-                                                showCancelButton: true,
-                                                confirmButtonText: 'Yes, proceed.',
-                                                denyButtonText: `No`,
-                                            }).then((result) => {
-                                                /* Read more about isConfirmed, isDenied below */
-                                                if (result.isConfirmed) {
-                                                    Swal.fire('Proceeded to Conciliation!', '', 'success')
-                                                    location.href = self.attr('href');
-                                                } else if (result.isDenied) {
-                                                    Swal.fire('Changes are not saved', '', 'info')
-                                                }
-                                            })
-                                        })
-                                    </script>
                                     <button type="button" class="btn btn-primary">Proceed to ARBITRATION</button>
                                     <button type="button" class="btn btn-danger">File Court Action</button>
                                 </div>
