@@ -3,6 +3,8 @@
 namespace App\Http\Livewire;
 
 use App\Models\Amicable_Settlement;
+use App\Models\Arbitration_Agreement;
+use App\Models\Arbitration_Award;
 use App\Models\Blotter;
 use App\Models\CaseHearing;
 use App\Models\Hearing;
@@ -88,7 +90,7 @@ class SettlementController extends Component
                 $case_hearing->hearing_id = $hearingRecord->hearing_id;
                 $case_hearing->save();
 
-                return redirect('settlement/show-mediation');
+                return redirect('settlement/show-mediation')->with('proceeded', '');
             } else {
                 return redirect()->back();
             }
@@ -115,7 +117,7 @@ class SettlementController extends Component
                 $case_hearing->hearing_id = $hearingRecord->hearing_id;
                 $case_hearing->save();
 
-                return redirect('settlement/show-arbitration');
+                return redirect('settlement/show-arbitration')->with('proceeded', '');
             } else {
                 return redirect()->back();
             }
@@ -127,12 +129,21 @@ class SettlementController extends Component
     public function getMediation(Request $request)
     {
         if ($request->ajax()) {
-            //$data = Blotter::get();
-            $mediation_hearing = Hearing::where('hearing_type_id', 1)->whereNull('settlement_id')->get();
+            $mediation_hearing = array();
             $blotter_report = array();
+            $case_hearing = array();
+            $all_case_hearing = DB::select('SELECT * FROM case_hearings WHERE id IN (SELECT MAX(id) FROM case_hearings GROUP BY case_no)');
+
+            foreach ($all_case_hearing as $ch) {
+                $mediation_hearing[] = Hearing::where('hearing_id', $ch->hearing_id)->where('hearing_type_id', 1)->whereNull('settlement_id')->first();
+            }
             foreach ($mediation_hearing as $mediation) {
-                $case_hearing = CaseHearing::where('hearing_id', $mediation->hearing_id)->first();
-                $blotter_report[] = Blotter::where('case_no', $case_hearing->case_no)->first();
+                if ($mediation) {
+                    $case_hearing[] = CaseHearing::where('hearing_id', $mediation->hearing_id)->first();
+                }
+            }
+            foreach ($case_hearing as $c) {
+                $blotter_report[] = Blotter::where('case_no', $c->case_no)->first();
             }
 
             return Datatables::of($blotter_report)
@@ -180,23 +191,30 @@ class SettlementController extends Component
     public function getConciliation(Request $request)
     {
         if ($request->ajax()) {
-            //$data = Blotter::get();
-            $conciliation_hearing = Hearing::where('hearing_type_id', 2)->whereNull('settlement_id')->get();
+            $conciliation_hearing = array();
             $blotter_report = array();
-            foreach ($conciliation_hearing as $conciliation) {
-                $case_hearing = CaseHearing::where('hearing_id', $conciliation->hearing_id)->first();
-                $blotter_report[] = Blotter::where('case_no', $case_hearing->case_no)->first();
-            }
+            $case_hearing = array();
+            $all_case_hearing = DB::select('SELECT * FROM case_hearings WHERE id IN (SELECT MAX(id) FROM case_hearings GROUP BY case_no)');
 
+            foreach ($all_case_hearing as $ch) {
+                $conciliation_hearing[] = Hearing::where('hearing_id', $ch->hearing_id)->where('hearing_type_id', 2)->whereNull('settlement_id')->first();
+            }
+            foreach ($conciliation_hearing as $conciliation) {
+                if ($conciliation) {
+                    $case_hearing[] = CaseHearing::where('hearing_id', $conciliation->hearing_id)->first();
+                }
+            }
+            foreach ($case_hearing as $c) {
+                $blotter_report[] = Blotter::where('case_no', $c->case_no)->first();
+            }
             return Datatables::of($blotter_report)
                 ->addIndexColumn()
                 ->addColumn('action', function ($row) {
                     //check whether it has PANGKAT CONSTITUTION NOTICE
                     $notice = DB::table('notices')->where('case_no', $row->case_no)->where('notice_type_id', 4)->where('notified', 1)->first();
-                    if($notice){
+                    if ($notice) {
                         $requirementButton = '<a href="conciliation/' . $row->case_no   . '" class="btn btn-primary btn-sm">Go to Hearing</a>';
-                    }
-                    else{
+                    } else {
                         $requirementButton = '<a href="../notice/create/' . $row->case_no   . '" class="btn btn-info btn-sm">Create Notice</a>';
                     }
                     $actionBtn = '<div class="d-grid gap-2">' . $requirementButton  . '<a href="../notice/create/' . $row->case_no   . '" class="btn btn-secondary btn-sm">Add Witness</a><a href="file-court-action/' . $row->case_no   . '" class="btn btn-outline-danger btn-sm">File Court Action</a></div>';
@@ -251,7 +269,6 @@ class SettlementController extends Component
     public function getArbitration(Request $request)
     {
         if ($request->ajax()) {
-            //$data = Blotter::get();
             $arbitration_hearing = Hearing::where('hearing_type_id', 3)->whereNull('award_id')->get();
             $blotter_report = array();
             foreach ($arbitration_hearing as $arbitration) {
@@ -262,7 +279,15 @@ class SettlementController extends Component
             return Datatables::of($blotter_report)
                 ->addIndexColumn()
                 ->addColumn('action', function ($row) {
-                    $actionBtn = '<div class="d-grid gap-2"><a href="mediation/' . $row->case_no   . '" class="btn btn-primary btn-sm">Go to Hearing</a><a href="../notice/create/' . $row->case_no   . '" class="btn btn-secondary btn-sm">Add Witness</a><a href="file-court-action/' . $row->case_no   . '" class="btn btn-outline-danger btn-sm">File Court Action</a></div>';
+                    $case_hearing = DB::table('case_hearings')->where('case_no', $row->case_no)->latest()->first();
+                    //check whether it has ARBITRATION AGREEMENT
+                    $arbitration_agreements = DB::table('arbitration_agreements')->where('hearing_id', $case_hearing->hearing_id)->first();
+                    if ($arbitration_agreements) {
+                        $requirementButton = '<a href="arbitration-award/' . $row->case_no   . '" class="btn btn-primary btn-sm">Go to Hearing</a>';
+                    } else {
+                        $requirementButton = '<a href="arbitration-agreement/' . $row->case_no   . '" class="btn btn-warning btn-sm">Create Arbitration Requirement</a>';
+                    }
+                    $actionBtn = '<div class="d-grid gap-2">' . $requirementButton  . '<a href="../notice/create/' . $row->case_no   . '" class="btn btn-secondary btn-sm">Add Witness</a><a href="file-court-action/' . $row->case_no   . '" class="btn btn-outline-danger btn-sm">File Court Action</a></div>';
                     return $actionBtn;
                 })
                 ->addColumn('complainant', function ($row) {
@@ -296,7 +321,18 @@ class SettlementController extends Component
                     $date_of_meeting = '<span class="badge rounded-pill bg-danger">' . date('F d, Y @ h:i A', strtotime($hearing->date_of_meeting)) . '</span>';
                     return $date_of_meeting;
                 })
-                ->rawColumns(['action', 'complainant', 'respondent', 'witness', 'date_of_meeting'])
+                ->addColumn('arbitration_requirement', function ($row) {
+                    $case_hearing = DB::table('case_hearings')->where('case_no', $row->case_no)->latest()->first();
+                    //check whether it has ARBITRATION AGREEMENT
+                    $arbitration_agreements = DB::table('arbitration_agreements')->where('hearing_id', $case_hearing->hearing_id)->first();
+                    if ($arbitration_agreements) {
+                        $requirement = '<p class="badge rounded-pill bg-primary">-</p>';
+                    } else {
+                        $requirement = '<p class="text-danger fw-bold">Needs Arbitration Agreement</p>';
+                    }
+                    return $requirement;
+                })
+                ->rawColumns(['action', 'complainant', 'respondent', 'witness', 'date_of_meeting', 'arbitration_requirement'])
                 ->make(true);
         }
     }
@@ -440,6 +476,140 @@ class SettlementController extends Component
                 $person_signature->save();
 
                 return redirect('settlement/show-conciliation')->with('success', '');
+            } else {
+
+                return redirect()->back();
+            }
+        } else {
+            return redirect('login');
+        }
+    }
+
+    public function arbitration_agreement($id)
+    {
+        if (Auth::id()) {
+            if (Auth::user()->user_type_id == 1 || 2) {
+                $blotter_report = Blotter::find($id);
+                $case_involved = DB::table('case_involved')->where('case_no', $id)->first();
+                $complainant = DB::table('person')->where('person_id', $case_involved->complainant_id)->first();
+                $respondent = DB::table('person')->where('person_id', $case_involved->respondent_id)->first();
+                $witnesses = DB::table('witnesses')->where('case_no', $id)->get();
+
+                $persons = array();
+                foreach ($witnesses as $witness) {
+                    $persons[] = DB::table('person')->where('person_id', $witness->witness_id)->first();
+                }
+
+                return view('settlement.arbitration_agreement', compact('blotter_report', 'complainant', 'respondent', 'persons'));
+            } else {
+
+                return redirect()->back();
+            }
+        } else {
+            return redirect('login');
+        }
+    }
+
+    public function store_arbitration_agreement($id, Request $request)
+    {
+        if (Auth::id()) {
+            if (Auth::user()->user_type_id == 1 || 2) {
+                $request->validate([
+                    'complainant_sign' => ['nullable', 'mimes:jpg,bmp,jpeg,png', 'max:15000'],
+                    'respondent_sign' => ['nullable', 'mimes:jpg,bmp,jpeg,png', 'max:15000'],
+                    'lupon_sign' => ['nullable', 'mimes:jpg,bmp,jpeg,png', 'max:15000']
+                ], [
+                    // custom error message here if ever meron
+                ]);
+
+                $blotter_report = Blotter::find($id);
+                $case_hearing = CaseHearing::where('case_no', $id)->latest()->first();
+                $case_involved = DB::table('case_involved')->where('case_involved.case_no', '=', $blotter_report->case_no)->first();
+                //$respondent = DB::table('person')->where('person_id', $case_involved->respondent_id)->first();
+
+                $hearing = Hearing::where('hearing_id', $case_hearing->hearing_id)->where('hearing_type_id', 3)->first();
+
+                //making arbitration_agreements record
+                $arbitration_agreements = new Arbitration_Agreement();
+                $arbitration_agreements->hearing_id = $hearing->hearing_id;
+                $arbitration_agreements->date_made = date("Y-m-d H:i:s");
+                $arbitration_agreements->save();
+
+                //saving image - respondent signature lang
+                //$image = $request->file('lupon_sign');
+                //$imageName = time() . '.' . $image->extension();
+                //$image->move(public_path('images'), $imageName);
+
+                //$person_signature = new Person_Signature();
+                //$person_signature->file_address = $imageName;
+                //$person_signature->person_id = $case_involved->respondent_id;
+                //$person_signature->save();
+
+                return redirect('settlement/show-arbitration')->with('proceeded', '');
+            } else {
+
+                return redirect()->back();
+            }
+        } else {
+            return redirect('login');
+        }
+    }
+
+    public function arbitration_award($id)
+    {
+        if (Auth::id()) {
+            if (Auth::user()->user_type_id == 1 || 2) {
+                $blotter_report = Blotter::find($id);
+                $case_involved = DB::table('case_involved')->where('case_no', $id)->first();
+                $complainant = DB::table('person')->where('person_id', $case_involved->complainant_id)->first();
+                $respondent = DB::table('person')->where('person_id', $case_involved->respondent_id)->first();
+                $witnesses = DB::table('witnesses')->where('case_no', $id)->get();
+
+                $persons = array();
+                foreach ($witnesses as $witness) {
+                    $persons[] = DB::table('person')->where('person_id', $witness->witness_id)->first();
+                }
+
+                return view('settlement.arbitration_award', compact('blotter_report', 'complainant', 'respondent', 'persons'));
+            } else {
+
+                return redirect()->back();
+            }
+        } else {
+            return redirect('login');
+        }
+    }
+
+    public function store_arbitration_award($id, Request $request)
+    {
+        if (Auth::id()) {
+            if (Auth::user()->user_type_id == 1 || 2) {
+                $request->validate([
+                    'complainant_sign' => ['nullable', 'mimes:jpg,bmp,jpeg,png', 'max:15000'],
+                    'respondent_sign' => ['nullable', 'mimes:jpg,bmp,jpeg,png', 'max:15000'],
+                ], [
+                    // custom error message here if ever meron
+                ]);
+
+                $blotter_report = Blotter::find($id);
+                $case_hearing = CaseHearing::where('case_no', $id)->latest()->first();
+                $case_involved = DB::table('case_involved')->where('case_involved.case_no', '=', $blotter_report->case_no)->first();
+                //$respondent = DB::table('person')->where('person_id', $case_involved->respondent_id)->first();
+
+                $hearing = Hearing::where('hearing_id', $case_hearing->hearing_id)->where('hearing_type_id', 3)->first();
+
+                //making amicable settlement record
+                $arbitration_award_record = new Arbitration_Award();
+                $arbitration_award_record->date_agreed = date("Y-m-d H:i:s");
+                $arbitration_award_record->award_desc = $request->agreement_desc;
+                $arbitration_award_record->made_by = Auth::user()->id;
+                $arbitration_award_record->save();
+
+                //updating hearings table
+                $hearing->award_id = $arbitration_award_record->award_id;
+                $hearing->save();
+
+                return redirect('settlement/show-arbitration')->with('award_success', '');
             } else {
 
                 return redirect()->back();

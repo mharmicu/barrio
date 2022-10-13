@@ -65,8 +65,30 @@
                             </div>
                             <div class="col text-right">
                                 <div class="btn-group btn-group-sm" role="group" aria-label="Basic example">
-                                    <button type="button" class="btn btn-primary">Proceed to ARBITRATION</button>
-                                    <button type="button" class="btn btn-danger">File Court Action</button>
+                                    <a class="btn btn-primary proceed_arbitration" href="{{route('settlement.proceed.arbitration', $blotter_report->case_no)}}">Proceed to ARBITRATION</a>
+                                    <script>
+                                        $('.proceed_arbitration').on('click', function(e) {
+                                            e.preventDefault();
+                                            var self = $(this);
+                                            console.log(self.data('title'));
+                                            Swal.fire({
+                                                title: 'Do you want to proceed the case?',
+                                                showDenyButton: true,
+                                                showCancelButton: true,
+                                                confirmButtonText: 'Yes, proceed.',
+                                                denyButtonText: `No`,
+                                            }).then((result) => {
+                                                /* Read more about isConfirmed, isDenied below */
+                                                if (result.isConfirmed) {
+                                                    Swal.fire('Proceeded to Arbitration!', '', 'success')
+                                                    location.href = self.attr('href');
+                                                } else if (result.isDenied) {
+                                                    Swal.fire('Changes are not saved', '', 'info')
+                                                }
+                                            })
+                                        })
+                                    </script>
+                                    <a href="{{route('settlement.file-court-action', $blotter_report->case_no)}}"  class="btn btn-danger">File Court Action</a>
                                 </div>
                             </div>
                         </div>

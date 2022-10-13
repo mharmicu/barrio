@@ -37,16 +37,6 @@
             <div class="container-fluid">
 
                 <div class="row d-flex justify-content-center  p-5">
-                    @if(session()->has('success'))
-                    <script>
-                        Swal.fire({
-                            icon: 'success',
-                            title: 'Notice hearing schedule updated successfully',
-                            footer: '<a href="/notice/show">Return to notices</a>'
-                        })
-                    </script>
-                    @endif
-
                     <div class="card p-3 shadow">
                         <form method="post" action="{{route('editHearingSched', $blotter_report->case_no)}}" enctype="multipart/form-data">
                             @csrf
@@ -97,7 +87,7 @@
                                         <p class="fw-bold fst-italic text-primary">Present Hearing Schedule(s)</p>
                                         @forelse ($present_sched as $sched)
                                         <?php
-                                            $strSched = date('F d, Y @ h:iA', strtotime($sched->date_of_meeting)); 
+                                        $strSched = date('F d, Y @ h:iA', strtotime($sched->date_of_meeting));
                                         ?>
 
                                         <p class="fw-normal">{{$strSched}} <b><i>{{$sched->case_title}}</i></b></p>

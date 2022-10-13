@@ -87,6 +87,11 @@ Route::post('settlement/conciliation/store/{id}', [SettlementController::class, 
 
 Route::get('settlement/show-arbitration', [SettlementController::class, 'show_arbitration'])->name('settlement.show.arbitration');
 Route::get('settlement/show-arbitration/list', [SettlementController::class, 'getArbitration'])->name('settlement.arbitration.list');
+Route::get('settlement/arbitration-agreement/{id}', [SettlementController::class, 'arbitration_agreement'])->name('settlement.arbitration_agreement');
+Route::post('settlement/arbitration-agreement/store/{id}', [SettlementController::class, 'store_arbitration_agreement'])->name('settlement.arbitration_agreement.store');
+
+Route::get('settlement/arbitration-award/{id}', [SettlementController::class, 'arbitration_award'])->name('settlement.arbitration_award');
+Route::post('settlement/arbitration-award/store/{id}', [SettlementController::class, 'store_arbitration_award'])->name('settlement.arbitration_award.store');
 
 Route::get('settlement/file-court-action/{id}', [SettlementController::class, 'fileCourtAction'])->name('settlement.file-court-action');
 

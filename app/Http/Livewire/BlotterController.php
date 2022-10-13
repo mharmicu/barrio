@@ -328,6 +328,8 @@ class BlotterController extends Component
                             $amicable_settlement = DB::table('amicable_settlements')->where('settlement_id', $hearing->settlement_id)->first();
                             $agreement = $amicable_settlement->agreement_desc;
                         } elseif ($hearing->award_id) {
+                            $arbitration_awards = DB::table('arbitration_awards')->where('award_id', $hearing->award_id)->first();
+                            $agreement = $arbitration_awards->award_desc;
                         } else {
                             $agreement = "ERROR: NO RECORD???.";
                         }

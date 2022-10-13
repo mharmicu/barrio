@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mediation Settlement</title>
+    <title>Arbitration Agreement</title>
     <link href="../../css/styles.css" rel="stylesheet" />
     <link rel="icon" type="image/png" href="{{ asset('/img/385-logo.png') }}">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css">
@@ -45,73 +45,18 @@
             <div class="container-fluid">
 
                 <div class="row d-flex justify-content-center  p-5">
-                    @if(session()->has('success'))
-                    <script>
-                        Swal.fire({
-                            icon: 'success',
-                            title: 'Amicable Settlement has been created.',
-                            footer: '<a href="/settlement/show-mediation">Return to list of mediations</a>'
-                        })
-                    </script>
-                    @endif
 
                     <div class="card p-3 shadow">
                         <div class="row">
                             <div class="col">
 
-                                <p class="fs-4 fw-bold">MEDIATION Hearing Record for Case <u><b>#{{$blotter_report->case_no}}</b></u></p>
-                                <p class="fst-italic">{{$blotter_report->case_title}}</p>
+                                <p class="fs-4 fw-bold">Agreement for Arbitration</p>
+                                <p class="fst-italic">{{$blotter_report->case_no}}, {{$blotter_report->case_title}}</p>
 
                             </div>
                             <div class="col text-right">
                                 <div class="btn-group btn-group-sm" role="group" aria-label="Basic example">
-                                    <a class="btn btn-primary proceed_conciliation" href="{{route('settlement.proceed.conciliation', $blotter_report->case_no)}}">Proceed to CONCILIATION</a>
-                                    <script>
-                                        $('.proceed_conciliation').on('click', function(e) {
-                                            e.preventDefault();
-                                            var self = $(this);
-                                            console.log(self.data('title'));
-                                            Swal.fire({
-                                                title: 'Do you want to proceed the case?',
-                                                showDenyButton: true,
-                                                showCancelButton: true,
-                                                confirmButtonText: 'Yes, proceed.',
-                                                denyButtonText: `No`,
-                                            }).then((result) => {
-                                                /* Read more about isConfirmed, isDenied below */
-                                                if (result.isConfirmed) {
-                                                    Swal.fire('Proceeded to Conciliation!', '', 'success')
-                                                    location.href = self.attr('href');
-                                                } else if (result.isDenied) {
-                                                    Swal.fire('Changes are not saved', '', 'info')
-                                                }
-                                            })
-                                        })
-                                    </script>
-                                    <a class="btn btn-primary proceed_arbitration" href="{{route('settlement.proceed.arbitration', $blotter_report->case_no)}}">Proceed to ARBITRATION</a>
-                                    <script>
-                                        $('.proceed_arbitration').on('click', function(e) {
-                                            e.preventDefault();
-                                            var self = $(this);
-                                            console.log(self.data('title'));
-                                            Swal.fire({
-                                                title: 'Do you want to proceed the case?',
-                                                showDenyButton: true,
-                                                showCancelButton: true,
-                                                confirmButtonText: 'Yes, proceed.',
-                                                denyButtonText: `No`,
-                                            }).then((result) => {
-                                                /* Read more about isConfirmed, isDenied below */
-                                                if (result.isConfirmed) {
-                                                    Swal.fire('Proceeded to Arbitration!', '', 'success')
-                                                    location.href = self.attr('href');
-                                                } else if (result.isDenied) {
-                                                    Swal.fire('Changes are not saved', '', 'info')
-                                                }
-                                            })
-                                        })
-                                    </script>
-                                    <a href="{{route('settlement.file-court-action', $blotter_report->case_no)}}"  class="btn btn-danger">File Court Action</a>
+                                    <button type="button" class="btn btn-danger">File Court Action</button>
                                 </div>
                             </div>
                         </div>
@@ -146,15 +91,12 @@
                             </div>
                         </div>
 
-                        <form method="post" action="{{route('settlement.mediation.store', $blotter_report->case_no)}}" enctype="multipart/form-data">
+                        <form method="post" action="{{route('settlement.arbitration_agreement.store', $blotter_report->case_no)}}" enctype="multipart/form-data">
                             @csrf
                             <div class="row">
                                 <div class="p-3">
                                     <p class="fw-bold text-primary">Amicable Settlement Agreement</p>
-                                    <textarea class="form-control" id="" placeholder="Agreement description" rows="5" name="agreement_desc" value="asdasda">{{old('agreement_desc')}}</textarea>
-                                    @error('agreement_desc')
-                                    <small id="helpId" class="form-text text-danger">{{$message}}</small>
-                                    @enderror
+                                    <p class="">We hereby agree to submit our dispute for arbitration to the Punong Barangay/Pangkat ng Tagapagsundo and bind ourselves to comply with the award that may be rendered thereon. We have made this agreement freely with a fully understanding of its nature and consequences.</p>
                                 </div>
                             </div>
 
@@ -173,6 +115,23 @@
                                     @enderror
                                 </div>
                             </div>
+
+                            <div class="row mt-5">
+                                <p class="fw-bold text-primary">Attestation</p>
+                                <p class="">I hereby certify that the foregoing Agreement for Arbitration was entered into by the parties freely and voluntarily, after I had explained to them nature and the consequences of such agreement.</p>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-auto mb-3">
+                                    <p class="fw-bold text-primary">Lupon's Signature</p>
+                                    <input type="file" class="form-control shadow-none  @error('lupon_sign') is-invalid @enderror" onchange="previewFile(this)" name="lupon_sign" value="{{old('lupon_sign')}}">
+                                    @error('lupon_sign')
+                                    <small id="helpId" class="form-text text-danger">{{$message}}</small>
+                                    @enderror
+                                </div>
+                            </div>
+
+
 
                             <div class="mb-3 mt-3">
                                 <button type="submit" class="btn btn-primary">Create Settlement</button>

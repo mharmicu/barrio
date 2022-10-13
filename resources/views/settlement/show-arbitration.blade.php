@@ -42,6 +42,22 @@
             <div class="container-fluid">
 
                 <div class="row d-flex justify-content-center  p-5">
+                    @if(session()->has('agreement_arb'))
+                    <script>
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Agreement for Arbitration has been created.'
+                        })
+                    </script>
+                    @endif
+                    @if(session()->has('award_success'))
+                    <script>
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Arbitration Award has been created.'
+                        })
+                    </script>
+                    @endif
                     <div class="card p-3 shadow">
                         <p class="fs-4 fw-bold">Arbitration Hearings</p>
 
@@ -113,8 +129,8 @@
                     name: 'date_of_meeting',
                 },
                 {
-                    data: '',
-                    name: '',
+                    data: 'arbitration_requirement',
+                    name: 'arbitration_requirement',
                 },
                 {
                     data: 'action',

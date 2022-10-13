@@ -117,7 +117,7 @@ class NoticeController extends Component
                 $notice->date_of_meeting = $request->hearing_date . ' ' . $request->hearing_time;
                 $notice->save();
 
-                return back()->with('success', '');
+                return redirect('../notice/show')->with('success', '');
             } else {
                 return redirect()->back();
             }
