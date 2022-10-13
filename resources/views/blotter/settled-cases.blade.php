@@ -102,8 +102,8 @@
                     name: 'status'
                 },
                 {
-                    data: 'date_reported',
-                    name: 'date_reported'
+                    data: 'date_agreed',
+                    name: 'date_agreed'
                 },
                 {
                     data: 'date_of_execution',

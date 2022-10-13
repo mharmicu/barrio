@@ -18,11 +18,11 @@ return new class extends Migration
             $table->string('case_title')->nullable();
             $table->string('complaint_desc')->nullable();
             $table->string('relief_desc')->nullable();
-            $table->dateTime('date_of_incident', $precision = 0);
-            $table->dateTime('date_reported', $precision = 0);
+            $table->dateTime('date_of_incident', $precision = 0)->nullable();
+            $table->dateTime('date_reported', $precision = 0)->nullable();
             $table->bigInteger('processed_by')->unsigned()->nullable();
             $table->boolean('compliance');
-            $table->dateTime('date_of_execution', $precision = 0);
+            $table->dateTime('date_of_execution', $precision = 0)->nullable();
             $table->string('remarks')->nullable();
             $table->timestamps();
 

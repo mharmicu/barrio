@@ -101,7 +101,7 @@
                             </div>
                         </div>
 
-                        <form method="post" action="{{route('settlement.mediation.store', $blotter_report->case_no)}}" enctype="multipart/form-data">
+                        <form method="post" action="{{route('settlement.conciliation.store', $blotter_report->case_no)}}" enctype="multipart/form-data">
                             @csrf
                             <div class="row">
                                 <div class="p-3">

@@ -88,7 +88,7 @@
                                             })
                                         })
                                     </script>
-                                    <button type="button" class="btn btn-primary">Proceed to ARBITRATION</button>
+                                    <a class="btn btn-primary proceed_mediation" href="{{route('settlement.proceed.arbitration', $blotter_report->case_no)}}">Proceed to ARBITRATION</a>
                                     <button type="button" class="btn btn-danger">File Court Action</button>
                                 </div>
                             </div>

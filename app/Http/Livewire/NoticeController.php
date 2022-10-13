@@ -274,36 +274,7 @@ class NoticeController extends Component
             if (Auth::user()->user_type_id == 1) {
                 $notice = Notice::find($id);
 
-                if ($notice->notice_type_id = 4) {
-                    $chk_case_hearing_get = DB::table('case_hearings')->where('case_no', $notice->case_no)->get();
-                    #check if that hearing is conciliation
-                    $chck_hearing_type_con = array();
-                    foreach ($chk_case_hearing_get as $chk) {
-                        $chck_hearing_type_con[] = DB::table('hearings')->where('hearing_id', $chk->hearing_id)->where('hearing_type_id', 2)->first(); 
-                    }
-
-                    if ($chck_hearing_type_con) {
-                        $notice->notified_by = Auth::user()->id;
-                        $notice->notified = 1;
-                        $notice->date_notified = date('Y-m-d H:i:s');
-                        $notice->save();
-
-                        #save the pangkat constitution notice to hearing notices table
-                        $pangkatNotice = Notice::where('case_no', $notice->case_no)->where('notice_type_id', 4)->where('notified', 1)->first();
-
-                        if ($pangkatNotice) {
-                            //$case_hearing = DB::table('case_hearings')->where('case_no', $notice->case_no)->latest()->first();
-                            //$hearingRecord2 = DB::table('hearings')->where('hearing_id', $case_hearing->hearing_id)->first();
-                            #pangkat notices
-                            $hearing_notices = new HearingNotices();
-                            $hearing_notices->notice_id = $pangkatNotice->notice_id;
-                            $hearing_notices->hearing_id = $chck_hearing_type_con[1]->hearing_id;
-                            $hearing_notices->save();
-                        }
-                    } else {
-                        return back()->with('fail_to_notify', '');
-                    }
-                } else {
+                if ($notice->notice_type_id != 4) {
                     $notice->notified_by = Auth::user()->id;
                     $notice->notified = 1;
                     $notice->date_notified = date('Y-m-d H:i:s');
@@ -316,11 +287,8 @@ class NoticeController extends Component
 
                 #check if case hearing exists 
                 $chk_case_hearing = DB::table('case_hearings')->where('case_no', $notice->case_no)->first();
-                #check if that hearing is mediation
-                $chck_hearing_type_med = DB::table('hearings')->where('hearing_id', $chk_case_hearing->hearing_id)->where('hearing_type_id', 1)->first();
 
-
-                if ($hearingNotice && $summonNotice && !$chck_hearing_type_med) {
+                if ($hearingNotice && $summonNotice && !$chk_case_hearing) {
                     $hearingRecord = new Hearing();
                     $hearingRecord->date_of_meeting = $notice->date_of_meeting;
                     $hearingRecord->date_filed = date("Y-m-d H:i:s");
@@ -345,6 +313,37 @@ class NoticeController extends Component
                     $hearing_notices2->notice_id = $summonNotice->notice_id;
                     $hearing_notices2->hearing_id = $hearingRecord->hearing_id;
                     $hearing_notices2->save();
+                }
+
+                if ($notice->notice_type_id == 4) {
+                    $chk_case_hearing_get = DB::table('case_hearings')->where('case_no', $notice->case_no)->get();
+                    #check if that hearing is conciliation
+                    $chck_hearing_type_con = array();
+                    foreach ($chk_case_hearing_get as $chk) {
+                        $chck_hearing_type_con[] = DB::table('hearings')->where('hearing_id', $chk->hearing_id)->where('hearing_type_id', 2)->first();
+                    }
+
+                    if ($chck_hearing_type_con) {
+                        $notice->notified_by = Auth::user()->id;
+                        $notice->notified = 1;
+                        $notice->date_notified = date('Y-m-d H:i:s');
+                        $notice->save();
+
+                        #save the pangkat constitution notice to hearing notices table
+                        $pangkatNotice = Notice::where('case_no', $notice->case_no)->where('notice_type_id', 4)->where('notified', 1)->first();
+
+                        if ($pangkatNotice) {
+                            //$case_hearing = DB::table('case_hearings')->where('case_no', $notice->case_no)->latest()->first();
+                            //$hearingRecord2 = DB::table('hearings')->where('hearing_id', $case_hearing->hearing_id)->first();
+                            #pangkat notices
+                            $hearing_notices = new HearingNotices();
+                            $hearing_notices->notice_id = $pangkatNotice->notice_id;
+                            $hearing_notices->hearing_id = $chck_hearing_type_con[1]->hearing_id;
+                            $hearing_notices->save();
+                        }
+                    } else {
+                        return back()->with('fail_to_notify', '');
+                    }
                 }
 
                 return back()->with('success', '');

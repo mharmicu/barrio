@@ -97,11 +97,38 @@ class SettlementController extends Component
         }
     }
 
+    public function proceed_to_arbitration($id)
+    {
+        if (Auth::id()) {
+            if (Auth::user()->user_type_id == 1 || 2) {
+                $hearingNotice = Notice::where('case_no', $id)->where('notice_type_id', 1)->where('notified', 1)->first();
+                $hearingRecord = new Hearing();
+                $hearingRecord->date_of_meeting = $hearingNotice->date_of_meeting;
+                $hearingRecord->date_filed = date("Y-m-d H:i:s");
+
+                $hearingRecord->hearing_type_id = 3;
+                $hearingRecord->save();
+
+                #case hearing
+                $case_hearing = new CaseHearing();
+                $case_hearing->case_no = $hearingNotice->case_no;
+                $case_hearing->hearing_id = $hearingRecord->hearing_id;
+                $case_hearing->save();
+
+                return redirect('settlement/show-arbitration');
+            } else {
+                return redirect()->back();
+            }
+        } else {
+            return redirect('login');
+        }
+    }
+
     public function getMediation(Request $request)
     {
         if ($request->ajax()) {
             //$data = Blotter::get();
-            $mediation_hearing = Hearing::where('hearing_type_id', 1)->get();
+            $mediation_hearing = Hearing::where('hearing_type_id', 1)->whereNull('settlement_id')->get();
             $blotter_report = array();
             foreach ($mediation_hearing as $mediation) {
                 $case_hearing = CaseHearing::where('hearing_id', $mediation->hearing_id)->first();
@@ -154,7 +181,7 @@ class SettlementController extends Component
     {
         if ($request->ajax()) {
             //$data = Blotter::get();
-            $conciliation_hearing = Hearing::where('hearing_type_id', 2)->get();
+            $conciliation_hearing = Hearing::where('hearing_type_id', 2)->whereNull('settlement_id')->get();
             $blotter_report = array();
             foreach ($conciliation_hearing as $conciliation) {
                 $case_hearing = CaseHearing::where('hearing_id', $conciliation->hearing_id)->first();
@@ -225,7 +252,7 @@ class SettlementController extends Component
     {
         if ($request->ajax()) {
             //$data = Blotter::get();
-            $arbitration_hearing = Hearing::where('hearing_type_id', 3)->get();
+            $arbitration_hearing = Hearing::where('hearing_type_id', 3)->whereNull('award_id')->get();
             $blotter_report = array();
             foreach ($arbitration_hearing as $arbitration) {
                 $case_hearing = CaseHearing::where('hearing_id', $arbitration->hearing_id)->first();
@@ -364,6 +391,55 @@ class SettlementController extends Component
                 }
 
                 return view('settlement.conciliation', compact('blotter_report', 'complainant', 'respondent', 'persons'));
+            } else {
+
+                return redirect()->back();
+            }
+        } else {
+            return redirect('login');
+        }
+    }
+
+    public function store_conciliation($id, Request $request)
+    {
+        if (Auth::id()) {
+            if (Auth::user()->user_type_id == 1 || 2) {
+                $request->validate([
+                    'agreement_desc' => 'required|max:2500|regex:"^[^-]{1}?[^\"\']*$"', //regex for alphanumeric and some special characters and spaces only
+                    'complainant_sign' => ['nullable', 'mimes:jpg,bmp,jpeg,png', 'max:15000'],
+                    'respondent_sign' => ['nullable', 'mimes:jpg,bmp,jpeg,png', 'max:15000']
+                    // niremove ko validation sa image hahaha pag nilagyan ko ayaw masaveeeeeee
+                ], [
+                    // custom error message here if ever meron
+                ]);
+                $blotter_report = Blotter::find($id);
+                $case_hearing = CaseHearing::where('case_no', $id)->latest()->first();
+                $case_involved = DB::table('case_involved')->where('case_involved.case_no', '=', $blotter_report->case_no)->first();
+                //$respondent = DB::table('person')->where('person_id', $case_involved->respondent_id)->first();
+
+                $hearing = Hearing::where('hearing_id', $case_hearing->hearing_id)->where('hearing_type_id', 2)->first();
+
+                //making amicable settlement record
+                $amicable_settlement_record = new Amicable_Settlement();
+                $amicable_settlement_record->date_agreed = date("Y-m-d H:i:s");
+                $amicable_settlement_record->agreement_desc = $request->agreement_desc;
+                $amicable_settlement_record->save();
+
+                //updating hearings table
+                $hearing->settlement_id = $amicable_settlement_record->settlement_id;
+                $hearing->save();
+
+                //saving image - respondent signature lang
+                $image = $request->file('respondent_sign');
+                $imageName = time() . '.' . $image->extension();
+                $image->move(public_path('images'), $imageName);
+
+                $person_signature = new Person_Signature();
+                $person_signature->file_address = $imageName;
+                $person_signature->person_id = $case_involved->respondent_id;
+                $person_signature->save();
+
+                return redirect('settlement/show-conciliation')->with('success', '');
             } else {
 
                 return redirect()->back();

@@ -83,6 +83,7 @@ Route::post('settlement/mediation/store/{id}', [SettlementController::class, 'st
 Route::get('settlement/show-conciliation', [SettlementController::class, 'show_conciliation'])->name('settlement.show.conciliation');
 Route::get('settlement/show-conciliation/list', [SettlementController::class, 'getConciliation'])->name('settlement.conciliation.list');
 Route::get('settlement/conciliation/{id}', [SettlementController::class, 'conciliation'])->name('settlement.conciliation');
+Route::post('settlement/conciliation/store/{id}', [SettlementController::class, 'store_conciliation'])->name('settlement.conciliation.store');
 
 Route::get('settlement/show-arbitration', [SettlementController::class, 'show_arbitration'])->name('settlement.show.arbitration');
 Route::get('settlement/show-arbitration/list', [SettlementController::class, 'getArbitration'])->name('settlement.arbitration.list');
@@ -91,3 +92,4 @@ Route::get('settlement/file-court-action/{id}', [SettlementController::class, 'f
 
 //PROCEEDS
 Route::get('settlement/proceed/conciliation/{id}', [SettlementController::class, 'proceed_to_conciliation'])->name('settlement.proceed.conciliation');
+Route::get('settlement/proceed/arbitration/{id}', [SettlementController::class, 'proceed_to_arbitration'])->name('settlement.proceed.arbitration');

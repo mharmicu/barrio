@@ -2,6 +2,8 @@
 
 namespace App\Http\Livewire;
 
+use App\Models\Amicable_Settlement;
+use App\Models\Arbitration_Award;
 use App\Models\Blotter;
 use App\Models\Case_Involved;
 use App\Models\CaseHearing;
@@ -70,7 +72,7 @@ class BlotterController extends Component
                 $blotter->date_reported = date("Y-m-d H:i:s");
                 $blotter->processed_by = Auth::user()->id;
                 $blotter->compliance = 0;
-                $blotter->date_of_execution = date("Y-m-d H:i:s");
+                //$blotter->date_of_execution = date("Y-m-d H:i:s");
                 $blotter->remarks = '';
                 $blotter->save();
 
@@ -149,20 +151,20 @@ class BlotterController extends Component
                         $noticeBtn = '<a href="../notice/schedule/' . $row->case_no . '" class="edit btn btn-sm btn-secondary">Set Meeting Schedule</a>';
                     }
                     if ($case_hearing) {
-                        $hearing = Hearing::where('hearing_id', $case_hearing->hearing_id)->where('hearing_type_id', 1)->first();
+                        $hearing = Hearing::where('hearing_id', $case_hearing->hearing_id)->first();
                         $hearing_type = DB::table('hearing_types')->where('hearing_type_id', $hearing->hearing_type_id)->first();
                         switch ($hearing_type->type_name) {
                             case "Mediation":
                                 $hearingBtn = '<div class="d-grid gap-2"><a href="../settlement/mediation/' . $row->case_no   . '" class=" btn btn-warning btn-sm">Hearing</a></div>';
                                 break;
                             case "Conciliation":
-                                $hearingBtn = '<div class="d-grid gap-2"><a href="javascript:void(0)" class=" btn btn-warning btn-sm">Hearing</a></div>';
+                                $hearingBtn = '<div class="d-grid gap-2"><a href="../settlement/conciliation/' . $row->case_no   . '" class=" btn btn-warning btn-sm">Hearing</a></div>';
                                 break;
                             case "Arbitration":
                                 $hearingBtn = '<div class="d-grid gap-2"><a href="javascript:void(0)" class=" btn btn-warning btn-sm">Hearing</a></div>';
                                 break;
                             default:
-                                $hearingBtn = '<div class="d-grid gap-2"><a href="javascript:void(0)" class=" btn btn-warning btn-sm">Hearing</a></div>';
+                                $hearingBtn = '';
                         }
                     } else {
                         $hearingBtn = '';
@@ -288,21 +290,21 @@ class BlotterController extends Component
     public function getSettledCases(Request $request)
     {
         if ($request->ajax()) {
-            //$incident_case = DB::table('incident_case')->select('*')->get();
-            //$incident_case = Incident_Case::latest()->get();
-            //$blotter = Blotter::latest()->get();
             $case_hearing = CaseHearing::all();
-            $blotter_report = array();
             $data = array();
+            $hearings = array();
 
             foreach ($case_hearing as $ch) {
-                $blotter_report[] = DB::table('blotter_report')->where('case_no', $ch->case_no)->first();
+                $hearings[] = DB::table('hearings')->where('hearing_id', $ch->hearing_id)->first();
             }
 
-            foreach ($blotter_report as $br) {
-                $data[] = DB::table('blotter_report')
-                    ->join('incident_case', 'blotter_report.case_no', '=', 'incident_case.case_no')
-                    ->first();
+            foreach ($case_hearing as $key => $value) {
+                if ($hearings[$key]->settlement_id || $hearings[$key]->award_id) {
+                    $data[] = DB::table('blotter_report')
+                        ->join('incident_case', 'blotter_report.case_no', '=', 'incident_case.case_no')
+                        ->where('blotter_report.case_no', $value->case_no)
+                        ->first();
+                }
             }
 
             return Datatables::of($data)
@@ -326,10 +328,6 @@ class BlotterController extends Component
                             $amicable_settlement = DB::table('amicable_settlements')->where('settlement_id', $hearing->settlement_id)->first();
                             $agreement = $amicable_settlement->agreement_desc;
                         } elseif ($hearing->award_id) {
-
-
-
-
                         } else {
                             $agreement = "ERROR: NO RECORD???.";
                         }
@@ -341,7 +339,7 @@ class BlotterController extends Component
                 ->addColumn('status', function ($row) {
                     $case_hearing = CaseHearing::where('case_no', $row->case_no)->latest()->first();
                     if ($case_hearing) {
-                        $hearing = Hearing::where('hearing_id', $case_hearing->hearing_id)->where('hearing_type_id', 1)->first();
+                        $hearing = Hearing::where('hearing_id', $case_hearing->hearing_id)->first();
                         $hearing_type = DB::table('hearing_types')->where('hearing_type_id', $hearing->hearing_type_id)->first();
 
                         switch ($hearing_type->type_name) {
@@ -362,8 +360,19 @@ class BlotterController extends Component
                     }
                     return $statusBadge;
                 })
-
-                ->rawColumns(['agreement', 'status', 'compliance', 'action'])
+                ->addColumn('date_agreed', function ($row) {
+                    $case_hearing = CaseHearing::where('case_no', $row->case_no)->latest()->first();
+                    $hearing = Hearing::where('hearing_id', $case_hearing->hearing_id)->first();
+                    if ($hearing->settlement_id) {
+                        $amicable_settlement = Amicable_Settlement::find($hearing->settlement_id)->first();
+                        $strdate = date('F d, Y', strtotime($amicable_settlement->date_agreed));
+                    } else if ($hearing->award_id) {
+                        $arbitration_awards = Arbitration_Award::find($hearing->award_id)->first();
+                        $strdate = date('F d, Y', strtotime($arbitration_awards->date_agreed));
+                    }
+                    return $strdate;
+                })
+                ->rawColumns(['status', 'agreement', 'date_agreed', 'compliance', 'action'])
                 ->make(true);
         }
     }
