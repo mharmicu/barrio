@@ -156,11 +156,11 @@
 
                             <div class="row">
                                 <div class="col-sm-4">
-                                    <p class="fw-bold">Date of Incident: {{$blotter->date_of_incident}}</p>
-                                    <p class="fw-bold">Date Reported: {{$blotter->date_reported}}</p>
+                                    <p class="fw-bold">Date of Incident: {{date('F d, Y', strtotime($blotter->date_of_incident))}}</p>
+                                    <p class="fw-bold">Date Reported: {{date('F d, Y', strtotime($blotter->date_reported))}}</p>
                                 </div>
                                 <div class="col-sm-8">
-                                    <p class="lh-base">This is a long paragraph written to show how the line-height of an element is affected by our utilities. Classes are applied to the element itself or sometimes the parent element. These classes can be customized as needed with our utility API. Lorem ipsum dolor sit amet consectetur adipisicing elit. Debitis perferendis totam dolor non, maxime animi!</p>
+                                    <p class="lh-base">{{$blotter->complaint_desc}}</p>
                                 </div>
                             </div>
 
@@ -178,10 +178,20 @@
                                     <p class="fw-bold">Final Agreement: </p>
                                 </div>
                                 <div class="col-sm-9">
-                                    <p><span class="badge bg-primary">CONCILIATION</span></p>
-                                    <p class="font-weight-normal">Date</p>
-                                    <p class="font-weight-normal">Date</p>
-                                    <p class="lh-base">This is a long paragraph written to show how the line-height of an element is affected by our utilities. Classes are applied to the element itself or sometimes the parent element. These classes can be customized as needed with our utility API. Lorem ipsum dolor sit amet consectetur adipisicing elit. Amet tempora iusto laborum voluptatibus eligendi beatae?</p>
+                                    @if($hearing_type->type_name == "Mediation")
+                                    <p><span class="badge bg-primary text-uppercase">{{$hearing_type->type_name}}</span></p>
+                                    @elseif($hearing_type->type_name == "Conciliation")
+                                    <p><span class="badge bg-warning text-uppercase">{{$hearing_type->type_name}}</span></p>
+                                    @elseif($hearing_type->type_name == "Arbitration")
+                                    <p><span class="badge bg-danger text-uppercase">{{$hearing_type->type_name}}</span></p>
+                                    @endif
+                                    <p class="font-weight-normal">{{date('F d, Y', strtotime($hearing->date_of_meeting))}}</p>
+                                    <p class="font-weight-normal">{{date('F d, Y', strtotime($agreement->date_agreed))}}</p>
+                                    @if($hearing->settlement_id)
+                                    <p class="lh-base">{{$agreement->agreement_desc}}</p>
+                                    @elseif($hearing->award_id)
+                                    <p class="lh-base">{{$agreement->award_desc}}</p>
+                                    @endif
                                 </div>
                             </div>
 

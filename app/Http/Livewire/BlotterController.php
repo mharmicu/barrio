@@ -218,6 +218,15 @@ class BlotterController extends Component
                 $search = request()->query('search');
                 if ($search) {
                     $blotter_report = DB::table('blotter_report')->where('case_no', $search)->get();
+                    $case_hearing = DB::table('case_hearings')->where('case_no', $search)->latest()->first();
+                    $hearing = DB::table('hearings')->where('hearing_id', $case_hearing->hearing_id)->first();
+                    $hearing_type = DB::table('hearing_types')->where('hearing_type_id', $hearing->hearing_type_id)->first();
+                    
+                    if($hearing->settlement_id){
+                        $agreement = DB::table('amicable_settlements')->where('settlement_id', $hearing->settlement_id)->first();
+                    }else if($hearing->award_id){
+                        $agreement = DB::table('arbitration_awards')->where('award_id', $hearing->award_id)->first();
+                    }
 
                     if ($blotter_report->isEmpty()) {
                         return redirect()->back()->with('none', '');
@@ -231,7 +240,7 @@ class BlotterController extends Component
                         $complainant = DB::table('person')->where('person_id', $complainant)->first();
                         $respondent = DB::table('person')->where('person_id', $respondent)->first();
 
-                        return view('blotter.summary', compact('blotter_report', 'complainant', 'respondent'));
+                        return view('blotter.summary', compact('blotter_report', 'complainant', 'respondent', 'hearing', 'hearing_type', 'agreement'));
                     }
                 } else {
                     $blotter_report = DB::table('blotter_report')->where('case_no', $search)->get();
