@@ -42,6 +42,8 @@ Route::get('blotter/settled', [BlotterController::class, 'settledCases'])->name(
 Route::get('blotter/settled/list', [BlotterController::class, 'getSettledCases'])->name('blotter.settled-list');
 Route::get('blotter/summary', [BlotterController::class, 'summary'])->name('blotter.summary');
 Route::get('blotter/summary/complaint/{id}', [BlotterController::class, 'complaintPDF'])->name('complaint.pdf');
+Route::get('blotter/summary/amicable-settlement/{id}', [BlotterController::class, 'amicablePDF'])->name('amicable.pdf');
+Route::get('blotter/summary/arbitration-award/{id}', [BlotterController::class, 'arbitrationPDF'])->name('arbitration.pdf');
 //EDIT BLOTTER
 Route::post('edit-blotter/{id}', [BlotterController::class, 'edit'])->name('editBlotter');
 

@@ -114,16 +114,36 @@
                                                             <p class="fw-bold text-primary">Amicable Settlement Form (KP #16)</p>
                                                         </div>
                                                         <div class="col text-right">
-                                                            <button type="button" class="btn btn-danger">Generate | <span><i class="bi bi-printer-fill"></i></span></button>
+                                                            <a href="{{route('amicable.pdf', $blotter->case_no)}}" class="btn btn-warning " id="amicableBtn">Generate | <span><i class="bi bi-printer-fill"></i></span></a>
                                                         </div>
                                                     </div>
                                                     <hr>
                                                     <div class="row">
                                                         <div class="col">
+                                                            <p class="fw-bold text-primary">Arbitration Award Form (KP #16)</p>
+                                                        </div>
+                                                        <div class="col text-right">
+                                                            <a href="{{route('arbitration.pdf', $blotter->case_no)}}" class="btn btn-danger " id="arbitrationBtn">Generate | <span><i class="bi bi-printer-fill"></i></span></a>
+                                                        </div>
+                                                    </div>
+                                                    <hr>
+                                                    @if($hearing->settlement_id)
+                                                    <script>
+                                                        var element = document.getElementById("arbitrationBtn");
+                                                        element.classList.add("disabled");
+                                                    </script>
+                                                    @elseif($hearing->award_id)
+                                                    <script>
+                                                        var element = document.getElementById("amicableBtn");
+                                                        element.classList.add("disabled");
+                                                    </script>
+                                                    @endif
+                                                    <div class="row">
+                                                        <div class="col">
                                                             <p class="fw-bold text-primary">Certication to FIle Action (KP #20)</p>
                                                         </div>
                                                         <div class="col text-right">
-                                                            <button type="button" class="btn btn-primary">Generate | <span><i class="bi bi-printer-fill"></i></span></button>
+                                                            <a href="" class="btn btn-primary">Generate | <span><i class="bi bi-printer-fill"></i></span></a>
                                                         </div>
                                                     </div>
                                                     <hr>

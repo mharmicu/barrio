@@ -400,9 +400,63 @@ class BlotterController extends Component
                 $complainant = DB::table('person')->where('person_id', $involved->complainant_id)->first();
                 $respondent = DB::table('person')->where('person_id', $involved->respondent_id)->first();
 
-                $pdf = PDF::loadView('blotter.pdf.complaint', compact('blotter_report', 'kp_case', 'complainant', 'respondent'));
+                $pdf = PDF::loadView('blotter.pdf.complaint', compact('blotter_report', 'kp_case', 'complainant', 'respondent'))->setPaper('a4');
                 //return view('blotter.pdf.complaint', compact('blotter_report' ,'kp_case' ,'complainant', 'respondent'));
                 return $pdf->download("Complaint-Form ($id).pdf");
+            } else {
+                return redirect()->back();
+            }
+        } else {
+            return redirect('login');
+        }
+    }
+
+    public function amicablePDF($id)
+    {
+        if (Auth::id()) {
+            if (Auth::user()->user_type_id == 1) {
+                $blotter_report = DB::table('blotter_report')->where('blotter_report.case_no', '=', $id)->first();
+                $incident_case = DB::table('incident_case')->where('case_no', $id)->first();
+                $kp_case = DB::table('kp_cases')->where('kp_cases.article_no', $incident_case->article_no)->first();
+
+                $involved = DB::table('case_involved')->where('case_involved.case_no', $id)->first();
+                $complainant = DB::table('person')->where('person_id', $involved->complainant_id)->first();
+                $respondent = DB::table('person')->where('person_id', $involved->respondent_id)->first();
+
+                $case_hearing = DB::table('case_hearings')->where('case_no', $id)->latest()->first();
+                $hearing = DB::table('hearings')->where('hearing_id', $case_hearing->hearing_id)->first();
+                $amicable_settlement = DB::table('amicable_settlements')->where('settlement_id', $hearing->settlement_id)->first();
+
+                $pdf = PDF::loadView('blotter.pdf.amicable-settlement', compact('blotter_report', 'kp_case', 'complainant', 'respondent', 'amicable_settlement'))->setPaper('a4');
+                //return view('blotter.pdf.amicable-settlement', compact('blotter_report' ,'kp_case' ,'complainant', 'respondent', 'amicable_settlement'));
+                return $pdf->download("Amicable-Settlement-Form ($id).pdf");
+            } else {
+                return redirect()->back();
+            }
+        } else {
+            return redirect('login');
+        }
+    }
+
+    public function arbitrationPDF($id)
+    {
+        if (Auth::id()) {
+            if (Auth::user()->user_type_id == 1) {
+                $blotter_report = DB::table('blotter_report')->where('blotter_report.case_no', '=', $id)->first();
+                $incident_case = DB::table('incident_case')->where('case_no', $id)->first();
+                $kp_case = DB::table('kp_cases')->where('kp_cases.article_no', $incident_case->article_no)->first();
+
+                $involved = DB::table('case_involved')->where('case_involved.case_no', $id)->first();
+                $complainant = DB::table('person')->where('person_id', $involved->complainant_id)->first();
+                $respondent = DB::table('person')->where('person_id', $involved->respondent_id)->first();
+
+                $case_hearing = DB::table('case_hearings')->where('case_no', $id)->latest()->first();
+                $hearing = DB::table('hearings')->where('hearing_id', $case_hearing->hearing_id)->first();
+                $arbitration_award = DB::table('arbitration_awards')->where('award_id', $hearing->award_id)->first();
+
+                $pdf = PDF::loadView('blotter.pdf.arbitration-award', compact('blotter_report', 'kp_case', 'complainant', 'respondent', 'arbitration_award'))->setPaper('a4');
+                //return view('blotter.pdf.arbitration-award', compact('blotter_report' ,'kp_case' ,'complainant', 'respondent', 'arbitration_award'));
+                return $pdf->download("Arbitration-Award-Form ($id).pdf");
             } else {
                 return redirect()->back();
             }
