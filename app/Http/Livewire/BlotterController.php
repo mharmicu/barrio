@@ -7,6 +7,7 @@ use App\Models\Arbitration_Award;
 use App\Models\Blotter;
 use App\Models\Case_Involved;
 use App\Models\CaseHearing;
+use App\Models\CourtAction;
 use App\Models\Hearing;
 use App\Models\Incident_Case;
 use App\Models\Person;
@@ -221,10 +222,10 @@ class BlotterController extends Component
                     $case_hearing = DB::table('case_hearings')->where('case_no', $search)->latest()->first();
                     $hearing = DB::table('hearings')->where('hearing_id', $case_hearing->hearing_id)->first();
                     $hearing_type = DB::table('hearing_types')->where('hearing_type_id', $hearing->hearing_type_id)->first();
-                    
-                    if($hearing->settlement_id){
+
+                    if ($hearing->settlement_id) {
                         $agreement = DB::table('amicable_settlements')->where('settlement_id', $hearing->settlement_id)->first();
-                    }else if($hearing->award_id){
+                    } else if ($hearing->award_id) {
                         $agreement = DB::table('arbitration_awards')->where('award_id', $hearing->award_id)->first();
                     }
 
@@ -457,6 +458,67 @@ class BlotterController extends Component
                 $pdf = PDF::loadView('blotter.pdf.arbitration-award', compact('blotter_report', 'kp_case', 'complainant', 'respondent', 'arbitration_award'))->setPaper('a4');
                 //return view('blotter.pdf.arbitration-award', compact('blotter_report' ,'kp_case' ,'complainant', 'respondent', 'arbitration_award'));
                 return $pdf->download("Arbitration-Award-Form ($id).pdf");
+            } else {
+                return redirect()->back();
+            }
+        } else {
+            return redirect('login');
+        }
+    }
+
+    public function court_actions()
+    {
+        if (Auth::id()) {
+            if (Auth::user()->user_type_id == 1 || Auth::user()->user_type_id == 2) {
+
+                return view('blotter.court-actions');
+            } else {
+                return redirect()->back();
+            }
+        } else {
+            return redirect('login');
+        }
+    }
+
+    public function getCourtActions(Request $request)
+    {
+        if ($request->ajax()) {
+            $data = CourtAction::get();
+
+            return Datatables::of($data)
+                ->addIndexColumn()
+                ->addColumn('action', function ($row) {
+                    $actionBtn = '<a href="court-actions/pdf/' . $row->case_no  . ' " class="btn btn-danger btn-sm"> <i class="bi bi-download"></i> | Download File Action</a> ';
+                    return $actionBtn;
+                })
+                ->addColumn('case_title', function ($row) {
+                    $case_involved = DB::table('case_involved')->where('case_involved.case_no', $row->case_no)->first();
+                    $respondent = DB::table('person')->where('person_id', $case_involved->respondent_id)->first();
+                    $complainant = DB::table('person')->where('person_id', $case_involved->complainant_id)->first();
+                    $case_title = $complainant->first_name . " " . $complainant->last_name . " vs " . $respondent->first_name . " " . $respondent->last_name;
+                    return  $case_title;
+                })
+                ->rawColumns(['action'])
+                ->make(true);
+        }
+    }
+
+    public function courtActionPDF($id)
+    {
+        if (Auth::id()) {
+            if (Auth::user()->user_type_id == 1) {
+                $blotter_report = DB::table('blotter_report')->where('blotter_report.case_no', '=', $id)->first();
+                $incident_case = DB::table('incident_case')->where('case_no', $id)->first();
+                $kp_case = DB::table('kp_cases')->where('kp_cases.article_no', $incident_case->article_no)->first();
+
+                $involved = DB::table('case_involved')->where('case_involved.case_no', $id)->first();
+                $complainant = DB::table('person')->where('person_id', $involved->complainant_id)->first();
+                $respondent = DB::table('person')->where('person_id', $involved->respondent_id)->first();
+
+                $court_action = CourtAction::where('case_no', $id)->latest()->first();
+                $pdf = PDF::loadView('blotter.pdf.court-action', compact('blotter_report', 'kp_case', 'complainant', 'respondent', 'court_action'))->setPaper('a4');
+                //return view('blotter.pdf.court-action', compact('blotter_report' ,'kp_case' ,'complainant', 'respondent', 'court_action'));
+                return $pdf->download("Certification to File Action - ($id).pdf");
             } else {
                 return redirect()->back();
             }

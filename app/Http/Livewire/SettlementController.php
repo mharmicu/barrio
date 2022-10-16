@@ -7,6 +7,7 @@ use App\Models\Arbitration_Agreement;
 use App\Models\Arbitration_Award;
 use App\Models\Blotter;
 use App\Models\CaseHearing;
+use App\Models\CourtAction;
 use App\Models\Hearing;
 use App\Models\Notice;
 use App\Models\Person_Signature;
@@ -143,7 +144,10 @@ class SettlementController extends Component
                 }
             }
             foreach ($case_hearing as $c) {
-                $blotter_report[] = Blotter::where('case_no', $c->case_no)->first();
+                $court_action = CourtAction::where('case_no', $c->case_no)->first();
+                if (!$court_action) {
+                    $blotter_report[] = Blotter::where('case_no', $c->case_no)->first();
+                }
             }
 
             return Datatables::of($blotter_report)
@@ -205,7 +209,10 @@ class SettlementController extends Component
                 }
             }
             foreach ($case_hearing as $c) {
-                $blotter_report[] = Blotter::where('case_no', $c->case_no)->first();
+                $court_action = CourtAction::where('case_no', $c->case_no)->first();
+                if (!$court_action) {
+                    $blotter_report[] = Blotter::where('case_no', $c->case_no)->first();
+                }
             }
             return Datatables::of($blotter_report)
                 ->addIndexColumn()
@@ -273,7 +280,11 @@ class SettlementController extends Component
             $blotter_report = array();
             foreach ($arbitration_hearing as $arbitration) {
                 $case_hearing = CaseHearing::where('hearing_id', $arbitration->hearing_id)->first();
-                $blotter_report[] = Blotter::where('case_no', $case_hearing->case_no)->first();
+
+                $court_action = CourtAction::where('case_no', $case_hearing->case_no)->first();
+                if (!$court_action) {
+                    $blotter_report[] = Blotter::where('case_no', $case_hearing->case_no)->first();
+                }
             }
 
             return Datatables::of($blotter_report)
@@ -623,7 +634,34 @@ class SettlementController extends Component
     {
         if (Auth::id()) {
             if (Auth::user()->user_type_id == 1 || 2) {
-                return view('settlement.file-court-action');
+                $blotter_report = Blotter::find($id);
+                $case_involved = DB::table('case_involved')->where('case_involved.case_no', $id)->first();
+                $respondent = DB::table('person')->where('person_id', $case_involved->respondent_id)->first();
+                $complainant = DB::table('person')->where('person_id', $case_involved->complainant_id)->first();
+                $case_hearing = CaseHearing::where('case_no', $id)->latest()->first();
+                $hearing = Hearing::where('hearing_id', $case_hearing->hearing_id)->first();
+                $hearing_type = DB::table('hearing_types')->where('hearing_type_id', $hearing->hearing_type_id)->first();
+
+                return view('settlement.file-court-action', compact('blotter_report', 'respondent', 'complainant', 'hearing_type', 'hearing'));
+            } else {
+                return redirect()->back();
+            }
+        } else {
+            return redirect('login');
+        }
+    }
+
+    public function courtActionStore($id)
+    {
+        if (Auth::id()) {
+            if (Auth::user()->user_type_id == 1 || 2) {
+
+                $court_action = new CourtAction();
+                $court_action->date_filed = date("Y-m-d H:i:s");
+                $court_action->case_no = $id;
+                $court_action->save();
+
+                return redirect('../home')->with('filed_court_action', '');
             } else {
                 return redirect()->back();
             }

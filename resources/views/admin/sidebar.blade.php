@@ -55,6 +55,10 @@
                 <a href="{{route('blotter.summary')}}" class="subMenu">Search</a>
                 <hr>
             </li>
+            <li>
+                <a href="{{route('blotter.court-actions')}}" class="subMenu">Court Actions</a>
+                <hr>
+            </li>
         </ul>
         <a class="list-group-item list-group-item-action  p-3 dropdown-toggle" href="#noticesSubMenu" data-bs-toggle="collapse" aria-expanded="false"><i class="bi bi-exclamation-diamond-fill"></i> Notices</a>
         <ul class="collapse" id="noticesSubMenu">

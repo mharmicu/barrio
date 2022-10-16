@@ -140,7 +140,7 @@
                                                     @endif
                                                     <div class="row">
                                                         <div class="col">
-                                                            <p class="fw-bold text-primary">Certication to FIle Action (KP #20)</p>
+                                                            <p class="fw-bold text-primary">Certication to File Action (KP #20)</p>
                                                         </div>
                                                         <div class="col text-right">
                                                             <a href="" class="btn btn-primary">Generate | <span><i class="bi bi-printer-fill"></i></span></a>

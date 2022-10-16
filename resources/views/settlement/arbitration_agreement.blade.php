@@ -56,7 +56,7 @@
                             </div>
                             <div class="col text-right">
                                 <div class="btn-group btn-group-sm" role="group" aria-label="Basic example">
-                                    <button type="button" class="btn btn-danger">File Court Action</button>
+                                    <a href="{{route('settlement.file-court-action', $blotter_report->case_no)}}" class="btn btn-danger">File Court Action</a>
                                 </div>
                             </div>
                         </div>

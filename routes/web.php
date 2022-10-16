@@ -46,7 +46,10 @@ Route::get('blotter/summary/amicable-settlement/{id}', [BlotterController::class
 Route::get('blotter/summary/arbitration-award/{id}', [BlotterController::class, 'arbitrationPDF'])->name('arbitration.pdf');
 //EDIT BLOTTER
 Route::post('edit-blotter/{id}', [BlotterController::class, 'edit'])->name('editBlotter');
-
+//COURT ACTIONS
+Route::get('blotter/court-actions', [BlotterController::class, 'court_actions'])->name('blotter.court-actions');
+Route::get('blotter/court-actions/list', [BlotterController::class, 'getCourtActions'])->name('blotter.court-actions-list');
+Route::get('blotter/court-actions/pdf/{id}', [BlotterController::class, 'courtActionPDF'])->name('court-action.pdf');
 
 //NOTICE MODULE
 Route::get('notice/show', [NoticeController::class, 'show'])->name('notice.show');
@@ -96,6 +99,7 @@ Route::get('settlement/arbitration-award/{id}', [SettlementController::class, 'a
 Route::post('settlement/arbitration-award/store/{id}', [SettlementController::class, 'store_arbitration_award'])->name('settlement.arbitration_award.store');
 
 Route::get('settlement/file-court-action/{id}', [SettlementController::class, 'fileCourtAction'])->name('settlement.file-court-action');
+Route::get('settlement/court-action-store/{id}', [SettlementController::class, 'courtActionStore'])->name('settlement.court-action-store');
 
 //PROCEEDS
 Route::get('settlement/proceed/conciliation/{id}', [SettlementController::class, 'proceed_to_conciliation'])->name('settlement.proceed.conciliation');
