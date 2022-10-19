@@ -82,12 +82,23 @@
             <li>
                 <a href="{{route('settlement.show.conciliation')}}" :active="request()->routeIs('{{route('settlement.show.conciliation')}}')" class="subMenu">Conciliation Hearings</a>
                 <hr>
-            </li><li>
+            </li>
+            <li>
                 <a href="{{route('settlement.show.arbitration')}}" :active="request()->routeIs('{{route('settlement.show.arbitration')}}')" class="subMenu">Arbitration Hearings</a>
                 <hr>
             </li>
         </ul>
-        <a class="list-group-item list-group-item-action  p-3 dropdown-toggle" href="#"><i class="bi bi-person-circle"></i> Accounts</a>
+        <a class="list-group-item list-group-item-action  p-3 dropdown-toggle" href="#accountSubmenu" data-bs-toggle="collapse" aria-expanded="false"><i class="bi bi-person-circle"></i> Accounts</a>
+        <ul class="collapse" id="accountSubmenu">
+            <li>
+                <a href="{{route('notice.show')}}" :active="request()->routeIs('{{route('notice.show')}}')" class="subMenu">Register New Account</a>
+                <hr>
+            </li>
+            <li>
+                <a href="{{route('account.show')}}" class="subMenu">Manage Accounts</a>
+                <hr>
+            </li>
+        </ul>
         <a class="list-group-item list-group-item-action  p-3 dropdown-toggle" href="#"><i class="bi bi-flag-fill"></i> Activity Log</a>
 
     </div>

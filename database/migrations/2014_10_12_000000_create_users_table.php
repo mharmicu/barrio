@@ -20,6 +20,7 @@ return new class extends Migration
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->rememberToken();
+            $table->bigInteger('registered_by')->unsigned()->nullable();
             $table->bigInteger('user_type_id')->unsigned()->nullable();
             $table->bigInteger('position_id')->unsigned()->nullable();
             $table->bigInteger('signature')->unsigned()->nullable();
@@ -32,6 +33,10 @@ return new class extends Migration
             $table->foreign('position_id')->references('id')->on('personnel_position')->onDelete('cascade');
             $table->foreign('signature')->references('id')->on('storage')->onDelete('cascade');
         });
+
+        Schema::table('users', function (Blueprint $table){
+            $table->foreign('registered_by')->references('id')->on('users');
+    });
     }
 
     /**

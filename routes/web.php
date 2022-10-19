@@ -2,9 +2,11 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
+use App\Http\Livewire\AccountController;
 use App\Http\Livewire\BlotterController;
 use App\Http\Livewire\NoticeController;
 use App\Http\Livewire\SettlementController;
+use App\Http\Livewire\UsersController;
 use App\Models\Blotter;
 
 /*
@@ -104,3 +106,8 @@ Route::get('settlement/court-action-store/{id}', [SettlementController::class, '
 //PROCEEDS
 Route::get('settlement/proceed/conciliation/{id}', [SettlementController::class, 'proceed_to_conciliation'])->name('settlement.proceed.conciliation');
 Route::get('settlement/proceed/arbitration/{id}', [SettlementController::class, 'proceed_to_arbitration'])->name('settlement.proceed.arbitration');
+
+//ACCOUNTS
+Route::get('account/manage', [AccountController::class, 'show_users'])->name('account.show');
+Route::get('account/manage/list', [AccountController::class, 'getUsers'])->name('account.list');
+Route::get('account/manage/disable/{id}', [AccountController::class, 'disable'])->name('account.disable');
