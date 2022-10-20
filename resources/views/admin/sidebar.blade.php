@@ -91,7 +91,7 @@
         <a class="list-group-item list-group-item-action  p-3 dropdown-toggle" href="#accountSubmenu" data-bs-toggle="collapse" aria-expanded="false"><i class="bi bi-person-circle"></i> Accounts</a>
         <ul class="collapse" id="accountSubmenu">
             <li>
-                <a href="{{route('notice.show')}}" :active="request()->routeIs('{{route('notice.show')}}')" class="subMenu">Register New Account</a>
+                <a href="{{route('account.register')}}" :active="request()->routeIs('{{route('account.register')}}')" class="subMenu">Register New Account</a>
                 <hr>
             </li>
             <li>

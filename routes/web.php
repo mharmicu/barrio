@@ -111,3 +111,6 @@ Route::get('settlement/proceed/arbitration/{id}', [SettlementController::class, 
 Route::get('account/manage', [AccountController::class, 'show_users'])->name('account.show');
 Route::get('account/manage/list', [AccountController::class, 'getUsers'])->name('account.list');
 Route::get('account/manage/disable/{id}', [AccountController::class, 'disable'])->name('account.disable');
+//REGISTER
+Route::get('account/register', [AccountController::class, 'show_register'])->name('account.register');
+Route::post('account/store', [AccountController::class, 'new_acc'])->name('account.store');

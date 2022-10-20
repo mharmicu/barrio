@@ -45,7 +45,7 @@ class AccountController extends Component
                         $actionBtn = '<span class="text-secondary"> Account disabled</span>';
                         return $actionBtn;
                     } else {
-                        $actionBtn = '<div class="d-grid gap-2"><a href="manage/disable/'.$row->id.'" class="btn btn-danger btn-sm disable_btn">Disable</a></div>';
+                        $actionBtn = '<div class="d-grid gap-2"><a href="manage/disable/' . $row->id . '" class="btn btn-danger btn-sm disable_btn">Disable</a></div>';
                         $confirmationBox = "
                         <script>
                             $('.disable_btn').on('click', function(e) {
@@ -70,7 +70,6 @@ class AccountController extends Component
                         </script>";
                         return $actionBtn . $confirmationBox;
                     }
-                    
                 })
                 ->editColumn('user_type_id', function ($row) {
                     $user_type = DB::table('user_type')->where('id', $row->user_type_id)->first();
@@ -109,6 +108,57 @@ class AccountController extends Component
                 $user->save();
 
                 return back()->with('success', '');
+            } else {
+                return redirect()->back();
+            }
+        } else {
+            return redirect('login');
+        }
+    }
+
+    public function show_register()
+    {
+        if (Auth::id()) {
+            if (Auth::user()->user_type_id == 1 || 2) {
+
+                return view('account.register-acc');
+            } else {
+                return redirect()->back();
+            }
+        } else {
+            return redirect('login');
+        }
+    }
+
+    public function new_acc(Request $request)
+    {
+        if (Auth::id()) {
+            if (Auth::user()->user_type_id == 1 || 2) {
+
+                // validation
+                $request->validate([
+                    'lastname' => 'required|max:255|regex:/^[\pL\s\-]+$/u', //regex for letters, hyphens and spaces only
+                    'firstname' => 'required|max:255|regex:/^[\pL\s\-]+$/u', //regex for letters, hyphens and spaces only
+                    'middlename' => 'required|max:255|regex:/^[\pL\s\-]+$/u', //regex for letters, hyphens and spaces only
+                    'email' => 'required|max:255|email|unique:users|regex:/(.+)@(.+)\.(.+)/i',
+                    'password' => 'required|string|min:8|regex:/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{6,}$/',
+                    'confirm_password' => 'required|string|min:8|regex:/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{6,}$/',
+                ], [
+                    // custom error message here if ever meron
+                    'password.regex' => 'The password is not weak because the password is weak. The password is weak because the validation is strong.',
+                ]);
+
+                $new_acc = new User();
+                $new_acc->name = $request->firstname . " " . $request->middlename . " " . $request->lastname;
+                $new_acc->email = $request->email;
+                $new_acc->password = $request->password;
+                $new_acc->registered_by = Auth::user()->id;
+                $new_acc->user_type_id = $request->user_type;
+                $new_acc->position_id = $request->personnel_position;
+                $new_acc->status = 1;
+                $new_acc->save();
+
+                return redirect('account/manage')->with('new_acc', '');
             } else {
                 return redirect()->back();
             }

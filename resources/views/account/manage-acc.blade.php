@@ -53,6 +53,17 @@
                     </script>
                     @endif
 
+                    @if(session()->has('new_acc'))
+                    <script>
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'New account registered!',
+                            timer: 3000,
+                            timerProgressBar: true,
+                        })
+                    </script>
+                    @endif
+
                     <div class="card p-3 shadow">
                         <p class="fs-4 fw-bold">Manage Registered Accounts</p>
 
@@ -60,6 +71,7 @@
                             <table class="table table-bordered  yajra-datatable">
                                 <thead>
                                     <tr>
+                                        <th>ID</th>
                                         <th>Fullname</th>
                                         <th>Email</th>
                                         <th>Date Registered</th>
@@ -98,7 +110,12 @@
             processing: true,
             serverSide: true,
             ajax: "{{ route('account.list') }}",
-            columns: [{
+            columns: [
+                {
+                    data: 'id',
+                    name: 'id'
+                },
+                {
                     data: 'name',
                     name: 'name'
                 },
