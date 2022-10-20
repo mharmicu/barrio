@@ -166,4 +166,69 @@ class AccountController extends Component
             return redirect('login');
         }
     }
+
+    public function activityLogs_show()
+    {
+        if (Auth::id()) {
+            if (Auth::user()->user_type_id == 1 || 2) {
+
+                return view('activity_log.show');
+            } else {
+                return redirect()->back();
+            }
+        } else {
+            return redirect('login');
+        }
+    }
+
+    public function getActivityLogs(Request $request)
+    {
+        if ($request->ajax()) {
+            $logs = DB::table('activity_log')->orderBy('created_at', 'desc')->get();
+
+            return Datatables::of($logs)
+                ->addIndexColumn()
+                ->editColumn('created_at', function ($row) {
+                    $strdate = date('F d, Y, h:i A', strtotime($row->created_at));
+                    return $strdate;
+                })
+                ->editColumn('causer_id', function ($row) {
+                    $done_by = User::find($row->causer_id);
+                    return $done_by->name;
+                })
+                ->editColumn('properties', function ($row) {
+                    $json_dec = json_decode($row->properties);
+                    $json_enc = json_encode($json_dec, JSON_PRETTY_PRINT);
+
+                    $modal = '<!-- Modal -->
+                    <div class="modal fade" id="propertiesModal'.$row->id.'" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                      <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Properties changed</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                          </div>
+                          <div class="modal-body">
+                          <pre><code>' . $json_enc . '</code></pre>
+                          </div>
+                          <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>';
+
+                    $link = '<a href="" data-bs-toggle="modal" data-bs-target="#propertiesModal'.$row->id.'">Open properties</a>';
+
+                    return $link . $modal;
+                })
+                ->editColumn('log_name', function ($row) {
+                    $log_name = '<span class="badge rounded-pill bg-warning text-dark">'.$row->log_name.'</span>';
+                    return $log_name;
+                })
+
+                ->rawColumns(['properties', 'log_name'])
+                ->make(true);
+        }
+    }
 }

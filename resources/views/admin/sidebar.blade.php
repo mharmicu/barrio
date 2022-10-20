@@ -99,7 +99,7 @@
                 <hr>
             </li>
         </ul>
-        <a class="list-group-item list-group-item-action  p-3 dropdown-toggle" href="#"><i class="bi bi-flag-fill"></i> Activity Log</a>
+        <a class="list-group-item list-group-item-action  p-3 dropdown-toggle" href="{{route('activity_logs.show')}}"><i class="bi bi-flag-fill"></i> Activity Log</a>
 
     </div>
 </div>

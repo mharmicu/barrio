@@ -114,3 +114,6 @@ Route::get('account/manage/disable/{id}', [AccountController::class, 'disable'])
 //REGISTER
 Route::get('account/register', [AccountController::class, 'show_register'])->name('account.register');
 Route::post('account/store', [AccountController::class, 'new_acc'])->name('account.store');
+//ACTIVITY LOGS
+Route::get('activity-log/show', [AccountController::class, 'activityLogs_show'])->name('activity_logs.show');
+Route::get('activity-log/list', [AccountController::class, 'getActivityLogs'])->name('activity_logs.list');
