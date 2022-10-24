@@ -86,7 +86,6 @@
                                             <option selected disabled value="">-</option>
                                             <option value="1" {{ old('user_type') == "1" ? 'selected' : '' }}>Lupon</option>
                                             <option value="2" {{ old('user_type') == "2" ? 'selected' : '' }}>Sangguniang Barangay</option>
-                                            <option value="3" {{ old('user_type') == "3" ? 'selected' : '' }}>Barangay Citizen</option>
                                         </select>
                                     </div>
 
@@ -97,7 +96,6 @@
                                             <option value="1" {{ old('personnel_position') == "1" ? 'selected' : '' }}>Punong Barangay</option>
                                             <option value="2" {{ old('personnel_position') == "2" ? 'selected' : '' }}>Secretary</option>
                                             <option value="3" {{ old('personnel_position') == "3" ? 'selected' : '' }}>Sangguniang Barangay Member</option>
-                                            <option value="4" {{ old('personnel_position') == "4" ? 'selected' : '' }}>Citizen</option>
                                         </select>
                                     </div>
                                 </div>

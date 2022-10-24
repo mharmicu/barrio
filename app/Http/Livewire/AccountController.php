@@ -145,7 +145,7 @@ class AccountController extends Component
                     'confirm_password' => 'required|string|min:8|regex:/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{6,}$/',
                 ], [
                     // custom error message here if ever meron
-                    'password.regex' => 'The password is not weak because the password is weak. The password is weak because the validation is strong.',
+                    'password.regex' => 'The password is weak. Must contain uppercase, lowercase, special character, number and must be 8 characters.',
                 ]);
 
                 $new_acc = new User();
