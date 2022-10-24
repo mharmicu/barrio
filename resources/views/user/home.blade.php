@@ -43,6 +43,11 @@
                         <a class="nav-link" href="#contact">Contact</a>
                     </li>
 
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{route('report')}}">Report</a>
+                    </li>
+                    
+
                     @if(Route::has('login'))
                     @auth
                     <x-app-layout>

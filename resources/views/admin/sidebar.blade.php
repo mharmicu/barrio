@@ -22,15 +22,7 @@
         <a class="list-group-item list-group-item-action  p-3 dropdown-toggle" href="#incidentSubMenu" data-bs-toggle="collapse" aria-expanded="false"><i class="bi bi-file-earmark-text-fill"></i> Incident Report</a>
         <ul class="collapse" id="incidentSubMenu">
             <li>
-                <a href="#" class="subMenu">Home 1</a>
-                <hr>
-            </li>
-            <li>
-                <a href="#" class="subMenu">Home 2</a>
-                <hr>
-            </li>
-            <li>
-                <a href="#" class="subMenu">Home 3</a>
+                <a href="{{ route('user.show') }}" class="subMenu">Display Incident Reports</a>
                 <hr>
             </li>
         </ul>

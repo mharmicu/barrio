@@ -5,6 +5,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Livewire\AccountController;
 use App\Http\Livewire\BlotterController;
 use App\Http\Livewire\NoticeController;
+use App\Http\Livewire\Reports;
 use App\Http\Livewire\SettlementController;
 use App\Http\Livewire\UsersController;
 use App\Models\Blotter;
@@ -34,6 +35,11 @@ Route::middleware([
     })->name('dashboard');
 });
 
+//USER SIDE
+Route::get('user/report', [Reports::class, 'create'])->name('report');
+Route::post('user/report/store', [Reports::class, 'store'])->name('report.store');
+Route::get('user/show', [Reports::class, 'show'])->name('user.show');
+Route::get('user/show/list', [Reports::class, 'getIncidentReports'])->name('report.list');
 
 // ADMIN CONTROLS - BLOTTER
 Route::get('blotter/create', [BlotterController::class, 'create'])->name('blotter.create');
