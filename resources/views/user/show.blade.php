@@ -41,6 +41,16 @@
             <!-- Page content-->
             <div class="container-fluid">
                 <div class="row d-flex justify-content-center mt-5 p-3">
+
+                    @if (session()->has('updated'))
+                    <script>
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Incident Report updated successfully',
+                        })
+                    </script>
+                    @else
+                    @endif
                     <div class="card p-3 shadow">
                         <p class="fs-4 fw-bold">Ongoing Incident Reports</p>
                         <div class="table-responsive">
@@ -53,6 +63,8 @@
                                         <th>Location of Incident</th>
                                         <th>Person/s Involved</th>
                                         <th>Narrative of Incident</th>
+                                        <th>Remarks</th>
+                                        <th>Status</th>
                                         <th>Action</th>
                                     </tr>
                                 </thead>
@@ -103,6 +115,14 @@
                 {
                     data: 'narrative',
                     name: 'narrative'
+                },
+                {
+                    data: 'remarks',
+                    name: 'remarks'
+                },
+                {
+                    data: 'status',
+                    name: 'status'
                 },
                 {
                     data: 'action',

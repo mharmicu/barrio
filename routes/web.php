@@ -40,6 +40,7 @@ Route::get('user/report', [Reports::class, 'create'])->name('report');
 Route::post('user/report/store', [Reports::class, 'store'])->name('report.store');
 Route::get('user/show', [Reports::class, 'show'])->name('user.show');
 Route::get('user/show/list', [Reports::class, 'getIncidentReports'])->name('report.list');
+Route::get('user/report/edit/{id}', [Reports::class, 'edit'])->name('report.update');
 
 // ADMIN CONTROLS - BLOTTER
 Route::get('blotter/create', [BlotterController::class, 'create'])->name('blotter.create');

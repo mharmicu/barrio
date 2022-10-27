@@ -126,7 +126,7 @@
                                                 <div class="mb-3" id="textboxDiv">
 
                                                     <div class="mb-3">
-                                                        <label for="type" class="form-label">Type of Incident</label>
+                                                        <label for="type" class="form-label">Description of Incident</label>
                                                         <select class="form-select shadow-none  @error('type') is-invalid @enderror" name="type" id="type" required>
                                                             <option selected disabled value="">-</option>
                                                             <option value="disorderly conduct" {{ old('type') == "disorderly conduct" ? 'selected' : '' }}>disorderly conduct</option>
