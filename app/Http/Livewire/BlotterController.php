@@ -217,32 +217,48 @@ class BlotterController extends Component
             if (Auth::user()->user_type_id == 1  || Auth::user()->user_type_id == 2) {
 
                 $search = request()->query('search');
+
                 if ($search) {
-                    $blotter_report = Blotter::where('case_no', $search)->get();
-                    $case_hearing = DB::table('case_hearings')->where('case_no', $search)->latest()->first();
-                    $hearing = DB::table('hearings')->where('hearing_id', $case_hearing->hearing_id)->first();
-                    $hearing_type = DB::table('hearing_types')->where('hearing_type_id', $hearing->hearing_type_id)->first();
 
-                    if ($hearing->settlement_id) {
-                        $agreement = DB::table('amicable_settlements')->where('settlement_id', $hearing->settlement_id)->first();
-                    } else if ($hearing->award_id) {
-                        $agreement = DB::table('arbitration_awards')->where('award_id', $hearing->award_id)->first();
-                    }
+                    $checkIfHasCaseHearing = DB::table('case_hearings')->where('case_no', $search)->latest()->first();
 
-                    if ($blotter_report->isEmpty()) {
-                        return redirect()->back()->with('none', '');
-                    } else {
-                        $case_involved = DB::table('case_involved')->where('case_no', $search)->get();
-                        foreach ($case_involved as $involved) {
-                            $complainant = $involved->complainant_id;
-                            $respondent = $involved->respondent_id;
+                    if ($checkIfHasCaseHearing) {
+                        $checkIfHasHearing = DB::table('hearings')->where('hearing_id', $checkIfHasCaseHearing->hearing_id)->first();
+
+                        if ($checkIfHasHearing->settlement_id || $checkIfHasHearing->award_id) {
+
+                            $blotter_report = Blotter::where('case_no', $search)->get();
+                            $case_hearing = DB::table('case_hearings')->where('case_no', $search)->latest()->first();
+                            $hearing = DB::table('hearings')->where('hearing_id', $case_hearing->hearing_id)->first();
+                            $hearing_type = DB::table('hearing_types')->where('hearing_type_id', $hearing->hearing_type_id)->first();
+
+                            if ($hearing->settlement_id) {
+                                $agreement = DB::table('amicable_settlements')->where('settlement_id', $hearing->settlement_id)->first();
+                            } else if ($hearing->award_id) {
+                                $agreement = DB::table('arbitration_awards')->where('award_id', $hearing->award_id)->first();
+                            }
+
+                            if ($blotter_report->isEmpty()) {
+                                return redirect()->back()->with('none', '');
+                            } else {
+                                $case_involved = DB::table('case_involved')->where('case_no', $search)->get();
+                                foreach ($case_involved as $involved) {
+                                    $complainant = $involved->complainant_id;
+                                    $respondent = $involved->respondent_id;
+                                }
+
+                                $complainant = Person::where('person_id', $complainant)->first();
+                                $respondent = Person::where('person_id', $respondent)->first();
+
+                                return view('blotter.summary', compact('blotter_report', 'complainant', 'respondent', 'hearing', 'hearing_type', 'agreement'));
+                            }
+                        } else {
+                            return redirect()->back()->with('no_settlement', '');
                         }
-
-                        $complainant = Person::where('person_id', $complainant)->first();
-                        $respondent = Person::where('person_id', $respondent)->first();
-
-                        return view('blotter.summary', compact('blotter_report', 'complainant', 'respondent', 'hearing', 'hearing_type', 'agreement'));
+                    } else {
+                        return redirect()->back()->with('no_hearing', '');
                     }
+
                 } else {
                     $blotter_report = Blotter::where('case_no', $search)->get();
                     return view('blotter.summary', compact('blotter_report'));

@@ -57,6 +57,26 @@
                     </script>
                     @endif
 
+                    @if(session()->has('no_hearing'))
+                    <script>
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'No Hearing Yet',
+                            footer: '<a href="/blotter/summary">Return to case summary</a>'
+                        })
+                    </script>
+                    @endif
+
+                    @if(session()->has('no_settlement'))
+                    <script>
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Case doesnt have settlement.',
+                            footer: '<a href="/blotter/summary">Return to case summary</a>'
+                        })
+                    </script>
+                    @endif
+
                     <nav aria-label="breadcrumb">
                         <ol class="breadcrumb">
                             <li class="breadcrumb-item">Blotter</li>
