@@ -24,10 +24,15 @@
             <!-- Page content-->
             <div class="container-fluid">
 
-
-
                 <div class="row d-flex justify-content-center mt-4">
                     <div class="col-sm">
+
+                        <nav aria-label="breadcrumb">
+                            <ol class="breadcrumb">
+                                <li class="breadcrumb-item">Blotter</li>
+                                <li class="breadcrumb-item active" aria-current="page">Create</li>
+                            </ol>
+                        </nav>
 
                         <img src="{{ asset('/img/385-logo.png')}}" class="img-fluid rounded mx-auto d-block" alt="..." width="300" height="300">
 

@@ -57,6 +57,13 @@
                     </script>
                     @endif
 
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item">Blotter</li>
+                            <li class="breadcrumb-item active" aria-current="page">Search</li>
+                        </ol>
+                    </nav>
+
                     <h5 class="text-primary">Search for an blotter case report</h5>
 
                     <div class="p-2">

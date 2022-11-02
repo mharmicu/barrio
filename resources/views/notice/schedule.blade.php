@@ -1,5 +1,6 @@
 <?php
-    use Maize\Encryptable\Encryption;
+
+use Maize\Encryptable\Encryption;
 ?>
 
 <!DOCTYPE html>
@@ -41,6 +42,15 @@
             <div class="container-fluid">
 
                 <div class="row d-flex justify-content-center  p-5">
+
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item">Notice</li>
+                            <li class="breadcrumb-item"><a href="{{route('notice.show')}}">Set Schedule & Create Notices</a></li>
+                            <li class="breadcrumb-item active" aria-current="page">Select</li>
+                        </ol>
+                    </nav>
+
                     <div class="card p-3 shadow">
                         <form method="post" action="{{route('editHearingSched', $blotter_report->case_no)}}" enctype="multipart/form-data">
                             @csrf

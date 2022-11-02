@@ -1,4 +1,6 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 
 <!-- Sidebar-->
 <div class="border-end" id="sidebar-wrapper">
@@ -7,7 +9,10 @@
 
         <img src="{{ asset('/img/385-logo.png')}}" width="150" height="150" alt="" class="img-fluid mx-auto d-block">
     </div>
-    <div class="list-group list-group-flush ">
+
+
+
+    <div class="list-group list-group-flush" data-spy="affix" data-offset-top="205">
         <a class="list-group-item list-group-item-action text-warning text-center" href="#!">
             <script>
                 var today = new Date();
@@ -16,18 +21,16 @@
                 document.write(date + ' ' + time);
             </script>
         </a>
-        <a class="list-group-item list-group-item-action  p-3" href="{{route('home')}}"><i class="bi bi-house-door-fill"></i> Dashboard</a>
+
+
+        <br>
+        <span class="fw-bold p-2">ANALYTICS</span>
+        <a class="list-group-item list-group-item-action p-3" href="{{route('home')}}"><i class="bi bi-grid"></i> Dashboard</a>
         <br>
 
-        <a class="list-group-item list-group-item-action  p-3 dropdown-toggle" href="#incidentSubMenu" data-bs-toggle="collapse" aria-expanded="false"><i class="bi bi-file-earmark-text-fill"></i> Incident Report</a>
-        <ul class="collapse" id="incidentSubMenu">
-            <li>
-                <a href="{{ route('user.show') }}" class="subMenu">Display Incident Reports</a>
-                <hr>
-            </li>
-        </ul>
 
-        <a class="list-group-item list-group-item-action  p-3 dropdown-toggle" href="#blotterSubmenu" data-bs-toggle="collapse" aria-expanded="false"><i class="bi bi-archive-fill"></i> Blotter</a>
+        <span class="fw-bold p-2">CONTENT</span>
+        <a class="list-group-item list-group-item-action  p-3 dropdown-toggle" href="#blotterSubmenu" data-bs-toggle="collapse" aria-expanded="false"><i class="bi bi-pen"></i> Blotter</a>
         <ul class="collapse" id="blotterSubmenu">
             @if(Auth::user()->user_type_id == 1)
             <li>
@@ -52,7 +55,9 @@
                 <hr>
             </li>
         </ul>
-        <a class="list-group-item list-group-item-action  p-3 dropdown-toggle" href="#noticesSubMenu" data-bs-toggle="collapse" aria-expanded="false"><i class="bi bi-exclamation-diamond-fill"></i> Notices</a>
+
+
+        <a class="list-group-item list-group-item-action  p-3 dropdown-toggle" href="#noticesSubMenu" data-bs-toggle="collapse" aria-expanded="false"><i class="bi bi-bell"></i> Notices</a>
         <ul class="collapse" id="noticesSubMenu">
             @if(Auth::user()->user_type_id == 1)
             <li>
@@ -65,7 +70,9 @@
                 <hr>
             </li>
         </ul>
-        <a class="list-group-item list-group-item-action  p-3 dropdown-toggle" href="#hearingSubmenu" data-bs-toggle="collapse" aria-expanded="false"><i class="bi bi-file-earmark-person-fill"></i> Hearing Process</a>
+
+
+        <a class="list-group-item list-group-item-action  p-3 dropdown-toggle" href="#hearingSubmenu" data-bs-toggle="collapse" aria-expanded="false"><i class="bi bi-alarm"></i> Hearing Process</a>
         <ul class="collapse" id="hearingSubmenu">
             <li>
                 <a href="{{route('settlement.show.mediation')}}" :active="request()->routeIs('{{route('settlement.show.mediation')}}')" class="subMenu">Mediation Hearings</a>
@@ -80,7 +87,19 @@
                 <hr>
             </li>
         </ul>
-        <a class="list-group-item list-group-item-action  p-3 dropdown-toggle" href="#accountSubmenu" data-bs-toggle="collapse" aria-expanded="false"><i class="bi bi-person-circle"></i> Accounts</a>
+
+        
+        <a class="list-group-item list-group-item-action  p-3 dropdown-toggle" href="#incidentSubMenu" data-bs-toggle="collapse" aria-expanded="false"><i class="bi bi-inboxes"></i> Incident Report</a>
+        <ul class="collapse" id="incidentSubMenu">
+            <li>
+                <a href="{{ route('user.show') }}" class="subMenu">Display Incident Reports</a>
+                <hr>
+            </li>
+        </ul>
+
+        <br>
+        <span class="fw-bold p-2">MANAGEMENT</span>
+        <a class="list-group-item list-group-item-action  p-3 dropdown-toggle" href="#accountSubmenu" data-bs-toggle="collapse" aria-expanded="false"><i class="bi bi-person"></i> Accounts</a>
         <ul class="collapse" id="accountSubmenu">
             <li>
                 <a href="{{route('account.register')}}" :active="request()->routeIs('{{route('account.register')}}')" class="subMenu">Register New Account</a>
@@ -91,7 +110,7 @@
                 <hr>
             </li>
         </ul>
-        <a class="list-group-item list-group-item-action  p-3 dropdown-toggle" href="{{route('activity_logs.show')}}"><i class="bi bi-flag-fill"></i> Activity Log</a>
+        <a class="list-group-item list-group-item-action  p-3 " href="{{route('activity_logs.show')}}"><i class="bi bi-flag"></i> Activity Logs</a>
 
     </div>
 </div>

@@ -45,11 +45,19 @@
             <div class="container-fluid">
 
                 <div class="row d-flex justify-content-center  p-5">
+
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item">Settlement</li>
+                            <li class="breadcrumb-item active" aria-current="page">File Court Action</li>
+                        </ol>
+                    </nav>
+
                     <div class="card p-3 shadow">
                         <p class="fs-4 fw-bold text-danger">File Court Action</p>
                         <p class="fst-italic text-primary">Case #{{$blotter_report->case_no}}, {{$complainant->first_name}} {{$complainant->last_name}} vs. {{$respondent->first_name}} {{$respondent->last_name}}</p>
 
-                        <p class="fw-normal"><b>Latest Hearing: <span class="text-uppercase">{{$hearing_type->type_name}}</span> on {{date('F', strtotime($hearing->date_of_meeting))}} {{date('j', strtotime($hearing->date_of_meeting))}}, {{date('Y', strtotime($hearing->date_of_meeting))}},  {{date('h:i A', strtotime($hearing->date_of_meeting))}}</b></p><br>
+                        <p class="fw-normal"><b>Latest Hearing: <span class="text-uppercase">{{$hearing_type->type_name}}</span> on {{date('F', strtotime($hearing->date_of_meeting))}} {{date('j', strtotime($hearing->date_of_meeting))}}, {{date('Y', strtotime($hearing->date_of_meeting))}}, {{date('h:i A', strtotime($hearing->date_of_meeting))}}</b></p><br>
 
                         <p class="fw-bold text-primary">This is to certify that:</p><br>
                         <p class="lh-1" style="border-bottom: 1px solid grey; padding-bottom:15px">1. There has been a personal confrontation between the parties before the Punong Barangay by mediation failed.</p>
@@ -71,7 +79,7 @@
                             </div>
                         </div>
                         -->
-                        
+
                         <div class="mb-3 mt-3">
                             <a href="{{route('settlement.court-action-store', $blotter_report->case_no)}}" class="btn btn-danger">File Court Action </a>
                         </div>

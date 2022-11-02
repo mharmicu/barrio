@@ -46,6 +46,14 @@
 
                 <div class="row d-flex justify-content-center  p-5">
 
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item">Settlement</li>
+                            <li class="breadcrumb-item"><a href="{{route('settlement.show.arbitration')}}">Arbitrations</a></li>
+                            <li class="breadcrumb-item active" aria-current="page">Agreement</li>
+                        </ol>
+                    </nav>
+
                     <div class="card p-3 shadow">
                         <div class="row">
                             <div class="col">

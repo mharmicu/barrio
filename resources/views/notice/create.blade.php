@@ -98,6 +98,14 @@
                     </script>
                     @endif
 
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item">Notice</li>
+                            <li class="breadcrumb-item"><a href="{{route('notice.show')}}">Set Schedule & Create Notices</a></li>
+                            <li class="breadcrumb-item active" aria-current="page">Create</li>
+                        </ol>
+                    </nav>
+
                     <div class="card p-3 shadow">
                         <p class="fw-bolder text-primary fs-5">Notice of Case <u><i>{{$notice->case_no}}</i></u> </p>
                         <p class="fst-italic text-primary">{{$blotter_report->case_title}}</p>
@@ -201,7 +209,8 @@
                                                 @else
                                                 <b class="text-danger">TO NOTIFY</b>
                                                 @endif
-                                                @endif</td>
+                                                @endif
+                                            </td>
                                             <td><button type="button" class="btn btn-secondary" data-bs-toggle="collapse" data-bs-target="#collapseExample">Create Witness Record <i class="bi bi-caret-down-fill"></i></button></td>
                                         </tr>
                                     </tbody>
@@ -218,7 +227,7 @@
                                         <p class="font-monospace lh-1">{{ $loop->index+1 }}.) {{$person->last_name}}, {{$person->first_name}} {{$person->middle_name}} | <a href="{{route('notice.removeWitness', $person->person_id)}}">Remove this witness</a></p>
                                         @empty
                                         <p class="font-monospace fw-bold">No Witnesses...</b></p>
-                                        
+
                                         @endforelse
                                         <hr>
                                         <form action="{{route('notice.addWitness', $notice->case_no)}}" method="POST" enctype="multipart/form-data">

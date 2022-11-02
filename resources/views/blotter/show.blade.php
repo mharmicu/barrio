@@ -40,6 +40,14 @@
             <!-- Page content-->
             <div class="container-fluid">
                 <div class="row d-flex justify-content-center mt-5">
+
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item">Blotter</li>
+                            <li class="breadcrumb-item active" aria-current="page">Ongoing</li>
+                        </ol>
+                    </nav>
+
                     <p class="fs-4 fw-bold">Ongoing Blotter Cases</p>
                     <div class="table-responsive">
                         <table class="table table-bordered  yajra-datatable">

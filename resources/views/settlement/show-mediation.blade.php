@@ -52,6 +52,13 @@
                     </script>
                     @endif
 
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item">Settlement</li>
+                            <li class="breadcrumb-item active" aria-current="page">Mediations</li>
+                        </ol>
+                    </nav>
+
                     <div class="card p-3 shadow">
                         <p class="fs-4 fw-bold">Mediation Hearings</p>
 

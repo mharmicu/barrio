@@ -40,6 +40,14 @@
             <!-- Page content-->
             <div class="container-fluid">
                 <div class="row d-flex justify-content-center mt-5 p-5">
+
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item">Blotter</li>
+                            <li class="breadcrumb-item active" aria-current="page">Court Actions</li>
+                        </ol>
+                    </nav>
+
                     <div class="card p-3 shadow">
                         <p class="fs-4 fw-bold">Court Action Cases</p>
                         <div class="table-responsive">
