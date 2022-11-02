@@ -41,7 +41,7 @@
             <div class="container-fluid">
                 <div class="row d-flex justify-content-center mt-5 p-5">
                     <div class="card p-3 shadow">
-                        <p class="fs-4 fw-bold">Ongoing Blotter Cases</p>
+                        <p class="fs-4 fw-bold">Court Action Cases</p>
                         <div class="table-responsive">
                             <table class="table table-bordered  yajra-datatable">
                                 <thead>

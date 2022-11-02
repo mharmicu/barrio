@@ -97,6 +97,8 @@
             processing: true,
             serverSide: true,
             ajax: "{{ route('activity_logs.list') }}",
+            order: [[0, 'desc']],
+            
             columns: [
                 {
                     data: 'id',

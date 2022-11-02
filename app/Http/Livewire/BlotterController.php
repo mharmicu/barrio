@@ -218,7 +218,7 @@ class BlotterController extends Component
 
                 $search = request()->query('search');
                 if ($search) {
-                    $blotter_report = DB::table('blotter_report')->where('case_no', $search)->get();
+                    $blotter_report = Blotter::where('case_no', $search)->get();
                     $case_hearing = DB::table('case_hearings')->where('case_no', $search)->latest()->first();
                     $hearing = DB::table('hearings')->where('hearing_id', $case_hearing->hearing_id)->first();
                     $hearing_type = DB::table('hearing_types')->where('hearing_type_id', $hearing->hearing_type_id)->first();
@@ -238,13 +238,13 @@ class BlotterController extends Component
                             $respondent = $involved->respondent_id;
                         }
 
-                        $complainant = DB::table('person')->where('person_id', $complainant)->first();
-                        $respondent = DB::table('person')->where('person_id', $respondent)->first();
+                        $complainant = Person::where('person_id', $complainant)->first();
+                        $respondent = Person::where('person_id', $respondent)->first();
 
                         return view('blotter.summary', compact('blotter_report', 'complainant', 'respondent', 'hearing', 'hearing_type', 'agreement'));
                     }
                 } else {
-                    $blotter_report = DB::table('blotter_report')->where('case_no', $search)->get();
+                    $blotter_report = Blotter::where('case_no', $search)->get();
                     return view('blotter.summary', compact('blotter_report'));
                 }
             } else {
@@ -310,8 +310,7 @@ class BlotterController extends Component
 
             foreach ($case_hearing as $key => $value) {
                 if ($hearings[$key]->settlement_id || $hearings[$key]->award_id) {
-                    $data[] = DB::table('blotter_report')
-                        ->join('incident_case', 'blotter_report.case_no', '=', 'incident_case.case_no')
+                    $data[] = Blotter::join('incident_case', 'blotter_report.case_no', '=', 'incident_case.case_no')
                         ->where('blotter_report.case_no', $value->case_no)
                         ->first();
                 }
@@ -393,13 +392,13 @@ class BlotterController extends Component
     {
         if (Auth::id()) {
             if (Auth::user()->user_type_id == 1) {
-                $blotter_report = DB::table('blotter_report')->where('blotter_report.case_no', '=', $id)->first();
+                $blotter_report = Blotter::where('blotter_report.case_no', '=', $id)->first();
                 $incident_case = DB::table('incident_case')->where('case_no', $id)->first();
                 $kp_case = DB::table('kp_cases')->where('kp_cases.article_no', $incident_case->article_no)->first();
 
                 $involved = DB::table('case_involved')->where('case_involved.case_no', $id)->first();
-                $complainant = DB::table('person')->where('person_id', $involved->complainant_id)->first();
-                $respondent = DB::table('person')->where('person_id', $involved->respondent_id)->first();
+                $complainant = Person::where('person_id', $involved->complainant_id)->first();
+                $respondent = Person::where('person_id', $involved->respondent_id)->first();
 
                 $pdf = PDF::loadView('blotter.pdf.complaint', compact('blotter_report', 'kp_case', 'complainant', 'respondent'))->setPaper('a4');
                 //return view('blotter.pdf.complaint', compact('blotter_report' ,'kp_case' ,'complainant', 'respondent'));
@@ -416,13 +415,13 @@ class BlotterController extends Component
     {
         if (Auth::id()) {
             if (Auth::user()->user_type_id == 1) {
-                $blotter_report = DB::table('blotter_report')->where('blotter_report.case_no', '=', $id)->first();
+                $blotter_report = Blotter::where('blotter_report.case_no', '=', $id)->first();
                 $incident_case = DB::table('incident_case')->where('case_no', $id)->first();
                 $kp_case = DB::table('kp_cases')->where('kp_cases.article_no', $incident_case->article_no)->first();
 
                 $involved = DB::table('case_involved')->where('case_involved.case_no', $id)->first();
-                $complainant = DB::table('person')->where('person_id', $involved->complainant_id)->first();
-                $respondent = DB::table('person')->where('person_id', $involved->respondent_id)->first();
+                $complainant = Person::where('person_id', $involved->complainant_id)->first();
+                $respondent = Person::where('person_id', $involved->respondent_id)->first();
 
                 $case_hearing = DB::table('case_hearings')->where('case_no', $id)->latest()->first();
                 $hearing = DB::table('hearings')->where('hearing_id', $case_hearing->hearing_id)->first();
@@ -443,13 +442,13 @@ class BlotterController extends Component
     {
         if (Auth::id()) {
             if (Auth::user()->user_type_id == 1) {
-                $blotter_report = DB::table('blotter_report')->where('blotter_report.case_no', '=', $id)->first();
+                $blotter_report = Blotter::where('blotter_report.case_no', '=', $id)->first();
                 $incident_case = DB::table('incident_case')->where('case_no', $id)->first();
                 $kp_case = DB::table('kp_cases')->where('kp_cases.article_no', $incident_case->article_no)->first();
 
                 $involved = DB::table('case_involved')->where('case_involved.case_no', $id)->first();
-                $complainant = DB::table('person')->where('person_id', $involved->complainant_id)->first();
-                $respondent = DB::table('person')->where('person_id', $involved->respondent_id)->first();
+                $complainant = Person::where('person_id', $involved->complainant_id)->first();
+                $respondent = Person::where('person_id', $involved->respondent_id)->first();
 
                 $case_hearing = DB::table('case_hearings')->where('case_no', $id)->latest()->first();
                 $hearing = DB::table('hearings')->where('hearing_id', $case_hearing->hearing_id)->first();
@@ -493,8 +492,8 @@ class BlotterController extends Component
                 })
                 ->addColumn('case_title', function ($row) {
                     $case_involved = DB::table('case_involved')->where('case_involved.case_no', $row->case_no)->first();
-                    $respondent = DB::table('person')->where('person_id', $case_involved->respondent_id)->first();
-                    $complainant = DB::table('person')->where('person_id', $case_involved->complainant_id)->first();
+                    $respondent = Person::where('person_id', $case_involved->respondent_id)->first();
+                    $complainant = Person::where('person_id', $case_involved->complainant_id)->first();
                     $case_title = $complainant->first_name . " " . $complainant->last_name . " vs " . $respondent->first_name . " " . $respondent->last_name;
                     return  $case_title;
                 })
@@ -507,13 +506,13 @@ class BlotterController extends Component
     {
         if (Auth::id()) {
             if (Auth::user()->user_type_id == 1) {
-                $blotter_report = DB::table('blotter_report')->where('blotter_report.case_no', '=', $id)->first();
+                $blotter_report = Blotter::where('blotter_report.case_no', '=', $id)->first();
                 $incident_case = DB::table('incident_case')->where('case_no', $id)->first();
                 $kp_case = DB::table('kp_cases')->where('kp_cases.article_no', $incident_case->article_no)->first();
 
                 $involved = DB::table('case_involved')->where('case_involved.case_no', $id)->first();
-                $complainant = DB::table('person')->where('person_id', $involved->complainant_id)->first();
-                $respondent = DB::table('person')->where('person_id', $involved->respondent_id)->first();
+                $complainant = Person::where('person_id', $involved->complainant_id)->first();
+                $respondent = Person::where('person_id', $involved->respondent_id)->first();
 
                 $court_action = CourtAction::where('case_no', $id)->latest()->first();
                 $pdf = PDF::loadView('blotter.pdf.court-action', compact('blotter_report', 'kp_case', 'complainant', 'respondent', 'court_action'))->setPaper('a4');

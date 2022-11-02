@@ -316,7 +316,7 @@
                         </div>
                         @endforeach
                     </div>
-                    <div class="mx-auto d-flex justify-content-end p-3">{{ $blotter_report->appends(['search'=>request()->query('search')])->links() }} </div>
+                    <div class="justify-content-end p-3">{{ $blotter_report->appends(['search'=>request()->query('search')])->links() }} </div>
                 </div>
             </div>
         </div>

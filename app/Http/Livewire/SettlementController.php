@@ -10,6 +10,7 @@ use App\Models\CaseHearing;
 use App\Models\CourtAction;
 use App\Models\Hearing;
 use App\Models\Notice;
+use App\Models\Person;
 use App\Models\Person_Signature;
 use Livewire\Component;
 use Illuminate\Support\Facades\Auth;
@@ -158,14 +159,14 @@ class SettlementController extends Component
                 })
                 ->addColumn('complainant', function ($row) {
                     $case_involved = DB::table('case_involved')->where('case_no', $row->case_no)->first();
-                    $complainant = DB::table('person')->where('person_id', $case_involved->complainant_id)->first();
+                    $complainant = Person::where('person_id', $case_involved->complainant_id)->first();
 
                     $comp = '<span class="badge rounded-pill bg-primary">' . $complainant->first_name . ' ' . $complainant->middle_name . ' ' . $complainant->last_name . '</span>';
                     return $comp;
                 })
                 ->addColumn('respondent', function ($row) {
                     $case_involved = DB::table('case_involved')->where('case_no', $row->case_no)->first();
-                    $respondent = DB::table('person')->where('person_id', $case_involved->respondent_id)->first();
+                    $respondent = Person::where('person_id', $case_involved->respondent_id)->first();
 
                     $resp = '<span class="badge rounded-pill bg-primary">' . $respondent->first_name . ' ' . $respondent->middle_name . ' ' . $respondent->last_name . '</span>';
                     return $resp;
@@ -175,7 +176,7 @@ class SettlementController extends Component
                     $persons = array();
                     $names = '';
                     foreach ($witnesses as $key => $value) {
-                        $persons[] = DB::table('person')->where('person_id', $value->witness_id)->first();
+                        $persons[] = Person::where('person_id', $value->witness_id)->first();
                         $names = $names . ' ' . '<span class="badge rounded-pill bg-secondary">' . $persons[$key]->first_name . ' ' . $persons[$key]->middle_name . ' ' . $persons[$key]->last_name . '</span>';
                     }
                     return $names;
@@ -229,14 +230,14 @@ class SettlementController extends Component
                 })
                 ->addColumn('complainant', function ($row) {
                     $case_involved = DB::table('case_involved')->where('case_no', $row->case_no)->first();
-                    $complainant = DB::table('person')->where('person_id', $case_involved->complainant_id)->first();
+                    $complainant = Person::where('person_id', $case_involved->complainant_id)->first();
 
                     $comp = '<span class="badge rounded-pill bg-primary">' . $complainant->first_name . ' ' . $complainant->middle_name . ' ' . $complainant->last_name . '</span>';
                     return $comp;
                 })
                 ->addColumn('respondent', function ($row) {
                     $case_involved = DB::table('case_involved')->where('case_no', $row->case_no)->first();
-                    $respondent = DB::table('person')->where('person_id', $case_involved->respondent_id)->first();
+                    $respondent = Person::where('person_id', $case_involved->respondent_id)->first();
 
                     $resp = '<span class="badge rounded-pill bg-primary">' . $respondent->first_name . ' ' . $respondent->middle_name . ' ' . $respondent->last_name . '</span>';
                     return $resp;
@@ -246,7 +247,7 @@ class SettlementController extends Component
                     $persons = array();
                     $names = '';
                     foreach ($witnesses as $key => $value) {
-                        $persons[] = DB::table('person')->where('person_id', $value->witness_id)->first();
+                        $persons[] = Person::where('person_id', $value->witness_id)->first();
                         $names = $names . ' ' . '<span class="badge rounded-pill bg-secondary">' . $persons[$key]->first_name . ' ' . $persons[$key]->middle_name . ' ' . $persons[$key]->last_name . '</span>';
                     }
                     return $names;
@@ -303,14 +304,14 @@ class SettlementController extends Component
                 })
                 ->addColumn('complainant', function ($row) {
                     $case_involved = DB::table('case_involved')->where('case_no', $row->case_no)->first();
-                    $complainant = DB::table('person')->where('person_id', $case_involved->complainant_id)->first();
+                    $complainant = Person::where('person_id', $case_involved->complainant_id)->first();
 
                     $comp = '<span class="badge rounded-pill bg-primary">' . $complainant->first_name . ' ' . $complainant->middle_name . ' ' . $complainant->last_name . '</span>';
                     return $comp;
                 })
                 ->addColumn('respondent', function ($row) {
                     $case_involved = DB::table('case_involved')->where('case_no', $row->case_no)->first();
-                    $respondent = DB::table('person')->where('person_id', $case_involved->respondent_id)->first();
+                    $respondent = Person::where('person_id', $case_involved->respondent_id)->first();
 
                     $resp = '<span class="badge rounded-pill bg-primary">' . $respondent->first_name . ' ' . $respondent->middle_name . ' ' . $respondent->last_name . '</span>';
                     return $resp;
@@ -320,7 +321,7 @@ class SettlementController extends Component
                     $persons = array();
                     $names = '';
                     foreach ($witnesses as $key => $value) {
-                        $persons[] = DB::table('person')->where('person_id', $value->witness_id)->first();
+                        $persons[] = Person::where('person_id', $value->witness_id)->first();
                         $names = $names . ' ' . '<span class="badge rounded-pill bg-secondary">' . $persons[$key]->first_name . ' ' . $persons[$key]->middle_name . ' ' . $persons[$key]->last_name . '</span>';
                     }
                     return $names;
@@ -354,13 +355,13 @@ class SettlementController extends Component
             if (Auth::user()->user_type_id == 1 || 2) {
                 $blotter_report = Blotter::find($id);
                 $case_involved = DB::table('case_involved')->where('case_no', $id)->first();
-                $complainant = DB::table('person')->where('person_id', $case_involved->complainant_id)->first();
-                $respondent = DB::table('person')->where('person_id', $case_involved->respondent_id)->first();
+                $complainant = Person::where('person_id', $case_involved->complainant_id)->first();
+                $respondent = Person::where('person_id', $case_involved->respondent_id)->first();
                 $witnesses = DB::table('witnesses')->where('case_no', $id)->get();
 
                 $persons = array();
                 foreach ($witnesses as $witness) {
-                    $persons[] = DB::table('person')->where('person_id', $witness->witness_id)->first();
+                    $persons[] = Person::where('person_id', $witness->witness_id)->first();
                 }
 
                 return view('settlement.mediation', compact('blotter_report', 'complainant', 'respondent', 'persons'));
@@ -428,13 +429,13 @@ class SettlementController extends Component
             if (Auth::user()->user_type_id == 1 || 2) {
                 $blotter_report = Blotter::find($id);
                 $case_involved = DB::table('case_involved')->where('case_no', $id)->first();
-                $complainant = DB::table('person')->where('person_id', $case_involved->complainant_id)->first();
-                $respondent = DB::table('person')->where('person_id', $case_involved->respondent_id)->first();
+                $complainant = Person::where('person_id', $case_involved->complainant_id)->first();
+                $respondent = Person::where('person_id', $case_involved->respondent_id)->first();
                 $witnesses = DB::table('witnesses')->where('case_no', $id)->get();
 
                 $persons = array();
                 foreach ($witnesses as $witness) {
-                    $persons[] = DB::table('person')->where('person_id', $witness->witness_id)->first();
+                    $persons[] = Person::where('person_id', $witness->witness_id)->first();
                 }
 
                 return view('settlement.conciliation', compact('blotter_report', 'complainant', 'respondent', 'persons'));
@@ -502,13 +503,13 @@ class SettlementController extends Component
             if (Auth::user()->user_type_id == 1 || 2) {
                 $blotter_report = Blotter::find($id);
                 $case_involved = DB::table('case_involved')->where('case_no', $id)->first();
-                $complainant = DB::table('person')->where('person_id', $case_involved->complainant_id)->first();
-                $respondent = DB::table('person')->where('person_id', $case_involved->respondent_id)->first();
+                $complainant = Person::where('person_id', $case_involved->complainant_id)->first();
+                $respondent = Person::where('person_id', $case_involved->respondent_id)->first();
                 $witnesses = DB::table('witnesses')->where('case_no', $id)->get();
 
                 $persons = array();
                 foreach ($witnesses as $witness) {
-                    $persons[] = DB::table('person')->where('person_id', $witness->witness_id)->first();
+                    $persons[] = Person::where('person_id', $witness->witness_id)->first();
                 }
 
                 return view('settlement.arbitration_agreement', compact('blotter_report', 'complainant', 'respondent', 'persons'));
@@ -572,13 +573,13 @@ class SettlementController extends Component
             if (Auth::user()->user_type_id == 1 || 2) {
                 $blotter_report = Blotter::find($id);
                 $case_involved = DB::table('case_involved')->where('case_no', $id)->first();
-                $complainant = DB::table('person')->where('person_id', $case_involved->complainant_id)->first();
-                $respondent = DB::table('person')->where('person_id', $case_involved->respondent_id)->first();
+                $complainant = Person::where('person_id', $case_involved->complainant_id)->first();
+                $respondent = Person::where('person_id', $case_involved->respondent_id)->first();
                 $witnesses = DB::table('witnesses')->where('case_no', $id)->get();
 
                 $persons = array();
                 foreach ($witnesses as $witness) {
-                    $persons[] = DB::table('person')->where('person_id', $witness->witness_id)->first();
+                    $persons[] = Person::where('person_id', $witness->witness_id)->first();
                 }
 
                 return view('settlement.arbitration_award', compact('blotter_report', 'complainant', 'respondent', 'persons'));
@@ -636,8 +637,8 @@ class SettlementController extends Component
             if (Auth::user()->user_type_id == 1 || 2) {
                 $blotter_report = Blotter::find($id);
                 $case_involved = DB::table('case_involved')->where('case_involved.case_no', $id)->first();
-                $respondent = DB::table('person')->where('person_id', $case_involved->respondent_id)->first();
-                $complainant = DB::table('person')->where('person_id', $case_involved->complainant_id)->first();
+                $respondent = Person::where('person_id', $case_involved->respondent_id)->first();
+                $complainant = Person::where('person_id', $case_involved->complainant_id)->first();
                 $case_hearing = CaseHearing::where('case_no', $id)->latest()->first();
                 $hearing = Hearing::where('hearing_id', $case_hearing->hearing_id)->first();
                 $hearing_type = DB::table('hearing_types')->where('hearing_type_id', $hearing->hearing_type_id)->first();

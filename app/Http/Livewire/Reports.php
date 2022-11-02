@@ -101,7 +101,7 @@ class Reports extends Component
     {
         if ($request->ajax()) {
             //$data = Reports::latest()->get();
-            $data = DB::select('SELECT * FROM reports');
+            $data = Report::latest()->get();
             return Datatables::of($data)
                 ->addIndexColumn()
 

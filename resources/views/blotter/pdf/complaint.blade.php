@@ -28,9 +28,9 @@
         <div class="row">
             <div class="col-2">
                 <u><b>{{$complainant->salutation}} {{$complainant->first_name}} {{$complainant->middle_name}} {{$complainant->last_name}}</b></u><br>
-                Complainant <br> <br> <br>
+                Complainant <br> <br> 
 
-                --- against --- <br><br><br>
+                --- against --- <br><br>
 
                 <u><b>{{$respondent->salutation}} {{$respondent->first_name}} {{$respondent->middle_name}} {{$respondent->last_name}}</b></u><br>
                 Respondent <br><br><br>

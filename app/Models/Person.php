@@ -6,11 +6,25 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\Activitylog\Traits\LogsActivity;
 use Spatie\Activitylog\LogOptions;
+use Maize\Encryptable\Encryptable;
 
 class Person extends Model
 {
     use HasFactory;
     use LogsActivity;
+
+    protected $fillable = [
+        'first_name',
+        'middle_name',
+        'last_name',
+    ];
+
+    protected $casts = [
+        'first_name' => Encryptable::class,
+        'middle_name' => Encryptable::class,
+        'last_name' => Encryptable::class,
+    ];
+
 
     public function getActivitylogOptions(): LogOptions
     {

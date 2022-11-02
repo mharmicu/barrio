@@ -6,11 +6,25 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\Activitylog\Traits\LogsActivity;
 use Spatie\Activitylog\LogOptions;
+use GregoryDuckworth\Encryptable\EncryptableTrait;
+use Maize\Encryptable\Encryptable;
 
 class Blotter extends Model
 {
     use HasFactory;
     use LogsActivity;
+
+    protected $fillable = [
+        'case_title',
+        'complaint_desc',
+        'relief_desc',
+    ];
+
+    protected $casts = [
+        'case_title' => Encryptable::class,
+        'complaint_desc' => Encryptable::class,
+        'relief_desc' => Encryptable::class,
+    ];
 
     public function getActivitylogOptions(): LogOptions
     {

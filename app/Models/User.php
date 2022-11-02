@@ -11,6 +11,7 @@ use Laravel\Jetstream\HasProfilePhoto;
 use Laravel\Sanctum\HasApiTokens;
 use Spatie\Activitylog\Traits\LogsActivity;
 use Spatie\Activitylog\LogOptions;
+use Maize\Encryptable\Encryptable;
 
 class User extends Authenticatable implements MustVerifyEmail
 {
@@ -63,6 +64,8 @@ class User extends Authenticatable implements MustVerifyEmail
      * @var array
      */
     protected $casts = [
+        'name' ,
+        'email' ,
         'email_verified_at' => 'datetime',
     ];
 

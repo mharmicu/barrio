@@ -85,11 +85,15 @@ class NoticeController extends Component
                 $blotter_report = Blotter::find($id);
                 $case_involved = DB::table('case_involved')->where('case_no', $id)->first();
 
-                $complainant = DB::table('person')->where('person_id', $case_involved->complainant_id)->first();
-                $respondent = DB::table('person')->where('person_id', $case_involved->respondent_id)->first();
+                $complainant = Person::where('person_id', $case_involved->complainant_id)->first();
+                $respondent = Person::where('person_id', $case_involved->respondent_id)->first();
                 $distinct_notice = DB::table('notices')->select('case_no')->distinct()->get();
-                $present_sched = Notice::join('blotter_report', 'blotter_report.case_no', '=', 'notices.case_no')->get()->unique('case_no');
-                //dd($distinct_notice);
+                $present_sched = Notice::select('notices.case_no', 'date_of_meeting', 'case_title')
+                    ->distinct('notices.case_no')
+                    ->leftJoin('blotter_report', 'blotter_report.case_no', '=', 'notices.case_no')
+                    ->orderby('date_of_meeting', 'desc')
+                    ->paginate(5);
+                //dd($present_sched);
 
                 return view('notice.schedule', compact('blotter_report', 'complainant', 'respondent', 'present_sched'));
             } else {
@@ -112,10 +116,20 @@ class NoticeController extends Component
                     //custom error message here if ever meron
                 ]);
 
-                $notice = new Notice();
-                $notice->case_no = $id;
-                $notice->date_of_meeting = $request->hearing_date . ' ' . $request->hearing_time;
-                $notice->save();
+                $findNotice = Notice::where('case_no', $id)->first();
+                if ($findNotice) {
+                    $allNotice = Notice::where('case_no', $id)->get();
+                    foreach($allNotice as $not){
+                        $not->date_of_meeting = $request->hearing_date . ' ' . $request->hearing_time;
+                        $not->save();
+                    }
+
+                } else {
+                    $notice = new Notice();
+                    $notice->case_no = $id;
+                    $notice->date_of_meeting = $request->hearing_date . ' ' . $request->hearing_time;
+                    $notice->save();
+                }
 
                 return redirect('../notice/show')->with('success', '');
             } else {
@@ -137,7 +151,7 @@ class NoticeController extends Component
 
                 $persons = array();
                 foreach ($witnesses as $witness) {
-                    $persons[] = DB::table('person')->where('person_id', $witness->witness_id)->first();
+                    $persons[] = Person::where('person_id', $witness->witness_id)->first();
                 }
 
                 foreach ($allnotice as $all) {
@@ -173,12 +187,12 @@ class NoticeController extends Component
                     }
                 }
                 //$blotter_report = Blotter::find($id);
-                $blotter_report = DB::table('blotter_report')->where('blotter_report.case_no', '=', $id)->first();
+                $blotter_report = Blotter::where('blotter_report.case_no', '=', $id)->first();
                 $involved = DB::table('case_involved')->where('case_involved.case_no', '=', $blotter_report->case_no)->first();
                 //$blotter_report = DB::table('blotter_report')->join('case_involved', 'case_involved.case_no', '=', 'blotter_report.case_no')->first();
 
-                $complainant = DB::table('person')->where('person_id', $involved->complainant_id)->first();
-                $respondent = DB::table('person')->where('person_id', $involved->respondent_id)->first();
+                $complainant = Person::where('person_id', $involved->complainant_id)->first();
+                $respondent = Person::where('person_id', $involved->respondent_id)->first();
 
                 return view('notice.create', compact('notice', 'hearing', 'summon', 'constitution', 'subpoena', 'blotter_report', 'complainant', 'respondent', 'persons'));
             } else {
@@ -361,11 +375,11 @@ class NoticeController extends Component
             if (Auth::user()->user_type_id == 1) {
                 $notice = DB::table('notices')->where('notice_id', $id)->first();
 
-                $blotter_report = DB::table('blotter_report')->where('blotter_report.case_no', '=', $notice->case_no)->first();
+                $blotter_report = Blotter::where('blotter_report.case_no', '=', $notice->case_no)->first();
                 $involved = DB::table('case_involved')->where('case_involved.case_no', '=', $blotter_report->case_no)->first();
 
-                $complainant = DB::table('person')->where('person_id', $involved->complainant_id)->first();
-                $respondent = DB::table('person')->where('person_id', $involved->respondent_id)->first();
+                $complainant = Person::where('person_id', $involved->complainant_id)->first();
+                $respondent = Person::where('person_id', $involved->respondent_id)->first();
 
                 $pdf = PDF::loadView('notice.pdf.hearing', compact('notice', 'complainant'));
                 //return view('notice.pdf.hearing', compact('notice', 'complainant'));
@@ -383,14 +397,14 @@ class NoticeController extends Component
         if (Auth::id()) {
             if (Auth::user()->user_type_id == 1) {
                 $notice = DB::table('notices')->where('notice_id', $id)->first();
-                $blotter_report = DB::table('blotter_report')->where('blotter_report.case_no', '=', $notice->case_no)->first();
+                $blotter_report = Blotter::where('blotter_report.case_no', '=', $notice->case_no)->first();
 
                 $incident_case = DB::table('incident_case')->where('case_no', $notice->case_no)->first();
                 $kp_case = DB::table('kp_cases')->where('kp_cases.article_no', $incident_case->article_no)->first();
 
                 $involved = DB::table('case_involved')->where('case_involved.case_no', '=', $blotter_report->case_no)->first();
-                $complainant = DB::table('person')->where('person_id', $involved->complainant_id)->first();
-                $respondent = DB::table('person')->where('person_id', $involved->respondent_id)->first();
+                $complainant = Person::where('person_id', $involved->complainant_id)->first();
+                $respondent = Person::where('person_id', $involved->respondent_id)->first();
 
                 $pdf = PDF::loadView('notice.pdf.summon', compact('notice', 'kp_case', 'complainant', 'respondent'))->setPaper('a4');
                 //return view('notice.pdf.summon', compact('notice', 'kp_case' ,'complainant', 'respondent'));
@@ -410,8 +424,8 @@ class NoticeController extends Component
                 $notice = DB::table('notices')->where('notice_id', $id)->first();
 
                 $involved = DB::table('case_involved')->where('case_involved.case_no', '=', $notice->case_no)->first();
-                $complainant = DB::table('person')->where('person_id', $involved->complainant_id)->first();
-                $respondent = DB::table('person')->where('person_id', $involved->respondent_id)->first();
+                $complainant = Person::where('person_id', $involved->complainant_id)->first();
+                $respondent = Person::where('person_id', $involved->respondent_id)->first();
 
                 $pdf = PDF::loadView('notice.pdf.pangkat', compact('notice', 'complainant', 'respondent'))->setPaper('a4');
                 //return view('notice.pdf.pangkat', compact('notice','complainant', 'respondent'));
@@ -436,8 +450,8 @@ class NoticeController extends Component
                 $notices = array();
                 foreach ($blotter_report as $key => $value) {
                     $case_involved[] = DB::table('case_involved')->where('case_involved.case_no', '=', $value->case_no)->first();
-                    $complainant[] = DB::table('person')->where('person_id', $case_involved[$key]->complainant_id)->first();
-                    $respondent[] = DB::table('person')->where('person_id', $case_involved[$key]->respondent_id)->first();
+                    $complainant[] = Person::where('person_id', $case_involved[$key]->complainant_id)->first();
+                    $respondent[] = Person::where('person_id', $case_involved[$key]->respondent_id)->first();
                     $notices[] = DB::table('notices')->where('case_no', $value->case_no)->get();
                 }
 
@@ -512,20 +526,20 @@ class NoticeController extends Component
         if (Auth::id()) {
             if (Auth::user()->user_type_id == 1 || Auth::user()->user_type_id == 2) {
                 $notice = DB::table('notices')->where('notice_id', $id)->first();
-                $blotter_report = DB::table('blotter_report')->where('blotter_report.case_no', $notice->case_no)->first();
+                $blotter_report = Blotter::where('blotter_report.case_no', $notice->case_no)->first();
 
                 $witnesses = DB::table('witnesses')->where('case_no', $notice->case_no)->get();
                 $persons = array();
                 foreach ($witnesses as $witness) {
-                    $persons[] = DB::table('person')->where('person_id', $witness->witness_id)->first();
+                    $persons[] = Person::where('person_id', $witness->witness_id)->first();
                 }
 
                 $incident_case = DB::table('incident_case')->where('case_no', $notice->case_no)->first();
                 $kp_case = DB::table('kp_cases')->where('kp_cases.article_no', $incident_case->article_no)->first();
 
                 $involved = DB::table('case_involved')->where('case_involved.case_no', $notice->case_no)->first();
-                $complainant = DB::table('person')->where('person_id', $involved->complainant_id)->first();
-                $respondent = DB::table('person')->where('person_id', $involved->respondent_id)->first();
+                $complainant = Person::where('person_id', $involved->complainant_id)->first();
+                $respondent = Person::where('person_id', $involved->respondent_id)->first();
 
                 $pdf = PDF::loadView('notice.pdf.subpoena', compact('notice', 'kp_case', 'complainant', 'respondent', 'persons'))->setPaper('a4');
                 //return view('notice.pdf.subpoena', compact('notice', 'kp_case' ,'complainant', 'respondent', 'persons'));

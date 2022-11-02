@@ -28,6 +28,13 @@ class Person_Signature extends Model
      * @var string
      */
     protected $table = 'person_signature';
+
+    /**
+     * The primary key associated with the table.
+     *
+     * @var string
+     */
+    protected $primaryKey = 'file_id';
     
     public function blotter()
     {

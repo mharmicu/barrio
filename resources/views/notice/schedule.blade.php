@@ -1,3 +1,7 @@
+<?php
+    use Maize\Encryptable\Encryption;
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -87,16 +91,27 @@
                                         <p class="fw-bold fst-italic text-primary">Present Hearing Schedule(s)</p>
                                         @forelse ($present_sched as $sched)
                                         <?php
+                                        $case_title = Encryption::php()->decrypt($sched->case_title);
+
                                         $strSched = date('F d, Y @ h:iA', strtotime($sched->date_of_meeting));
+                                        $today = date("Y-m-d H:i:s");
                                         ?>
 
-                                        <p class="fw-normal">{{$strSched}} <b><i>{{$sched->case_title}}</i></b></p>
+                                        @if($today > $sched->date_of_meeting)
+                                        <p class="fw-normal text-danger">{{$strSched}} <b><i>{{$sched->case_title}} {{$sched->case_no}}</i></b></p>
                                         <hr>
+                                        @else
+                                        <p class="fw-normal">{{$strSched}} <b><i>{{$case_title}} {{$sched->case_no}}</i></b></p>
+                                        <hr>
+                                        @endif
+
+
 
                                         @empty
                                         <p class="fw-normal">No Present Hearing Schedule</b></p>
                                         <hr>
                                         @endforelse
+                                        {{ $present_sched->onEachSide(2)->links() }}
                                     </div>
                                 </div>
                             </div>

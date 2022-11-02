@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Livewire\Component;
 use Yajra\DataTables\DataTables;
+use Illuminate\Support\Facades\Hash;
 
 class AccountController extends Component
 {
@@ -36,7 +37,7 @@ class AccountController extends Component
     public function getUsers(Request $request)
     {
         if ($request->ajax()) {
-            $users = DB::table('users')->orderBy('id', 'asc')->get();
+            $users = User::orderBy('id', 'asc')->get();
 
             return Datatables::of($users)
                 ->addIndexColumn()
@@ -151,7 +152,7 @@ class AccountController extends Component
                 $new_acc = new User();
                 $new_acc->name = $request->firstname . " " . $request->middlename . " " . $request->lastname;
                 $new_acc->email = $request->email;
-                $new_acc->password = $request->password;
+                $new_acc->password =  Hash::make($request->password); 
                 $new_acc->registered_by = Auth::user()->id;
                 $new_acc->user_type_id = $request->user_type;
                 $new_acc->position_id = $request->personnel_position;
@@ -184,7 +185,7 @@ class AccountController extends Component
     public function getActivityLogs(Request $request)
     {
         if ($request->ajax()) {
-            $logs = DB::table('activity_log')->orderBy('created_at', 'desc')->get();
+            $logs = DB::table('activity_log')->get();
 
             return Datatables::of($logs)
                 ->addIndexColumn()
