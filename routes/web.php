@@ -124,3 +124,8 @@ Route::post('account/store', [AccountController::class, 'new_acc'])->name('accou
 //ACTIVITY LOGS
 Route::get('activity-log/show', [AccountController::class, 'activityLogs_show'])->name('activity_logs.show');
 Route::get('activity-log/list', [AccountController::class, 'getActivityLogs'])->name('activity_logs.list');
+
+//KP CASE
+Route::get('blotter/kp_case', [BlotterController::class, 'showKPCases'])->name('blotter.kp_case');
+Route::post('blotter/kp_case/edit/{id}', [BlotterController::class, 'editKP'])->name('blotter.editKP');
+Route::post('blotter/kp_case/store', [BlotterController::class, 'addKP'])->name('blotter.addKP');

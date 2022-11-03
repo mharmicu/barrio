@@ -258,7 +258,6 @@ class BlotterController extends Component
                     } else {
                         return redirect()->back()->with('no_hearing', '');
                     }
-
                 } else {
                     $blotter_report = Blotter::where('case_no', $search)->get();
                     return view('blotter.summary', compact('blotter_report'));
@@ -534,6 +533,73 @@ class BlotterController extends Component
                 $pdf = PDF::loadView('blotter.pdf.court-action', compact('blotter_report', 'kp_case', 'complainant', 'respondent', 'court_action'))->setPaper('a4');
                 //return view('blotter.pdf.court-action', compact('blotter_report' ,'kp_case' ,'complainant', 'respondent', 'court_action'));
                 return $pdf->download("Certification to File Action - ($id).pdf");
+            } else {
+                return redirect()->back();
+            }
+        } else {
+            return redirect('login');
+        }
+    }
+
+    public function showKPCases()
+    {
+        if (Auth::id()) {
+            if (Auth::user()->user_type_id == 1 || Auth::user()->user_type_id == 2) {
+
+                $kp_cases = DB::table('kp_cases')->paginate(10);
+
+                return view('blotter.kp_case', compact('kp_cases'));
+            } else {
+                return redirect()->back();
+            }
+        } else {
+            return redirect('login');
+        }
+    }
+
+    public function editKP($id, Request $request)
+    {
+        if (Auth::id()) {
+            if (Auth::user()->user_type_id == 1 || Auth::user()->user_type_id == 2) {
+                // validation
+                $request->validate([
+                    'case_name' => 'required|max:2500|regex:"^[^-]{1}?[^\"\']*$"', //regex for alphanumeric and some special characters and spaces only
+                ], [
+                    // custom error message here if ever meron
+                ]);
+                DB::table('kp_cases')
+                    ->where('article_no', $id)
+                    ->update(['case_name' => $request->case_name]);
+
+                return redirect()->back()->with('kp_updated', '');
+            } else {
+                return redirect()->back();
+            }
+        } else {
+            return redirect('login');
+        }
+    }
+
+    public function addKP(Request $request)
+    {
+        if (Auth::id()) {
+            if (Auth::user()->user_type_id == 1 || Auth::user()->user_type_id == 2) {
+                // validation
+                $request->validate([
+                    'article_no' => 'required|integer',
+                    'case_name' => 'required|max:2500|regex:"^[^-]{1}?[^\"\']*$"', //regex for alphanumeric and some special characters and spaces only
+                ], [
+                    // custom error message here if ever meron
+                ]);
+
+                DB::table('kp_cases')->insert([
+                    'article_no' => $request->article_no,
+                    'case_name' => $request->case_name,
+                    'created_at' => date("Y-m-d H:i:s"),
+                    'updated_at' => date("Y-m-d H:i:s")
+                ]);
+
+                return redirect()->back()->with('kp_added', '');
             } else {
                 return redirect()->back();
             }
