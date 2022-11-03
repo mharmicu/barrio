@@ -110,6 +110,9 @@
                 <hr>
             </li>
         </ul>
+
+        <a class="list-group-item list-group-item-action  p-3 " href="{{route('blotter.kp_case')}}"><i class="bi bi-list-check"></i> KP Cases</a>
+
         <a class="list-group-item list-group-item-action  p-3 " href="{{route('activity_logs.show')}}"><i class="bi bi-flag"></i> Activity Logs</a>
 
     </div>
