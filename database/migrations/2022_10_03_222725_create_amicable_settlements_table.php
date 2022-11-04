@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::create('amicable_settlements', function (Blueprint $table) {
             $table->id('settlement_id');
             $table->dateTime('date_agreed', $precision = 0)->nullable();
-            $table->string('agreement_desc')->nullable();
+            $table->longText('agreement_desc')->nullable();
             $table->timestamps();
         });
     }

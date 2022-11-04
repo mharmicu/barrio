@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('type')->nullable();
             $table->string('location')->nullable();
             $table->string('persons')->nullable();
-            $table->string('narrative')->nullable();
+            $table->longText('narrative')->nullable();
             $table->timestamps();
         });
     }

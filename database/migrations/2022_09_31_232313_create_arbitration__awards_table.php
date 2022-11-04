@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::create('arbitration_awards', function (Blueprint $table) {
             $table->id('award_id');
             $table->dateTime('date_agreed', $precision = 0)->nullable();
-            $table->string('award_desc')->nullable();
+            $table->longText('award_desc')->nullable();
             $table->bigInteger('made_by')->unsigned()->nullable();
             $table->timestamps();
 

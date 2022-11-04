@@ -14,7 +14,7 @@ return new class extends Migration
     public function up()
     {
         Schema::table('reports', function (Blueprint $table) {
-            $table->string('remarks')->nullable();
+            $table->longText('remarks')->nullable();
             $table->string('status')->default('PENDING');
         });
     }

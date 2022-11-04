@@ -153,7 +153,7 @@
                                                                 <option value="Mr." {{ old('salutation') == "Mr." ? 'selected' : '' }}>Mr.</option>
                                                                 <option value="Ms." {{ old('salutation') == "Ms." ? 'selected' : '' }}>Ms.</option>
                                                                 <option value="Mrs." {{ old('salutation') == "Mrs." ? 'selected' : '' }}>Mrs.</option>
-                                                                <option value="">--prefer not to say--</option>
+                                                                <option value=" ">--prefer not to say--</option>
                                                             </select>
                                                         </div>
                                                         <div class="col">
