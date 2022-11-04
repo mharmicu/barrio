@@ -42,11 +42,18 @@ class AccountController extends Component
             return Datatables::of($users)
                 ->addIndexColumn()
                 ->addColumn('action', function ($row) {
+                    if($row->id == Auth::id()){
+                        $actionBtn = '<span class="text-secondary"> Current Account</span>';
+                        return $actionBtn;
+                    }
                     if ($row->status == 0) {
                         $actionBtn = '<span class="text-secondary"> Account disabled</span>';
                         return $actionBtn;
                     } else {
-                        $actionBtn = '<div class="d-grid gap-2"><a href="manage/disable/' . $row->id . '" class="btn btn-danger btn-sm disable_btn">Disable</a></div>';
+                        $actionBtn = '
+                        <a href="manage/disable/' . $row->id . '" class="btn btn-danger btn-sm disable_btn"><i class="bi bi-x-octagon"></i> Disable</a>
+                        <a href="' . route('account.edit', $row->id) . '" class="btn btn-primary btn-sm"><i class="bi bi-pen"></i> Edit</a>
+                        ';
                         $confirmationBox = "
                         <script>
                             $('.disable_btn').on('click', function(e) {
@@ -152,7 +159,7 @@ class AccountController extends Component
                 $new_acc = new User();
                 $new_acc->name = $request->firstname . " " . $request->middlename . " " . $request->lastname;
                 $new_acc->email = $request->email;
-                $new_acc->password =  Hash::make($request->password); 
+                $new_acc->password =  Hash::make($request->password);
                 $new_acc->registered_by = Auth::user()->id;
                 $new_acc->user_type_id = $request->user_type;
                 $new_acc->position_id = $request->personnel_position;
@@ -167,6 +174,45 @@ class AccountController extends Component
             return redirect('login');
         }
     }
+
+
+    public function show_edit($id)
+    {
+        if (Auth::id()) {
+            if (Auth::user()->user_type_id == 1 || 2) {
+
+                $user = User::find($id);
+
+                return view('account.edit-acc', compact('user'));
+            } else {
+                return redirect()->back();
+            }
+        } else {
+            return redirect('login');
+        }
+    }
+
+    public function store_edit($id, Request $request)
+    {
+        if (Auth::id()) {
+            if (Auth::user()->user_type_id == 1 || 2) {
+
+                $user = User::find($id);
+                $user->user_type_id = $request->user_type;
+                $user->position_id = $request->personnel_position;
+                $user->save();
+
+                return redirect('account/manage')->with('edited', '');
+            } else {
+                return redirect()->back();
+            }
+        } else {
+            return redirect('login');
+        }
+    }
+
+
+
 
     public function activityLogs_show()
     {
@@ -202,7 +248,7 @@ class AccountController extends Component
                     $json_enc = json_encode($json_dec, JSON_PRETTY_PRINT);
 
                     $modal = '<!-- Modal -->
-                    <div class="modal fade" id="propertiesModal'.$row->id.'" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal fade" id="propertiesModal' . $row->id . '" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                       <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
                         <div class="modal-content">
                           <div class="modal-header">
@@ -219,12 +265,12 @@ class AccountController extends Component
                       </div>
                     </div>';
 
-                    $link = '<a href="" data-bs-toggle="modal" data-bs-target="#propertiesModal'.$row->id.'">Open properties</a>';
+                    $link = '<a href="" data-bs-toggle="modal" data-bs-target="#propertiesModal' . $row->id . '">Open properties</a>';
 
                     return $link . $modal;
                 })
                 ->editColumn('log_name', function ($row) {
-                    $log_name = '<span class="badge rounded-pill bg-warning text-dark">'.$row->log_name.'</span>';
+                    $log_name = '<span class="badge rounded-pill bg-warning text-dark">' . $row->log_name . '</span>';
                     return $log_name;
                 })
 

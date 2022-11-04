@@ -64,6 +64,17 @@
                     </script>
                     @endif
 
+                    @if(session()->has('edited'))
+                    <script>
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Account edited!',
+                            timer: 3000,
+                            timerProgressBar: true,
+                        })
+                    </script>
+                    @endif
+
                     <div class="card p-3 shadow">
                         <p class="fs-4 fw-bold">Manage Registered Accounts</p>
 
@@ -143,7 +154,8 @@
                     data: 'action',
                     name: 'action',
                     orderable: true,
-                    searchable: true
+                    searchable: true,
+                    width: '120px'
                 },
             ]
         });

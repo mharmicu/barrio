@@ -38,7 +38,7 @@
             <div class="container-fluid">
 
                 <div class="row d-flex justify-content-center  p-5">
-                    <div class="card p-3 shadow">
+                    <div class="card p-3 shadow w-75">
                         <form method="post" action="{{route('account.store')}}" enctype="multipart/form-data">
                             @csrf
                             <div class="row p-3">
