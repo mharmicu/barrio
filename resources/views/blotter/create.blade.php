@@ -79,8 +79,8 @@
                                                 @csrf
                                                 <div class="mb-3" id="textboxDiv">
                                                     <label for="complainant" class="form-label">Complainant(s)</label>
-                                                    <button type="button" class="btn btn-light btn-sm" id="addComplainant">Add another complainant</button>
-                                                    <!-- <button type="button" class="btn btn-light btn-sm" id="Remove">Remove</button> -->
+                                                    <!-- <button type="button" class="btn btn-light btn-sm" id="addComplainant">Add another complainant</button>
+                                                    <button type="button" class="btn btn-light btn-sm" id="Remove">Remove</button> -->
                                                     <div class="row">
                                                         <div class="col-sm-1 mb-1">
                                                             <select class="form-select shadow-none  @error('salutation') is-invalid @enderror" name="salutation" id="salutation" required>
@@ -144,8 +144,8 @@
 
                                                 <div class="mb-3" id="textboxDiv">
                                                     <label for="respondent" class="form-label">Respondent(s)</label>
-                                                    <button type="button" class="btn btn-light btn-sm" id="addComplainant">Add another respondent</button>
-                                                    <!-- <button type="button" class="btn btn-light btn-sm" id="Remove">Remove</button> -->
+                                                    <!--<button type="button" class="btn btn-light btn-sm" id="addComplainant">Add another respondent</button>
+                                                     <button type="button" class="btn btn-light btn-sm" id="Remove">Remove</button> -->
                                                     <div class="row">
                                                         <div class="col-sm-1 mb-1">
                                                             <select class="form-select shadow-none  @error('salutation_res') is-invalid @enderror" name="salutation_res" id="salutation_res" required>
@@ -153,7 +153,7 @@
                                                                 <option value="Mr." {{ old('salutation') == "Mr." ? 'selected' : '' }}>Mr.</option>
                                                                 <option value="Ms." {{ old('salutation') == "Ms." ? 'selected' : '' }}>Ms.</option>
                                                                 <option value="Mrs." {{ old('salutation') == "Mrs." ? 'selected' : '' }}>Mrs.</option>
-                                                                <option value=" ">--prefer not to say--</option>
+                                                                <option value="">--prefer not to say--</option>
                                                             </select>
                                                         </div>
                                                         <div class="col">
@@ -187,19 +187,29 @@
 
                                                 <div class="mb-3">
                                                     <label for="file" class="form-label">Complainant(s) Digital Signature</label>
-                                                    <input type="file" class="form-control shadow-none  @error('file') is-invalid @enderror" onchange="previewFile(this)" name="file" required>
+                                                    <input type="file" class="form-control shadow-none  @error('file') is-invalid @enderror" onchange="loadFile(event)" name="file" required>
                                                     <img id="previewImg" alt="digital signature" style="max-width:15rem; margin-top:2rem;">
                                                     @error('file')
                                                     <small id="helpId" class="form-text text-danger">{{$message}}</small>
                                                     @enderror
+                                                    <script>
+                                                        var loadFile = function(event) {
+                                                            var previewImg = document.getElementById('previewImg');
+                                                            previewImg.src = URL.createObjectURL(event.target.files[0]);
+                                                            previewImg.onload = function() {
+                                                                URL.revokeObjectURL(previewImg.src) // free memory
+                                                            }
+                                                        };
+                                                    </script>
                                                 </div>
-
+                                                <!--
                                                 <div class="mb-3">
                                                     <div class="form-check form-switch">
                                                         <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault">
                                                         <label class="form-check-label" for="flexSwitchCheckDefault">Signed by the Punong Barangay</label>
                                                     </div>
                                                 </div>
+                                                -->
                                         </div>
 
 

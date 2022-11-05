@@ -47,14 +47,14 @@ class BlotterController extends Component
             if (Auth::user()->user_type_id == 1) {
                 // validation
                 $request->validate([
-                    'salutation' => 'required',
+                    //'salutation' => 'required',
                     'lastname' => 'required|max:255|regex:/^[\pL\s\-]+$/u', //regex for letters, hyphens and spaces only
                     'firstname' => 'required|max:255|regex:/^[\pL\s\-]+$/u', //regex for letters, hyphens and spaces only
                     'middlename' => 'required|max:255|regex:/^[\pL\s\-]+$/u', //regex for letters, hyphens and spaces only
                     'case' => 'required',
                     'complaint_desc' => 'required',
                     'relief_desc' => 'required',
-                    'salutation_res' => 'required',
+                    //'salutation_res' => 'required',
                     'lastname_res' => 'required|max:255|regex:/^[\pL\s\-]+$/u', //regex for letters, hyphens and spaces only
                     'firstname_res' => 'required|max:255|regex:/^[\pL\s\-]+$/u', //regex for letters, hyphens and spaces only
                     'middlename_res' => 'required|max:255|regex:/^[\pL\s\-]+$/u', //regex for letters, hyphens and spaces only
