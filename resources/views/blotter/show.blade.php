@@ -39,7 +39,7 @@
 
             <!-- Page content-->
             <div class="container-fluid">
-                <div class="row d-flex justify-content-center mt-5">
+                <div class="row d-flex justify-content-center mt-5 p-5">
 
                     <nav aria-label="breadcrumb">
                         <ol class="breadcrumb">
@@ -48,25 +48,28 @@
                         </ol>
                     </nav>
 
-                    <p class="fs-4 fw-bold">Ongoing Blotter Cases</p>
-                    <div class="table-responsive">
-                        <table class="table table-bordered  yajra-datatable">
-                            <thead>
-                                <tr>
-                                    <th>Case No.</th>
-                                    <th>Title</th>
-                                    <th>Hearing Status</th>
-                                    <th>Incident Description</th>
-                                    <th>Relief Description</th>
-                                    <th>Date of Incident</th>
-                                    <th>Date Reported</th>
-                                    <th>Action</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                            </tbody>
 
-                        </table>
+                    <div class="card p-3 shadow">
+                        <p class="fs-4 fw-bold">Ongoing Blotter Cases</p>
+                        <div class="table-responsive">
+                            <table class="table table-bordered  yajra-datatable">
+                                <thead>
+                                    <tr>
+                                        <th>Case No.</th>
+                                        <th>Title</th>
+                                        <th>Hearing Status</th>
+                                        <th>Incident Description</th>
+                                        <th>Relief Description</th>
+                                        <th>Date of Incident</th>
+                                        <th>Date Reported</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                </tbody>
+
+                            </table>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -133,7 +136,8 @@
             ajax: "{{ route('blotter.list') }}",
             columns: [{
                     data: 'case_no',
-                    name: 'case_no'
+                    name: 'case_no',
+                    width: '50px'
                 },
                 {
                     data: 'case_title',
@@ -143,7 +147,8 @@
                     data: 'status',
                     name: 'status',
                     orderable: true,
-                    searchable: true
+                    searchable: true,
+                    width: '50px'
                 },
                 {
                     data: 'complaint_desc',

@@ -113,7 +113,7 @@
                             <div class="row">
                                 <div class="p-3">
                                     <p class="fw-bold text-primary">Arbitration Award Agreement</p>
-                                    <textarea class="form-control" id="" placeholder="Agreement description" rows="5" name="agreement_desc" value="asdasda">{{old('agreement_desc')}}</textarea>
+                                    <textarea class="form-control" id="" placeholder="Agreement description" rows="5" name="agreement_desc" value="">{{old('agreement_desc')}}</textarea>
                                     @error('agreement_desc')
                                     <small id="helpId" class="form-text text-danger">{{$message}}</small>
                                     @enderror
@@ -123,16 +123,36 @@
                             <div class="row">
                                 <div class="col-md-auto mb-3">
                                     <p class="fw-bold text-primary">Complainant's Signature</p>
+                                    <!--
                                     <input type="file" class="form-control shadow-none  @error('complainant_sign') is-invalid @enderror" onchange="previewFile(this)" name="complainant_sign" value="{{old('complainant_sign')}}">
                                     @error('complainant_sign')
                                     <small id="helpId" class="form-text text-danger">{{$message}}</small>
                                     @enderror
-                                    <br>
+                                    -->
+
+                                    <div class="mb-3">
+                                        <div class="form-check form-switch">
+                                            <input class="form-check-input" type="checkbox" role="switch" id="complainant_sign_check" required>
+                                            <label class="form-check-label" for="complainant_sign_check">Signed by Complainant</label>
+                                        </div>
+                                    </div>
+
+
+                                    <!--
                                     <p class="fw-bold text-primary">Respondent's Signature</p>
                                     <input type="file" class="form-control shadow-none  @error('respondent_sign') is-invalid @enderror" onchange="previewFile(this)" name="respondent_sign" value="{{old('respondent_sign')}}">
                                     @error('respondent_sign')
                                     <small id="helpId" class="form-text text-danger">{{$message}}</small>
                                     @enderror
+                                    -->
+
+                                    <div class="mb-3">
+                                        <div class="form-check form-switch">
+                                            <input class="form-check-input" type="checkbox" role="switch" id="respondent_sign_check" required>
+                                            <label class="form-check-label" for="respondent_sign_check">Signed by Respondent</label>
+                                        </div>
+                                    </div>
+
                                 </div>
                             </div>
 

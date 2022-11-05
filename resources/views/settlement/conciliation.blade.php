@@ -146,10 +146,18 @@
                             <div class="row">
                                 <div class="col-md-auto mb-3">
                                     <p class="fw-bold text-primary">Complainant's Signature</p>
+                                    <!--
                                     <input type="file" class="form-control shadow-none  @error('complainant_sign') is-invalid @enderror" onchange="previewFile(this)" name="complainant_sign" value="{{old('complainant_sign')}}">
                                     @error('complainant_sign')
                                     <small id="helpId" class="form-text text-danger">{{$message}}</small>
                                     @enderror
+                                    -->
+                                    <div class="mb-3">
+                                        <div class="form-check form-switch">
+                                            <input class="form-check-input" type="checkbox" role="switch" id="complainant_sign_check" required>
+                                            <label class="form-check-label" for="complainant_sign_check">Signed by Complainant</label>
+                                        </div>
+                                    </div>
                                     <br>
                                     <p class="fw-bold text-primary">Respondent's Signature</p>
                                     <input type="file" class="form-control shadow-none  @error('respondent_sign') is-invalid @enderror" onchange="previewFile(this)" name="respondent_sign" value="{{old('respondent_sign')}}">

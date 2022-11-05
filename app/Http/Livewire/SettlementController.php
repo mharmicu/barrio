@@ -380,8 +380,8 @@ class SettlementController extends Component
             if (Auth::user()->user_type_id == 1 || 2) {
                 $request->validate([
                     'agreement_desc' => 'required|max:2500|regex:"^[^-]{1}?[^\"\']*$"', //regex for alphanumeric and some special characters and spaces only
-                    'complainant_sign' => ['nullable', 'mimes:jpg,bmp,jpeg,png', 'max:15000'],
-                    'respondent_sign' => ['nullable', 'mimes:jpg,bmp,jpeg,png', 'max:15000']
+                    //'complainant_sign' => ['nullable', 'mimes:jpg,bmp,jpeg,png', 'max:15000'],
+                    'respondent_sign' => ['required', 'mimes:jpg,bmp,jpeg,png', 'max:15000']
                     // niremove ko validation sa image hahaha pag nilagyan ko ayaw masaveeeeeee
                 ], [
                     // custom error message here if ever meron
@@ -454,8 +454,8 @@ class SettlementController extends Component
             if (Auth::user()->user_type_id == 1 || 2) {
                 $request->validate([
                     'agreement_desc' => 'required|max:2500|regex:"^[^-]{1}?[^\"\']*$"', //regex for alphanumeric and some special characters and spaces only
-                    'complainant_sign' => ['nullable', 'mimes:jpg,bmp,jpeg,png', 'max:15000'],
-                    'respondent_sign' => ['nullable', 'mimes:jpg,bmp,jpeg,png', 'max:15000']
+                    //'complainant_sign' => ['nullable', 'mimes:jpg,bmp,jpeg,png', 'max:15000'],
+                    'respondent_sign' => ['required', 'mimes:jpg,bmp,jpeg,png', 'max:15000']
                     // niremove ko validation sa image hahaha pag nilagyan ko ayaw masaveeeeeee
                 ], [
                     // custom error message here if ever meron
@@ -527,9 +527,10 @@ class SettlementController extends Component
         if (Auth::id()) {
             if (Auth::user()->user_type_id == 1 || 2) {
                 $request->validate([
-                    'complainant_sign' => ['nullable', 'mimes:jpg,bmp,jpeg,png', 'max:15000'],
-                    'respondent_sign' => ['nullable', 'mimes:jpg,bmp,jpeg,png', 'max:15000'],
-                    'lupon_sign' => ['nullable', 'mimes:jpg,bmp,jpeg,png', 'max:15000']
+                    //'complainant_sign' => ['nullable', 'mimes:jpg,bmp,jpeg,png', 'max:15000'],
+                    //'complainant_sign_check' => ['required'],
+                    'respondent_sign' => ['required', 'mimes:jpg,bmp,jpeg,png', 'max:15000'],
+                    //'lupon_sign' => ['required', 'mimes:jpg,bmp,jpeg,png', 'max:15000']
                 ], [
                     // custom error message here if ever meron
                 ]);
@@ -548,16 +549,16 @@ class SettlementController extends Component
                 $arbitration_agreements->save();
 
                 //saving image - respondent signature lang
-                //$image = $request->file('lupon_sign');
-                //$imageName = time() . '.' . $image->extension();
-                //$image->move(public_path('images'), $imageName);
+                $image = $request->file('respondent_sign');
+                $imageName = time() . '.' . $image->extension();
+                $image->move(public_path('images'), $imageName);
 
-                //$person_signature = new Person_Signature();
-                //$person_signature->file_address = $imageName;
-                //$person_signature->person_id = $case_involved->respondent_id;
-                //$person_signature->save();
+                $person_signature = new Person_Signature();
+                $person_signature->file_address = $imageName;
+                $person_signature->person_id = $case_involved->respondent_id;
+                $person_signature->save();
 
-                return redirect('settlement/show-arbitration')->with('proceeded', '');
+                return redirect('settlement/show-arbitration')->with('agreement_arb', '');
             } else {
 
                 return redirect()->back();
@@ -597,6 +598,7 @@ class SettlementController extends Component
         if (Auth::id()) {
             if (Auth::user()->user_type_id == 1 || 2) {
                 $request->validate([
+                    'agreement_desc' => 'required|max:2500|regex:"^[^-]{1}?[^\"\']*$"', //regex for alphanumeric and some special characters and spaces only
                     'complainant_sign' => ['nullable', 'mimes:jpg,bmp,jpeg,png', 'max:15000'],
                     'respondent_sign' => ['nullable', 'mimes:jpg,bmp,jpeg,png', 'max:15000'],
                 ], [
