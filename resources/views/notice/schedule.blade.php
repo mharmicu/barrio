@@ -108,7 +108,7 @@ use Maize\Encryptable\Encryption;
                                         ?>
 
                                         @if($today > $sched->date_of_meeting)
-                                        <p class="fw-normal text-danger">{{$strSched}} <b><i>{{$sched->case_title}} {{$sched->case_no}}</i></b></p>
+                                        <p class="fw-normal text-danger">{{$strSched}} <b><i>{{$case_title}} {{$sched->case_no}}</i></b></p>
                                         <hr>
                                         @else
                                         <p class="fw-normal">{{$strSched}} <b><i>{{$case_title}} {{$sched->case_no}}</i></b></p>

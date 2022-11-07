@@ -39,6 +39,9 @@
             </li>
             @endif
             <li>
+                <?php
+                     
+                ?>
                 <a href="{{route('blotter.show')}}" class="subMenu">Display Ongoing Cases</a>
                 <hr>
             </li>

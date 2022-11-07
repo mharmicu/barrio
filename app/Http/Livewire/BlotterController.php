@@ -18,6 +18,7 @@ use Illuminate\Support\Facades\DB;
 
 use Illuminate\Support\Facades\Auth;
 use DataTables;
+use Illuminate\Support\Arr;
 use PDF;
 
 class BlotterController extends Component
@@ -128,6 +129,24 @@ class BlotterController extends Component
         if (Auth::id()) {
             if (Auth::user()->user_type_id == 1 || Auth::user()->user_type_id == 2) {
 
+                $chs2 = DB::table('case_hearings')->select('case_no')->distinct('case_no')->get();
+                $data = Blotter::get();
+                //dd($chs2);
+
+                $chs = CaseHearing::latest()->get()->unique('case_no');
+                //foreach ($data as $d) {
+
+                //    if ($chs2->contains('case_no', $d->case_no)) {
+                //         echo '<script>alert("Welcome to Geeks for Geeks")</script>';
+                //    } else {
+                //        echo '<script>alert("NO")</script>';
+                //      }
+                //  }
+
+
+
+
+
                 return view('blotter.show');
             } else {
                 return redirect()->back();
@@ -139,9 +158,42 @@ class BlotterController extends Component
 
     public function getBlotterReports(Request $request)
     {
+        $case_hearing = array();
+        $blotter = array();
+        $hearings = array();
+
         if ($request->ajax()) {
             $data = Blotter::latest()->get();
-            return Datatables::of($data)
+            $chs = CaseHearing::latest()->get()->unique('case_no');
+
+            foreach ($data as $d) {
+                if (!$chs->contains('case_no', $d->case_no)) {
+                    $blotter[] = Blotter::where('case_no', $d->case_no)->first();
+                }
+            }
+            foreach ($chs as $c) {
+                $hearings[] = Hearing::where('hearing_id', $c->hearing_id)->first();
+            }
+
+            foreach ($hearings as $h) {
+                if (!$h->settlement_id && !$h->award_id) {
+                    $case_hearing[] = CaseHearing::where('hearing_id', $h->hearing_id)->first();
+                }
+            }
+
+            foreach ($case_hearing as $ch) {
+                $blotter[] = Blotter::where('case_no', $ch->case_no)->latest()->first();
+            }
+
+
+
+
+
+
+
+
+
+            return Datatables::of($blotter)
                 ->addIndexColumn()
                 ->addColumn('action', function ($row) {
                     $case_hearing = CaseHearing::where('case_no', $row->case_no)->latest()->first();
@@ -162,7 +214,7 @@ class BlotterController extends Component
                                 $hearingBtn = '<div class="d-grid gap-2"><a href="../settlement/conciliation/' . $row->case_no   . '" class=" btn btn-warning btn-sm">Hearing</a></div>';
                                 break;
                             case "Arbitration":
-                                $hearingBtn = '<div class="d-grid gap-2"><a href="javascript:void(0)" class=" btn btn-warning btn-sm">Hearing</a></div>';
+                                $hearingBtn = '<div class="d-grid gap-2"><a href="../settlement/arbitration-award/' . $row->case_no   . '" class=" btn btn-warning btn-sm">Hearing</a></div>';
                                 break;
                             default:
                                 $hearingBtn = '';
