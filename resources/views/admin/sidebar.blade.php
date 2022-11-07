@@ -40,9 +40,44 @@
             @endif
             <li>
                 <?php
-                     
+
+                use App\Models\Blotter;
+                use App\Models\CaseHearing;
+                use App\Models\Hearing;
+
+                $case_hearing = array();
+                $blotter = array();
+                $hearings = array();
+
+                $data = Blotter::latest()->get();
+                $chs = CaseHearing::latest()->get()->unique('case_no');
+
+                foreach ($data as $d) {
+                    if (!$chs->contains('case_no', $d->case_no)) {
+                        $blotter[] = Blotter::where('case_no', $d->case_no)->first();
+                    }
+                }
+                foreach ($chs as $c) {
+                    $hearings[] = Hearing::where('hearing_id', $c->hearing_id)->first();
+                }
+
+                foreach ($hearings as $h) {
+                    if (!$h->settlement_id && !$h->award_id) {
+                        $case_hearing[] = CaseHearing::where('hearing_id', $h->hearing_id)->first();
+                    }
+                }
+
+                foreach ($case_hearing as $ch) {
+                    $blotter[] = Blotter::where('case_no', $ch->case_no)->latest()->first();
+                }
+                $ongoingCount = count($blotter);
                 ?>
-                <a href="{{route('blotter.show')}}" class="subMenu">Display Ongoing Cases</a>
+                <a href="{{route('blotter.show')}}" class="subMenu position-relative p-2">Display Ongoing Cases
+                    <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                        {{$ongoingCount}}
+                        <span class="visually-hidden">unread messages</span>
+                    </span>
+                </a>
                 <hr>
             </li>
             <li>
@@ -91,7 +126,7 @@
             </li>
         </ul>
 
-        
+
         <a class="list-group-item list-group-item-action  p-3 dropdown-toggle" href="#incidentSubMenu" data-bs-toggle="collapse" aria-expanded="false"><i class="bi bi-inboxes"></i> Incident Report</a>
         <ul class="collapse" id="incidentSubMenu">
             <li>
