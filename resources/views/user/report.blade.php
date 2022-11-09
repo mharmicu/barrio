@@ -159,6 +159,22 @@
                                                     </div>
 
                                                     <div class="mb-3">
+                                                        <label for="street" class="form-label">Street</label>
+                                                        <select class="form-select shadow-none  @error('street') is-invalid @enderror" name="street" id="street" required>
+                                                            <option selected disabled value="">-</option>
+                                                            <option value="Arlegui St." {{ old('street') == "Arlegui St." ? 'selected' : '' }}>Arlegui St.</option>
+                                                            <option value="Castillejos St." {{ old('street') == "Castillejos St." ? 'selected' : '' }}>Castillejos St.</option>
+                                                            <option value="Duque St." {{ old('street') == "Duque St." ? 'selected' : '' }}>Duque St.</option>
+                                                            <option value="Farnecio St." {{ old('street') == "Farnecio St." ? 'selected' : '' }}>Farnecio St.</option>
+                                                            <option value="Fraternal St." {{ old('street') == "Fraternal St." ? 'selected' : '' }}>Fraternal St.</option>
+                                                            <option value="Pascual Casal St." {{ old('street') == "Pascual Casal St." ? 'selected' : '' }}>Pascual Casal St.</option>
+                                                            <option value="Pax St." {{ old('street') == "Pax St." ? 'selected' : '' }}>Pax St.</option>
+                                                            <option value="Vergara St." {{ old('street') == "Vergara St." ? 'selected' : '' }}>Vergara St.</option>
+
+                                                        </select>
+                                                    </div>
+
+                                                    <div class="mb-3">
                                                         <label for="location" class="form-label">Exact Location
                                                             of the Incident</label>
                                                         <textarea class="form-control shadow-none  @error('location') is-invalid @enderror" value="{{ old('location') }}" name="location" id="location" placeholder="(room, building, area, school, street, sitio, barangay, municipality, etc.)" required>{{ old('location') }}</textarea>

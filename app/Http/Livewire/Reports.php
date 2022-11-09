@@ -37,6 +37,7 @@ class Reports extends Component
         $report = new Report();
         $report->type = $request->type;
         $report->date_of_incident = $request->date_of_incident;
+        $report->street = $request->street;
         $report->location = $request->location;
         $report->persons = $request->persons;
         $report->narrative = $request->narrative;
