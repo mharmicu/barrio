@@ -41,6 +41,7 @@ class Reports extends Component
         $report->location = $request->location;
         $report->persons = $request->persons;
         $report->narrative = $request->narrative;
+        $report->created_at = date("Y-m-d");
 
         $report->save();
         return back()->with('success', '');
