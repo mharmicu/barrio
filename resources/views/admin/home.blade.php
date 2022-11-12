@@ -46,6 +46,10 @@
             width: 100% !important;
         }
 
+        #onGoingChart {
+            width: 100% !important;
+        }
+
         #matrixChartArlegui,
         #matrixChartCastillejos,
         #matrixChartDuque,
@@ -114,6 +118,10 @@
         .highcharts-data-table tr:hover {
             background: #f1f7ff;
         }
+
+        #stats {
+            height: 100% !important;
+        }
     </style>
 </head>
 
@@ -128,7 +136,7 @@
             @include('admin.navbar')
 
             <!-- Page content-->
-            <div class="container-fluid p-5">
+            <div class="container-fluid p-5" style="background-color: #f1f2f5;">
                 @if(session()->has('filed_court_action'))
                 <script>
                     Swal.fire({
@@ -141,41 +149,144 @@
                 <h1 class="mb-3">Dashboard</h1>
                 <div class="row">
                     <div class="col">
-                        <div class="card text-white bg-dark mb-3">
-                            <div class="card-header"><b>Ongoing Blotter Cases</b></div>
-                            <div class="card-body">
-                                <h1 class="card-title">50</h1>
-                                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                        <div class="card mb-3" id="stats">
+                            <div class="card-header"><b>Blotter Cases</b></div>
+                            <div class="card-body align-items-center">
+                                <h1 class="card-title text-center" style="font-size: 50px;"><b>{{$currentCountBlotter}}</b></h1>
+                                <ul class="list-group list-group-flush">
+                                    <li class="list-group-item">
+                                        <div class="row">
+                                            <div class="col">
+                                                Today
+                                            </div>
+                                            <div class="col text-end">{{$todayCountBlotter}}</div>
+                                        </div>
+                                    </li>
+                                    <li class="list-group-item">
+                                        <div class="row">
+                                            <div class="col">
+                                                This Week
+                                            </div>
+                                            <div class="col text-end">{{$weekCountBlotter}}</div>
+                                        </div>
+                                    </li>
+                                    <li class="list-group-item">
+                                        <div class="row">
+                                            <div class="col">
+                                                This Month
+                                            </div>
+                                            <div class="col text-end">{{$monthCountBlotter}}</div>
+                                        </div>
+                                    </li>
+                                </ul>
                             </div>
                         </div>
                     </div>
                     <div class="col">
-                        <div class="card text-dark bg-warning mb-3">
-                            <div class="card-header">Header</div>
-                            <div class="card-body">
-                                <h5 class="card-title">Warning card title</h5>
-                                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                        <div class="card mb-3" id="stats">
+                            <div class="card-header"><b>Settled Cases</b></div>
+                            <div class="card-body align-items-center">
+                                <h1 class="card-title text-center" style="font-size: 50px;"><b>{{$settledCases}}</b></h1>
+                                <ul class="list-group list-group-flush">
+                                    <li class="list-group-item">
+                                        <div class="row">
+                                            <div class="col">
+                                                Total Cases
+                                            </div>
+                                            <div class="col text-end">{{$currentCountBlotter}}</div>
+                                        </div>
+                                    </li>
+
+                                    <li class="list-group-item">
+                                        <div class="row">
+                                            <div class="col">
+                                                Unsettled Cases
+                                            </div>
+                                            <div class="col text-end">{{$unsettledCases}}</div>
+                                        </div>
+                                    </li>
+                                    <li class="list-group-item">
+                                        <div class="row">
+                                            <div class="col">
+                                                Court Action
+                                            </div>
+                                            <div class="col text-end">{{$courtAction}}</div>
+                                        </div>
+                                    </li>
+                                </ul>
                             </div>
                         </div>
                     </div>
+
                     <div class="col">
-                        <div class="card text-white bg-success mb-3">
-                            <div class="card-header">Header</div>
-                            <div class="card-body">
-                                <h5 class="card-title">Success card title</h5>
-                                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                        <div class="card mb-3" id="stats">
+                            <div class="card-header"><b>Incident Reports</b></div>
+                            <div class="card-body align-items-center">
+                                <h1 class="card-title text-center" style="font-size: 50px;"><b>{{$currentCountIncident}}</b></h1>
+                                <ul class="list-group list-group-flush">
+                                    <li class="list-group-item">
+                                        <div class="row">
+                                            <div class="col">
+                                                Today
+                                            </div>
+                                            <div class="col text-end">{{$todayCountIncident}}</div>
+                                        </div>
+                                    </li>
+                                    <li class="list-group-item">
+                                        <div class="row">
+                                            <div class="col">
+                                                This Week
+                                            </div>
+                                            <div class="col text-end">{{$weekCountIncident}}</div>
+                                        </div>
+                                    </li>
+                                    <li class="list-group-item">
+                                        <div class="row">
+                                            <div class="col">
+                                                This Month
+                                            </div>
+                                            <div class="col text-end">{{$monthCountIncident}}</div>
+                                        </div>
+                                    </li>
+                                </ul>
                             </div>
                         </div>
                     </div>
+
                     <div class="col">
-                        <div class="card text-white bg-danger mb-3">
-                            <div class="card-header">Header</div>
-                            <div class="card-body">
-                                <h5 class="card-title">Danger card title</h5>
-                                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                        <div class="card mb-3" id="stats">
+                            <div class="card-header"><b>Hearings</b></div>
+                            <div class="card-body d-flex justify-content-center align-items-center">
+                                <ul class="list-group list-group-flush">
+                                    <li class="list-group-item">
+                                        <div class="row">
+                                            <div class="col">
+                                                <b>Mediation by the Lupon </b>
+                                            </div>
+                                            <div class="col text-end">{{$mediationCount}}</div>
+                                        </div>
+                                    </li>
+                                    <li class="list-group-item">
+                                        <div class="row">
+                                            <div class="col">
+                                               <b> Conciliation by the Pangkat </b>
+                                            </div>
+                                            <div class="col text-end">{{$conciliationCount}}</div>
+                                        </div>
+                                    </li>
+                                    <li class="list-group-item">
+                                        <div class="row">
+                                            <div class="col">
+                                                <b> Arbitration </b>
+                                            </div>
+                                            <div class="col text-end">{{$arbitrationCount}}</div>
+                                        </div>
+                                    </li>
+                                </ul>
                             </div>
                         </div>
                     </div>
+
                 </div>
 
                 <div class="row mt-3 mb-3">
@@ -327,8 +438,7 @@
         var y_ver = JSON.parse('{!! json_encode($dateCount_ver) !!}');
 
         var complaint_desc = '{!! htmlspecialchars($cleanedText, ENT_QUOTES, "UTF-8") !!}';
-        console.log('{!! htmlspecialchars($cleanedText, ENT_QUOTES, "UTF-8") !!}')
-        
+        //console.log('{!! htmlspecialchars($cleanedText, ENT_QUOTES, "UTF-8") !!}')
     </script>
     <script src="{{ asset('assets/charts/bar.js')}} "></script>
     <!-- <script src="{{ asset('assets/charts/line.js')}} "></script> -->

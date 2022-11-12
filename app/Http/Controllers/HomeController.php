@@ -3,17 +3,23 @@
 namespace App\Http\Controllers;
 
 use App\Models\Blotter;
+use App\Models\CaseHearing;
+use App\Models\CourtAction;
+use App\Models\Hearing;
 use App\Models\Report;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class HomeController extends Controller
 {
     function getStopWords()
     {
-        $stopwords = ["The", "i", "said", "me", "my", "myself", "we", "our", "ours", "ourselves", "you", "your", "yours", "yourself", "yourselves", "he", "him", "his", "himself", "she", "her", "hers", "herself", "it", "its", "itself", "they", "them", "their", "theirs", "themselves", "what", "which", "who", "whom", "this", "that", "these", "those", "am", "is", "are", "was", "were", "be", "been", "being", "have", "has", "had", "having", "do", "does", "did", "doing", "a", "an", "the", "and", "but", "if", "or", "because", "as", "until", "while", "of", "at", "by", "for", "with", "about", "against", "between", "into", "through", "during", "before", "after", "above", "below", "to", "from", "up", "down", "in", "out", "on", "off", "over", "under", "again", "further", "then", "once", "here", "there", "when", "where", "why", "how", "all", "any", "both", "each", "few", "more", "most", "other", "some", "such", "no", "nor", "not", "only", "own", "same", "so", "than", "too", "very", "s", "t", "can", "will", "just", "don", "should", "now",
-        "Manila", "Philippines", "akin","aking","ako","alin","am","amin","aming","ang","ano","anumang","apat","at","atin","ating","ay","bababa","bago","bakit","bawat","bilang","dahil","dalawa","dapat","din","dito","doon","gagawin","gayunman","ginagawa","ginawa","ginawang","gumawa","gusto","habang","hanggang","hindi","huwag","iba","ibaba","ibabaw","ibig","ikaw","ilagay","ilalim","ilan","inyong","isa","isang","itaas","ito","iyo","iyon","iyong","ka","kahit","kailangan","kailanman","kami","kanila","kanilang","kanino","kanya","kanyang","kapag","kapwa","karamihan","katiyakan","katulad","kaya","kaysa","ko","kong","kulang","kumuha","kung","laban","lahat","lamang","likod","lima","maaari","maaaring","maging","mahusay","makita","marami","marapat","masyado","may","mayroon","mga","minsan","mismo","mula","muli","na","nabanggit","naging","nagkaroon","nais","nakita","namin","napaka","narito","nasaan","ng","ngayon","ni","nila","nilang","nito","niya","niyang","noon","o","pa","paano","pababa","paggawa","pagitan","pagkakaroon","pagkatapos","palabas","pamamagitan","panahon","pangalawa","para","paraan","pareho","pataas","pero","pumunta","pumupunta","sa","saan","sabi","sabihin","sarili","sila","sino","siya","tatlo","tayo","tulad","tungkol","una","walang"];
+        $stopwords = [
+            "The", "i", "said", "me", "my", "myself", "we", "our", "ours", "ourselves", "you", "your", "yours", "yourself", "yourselves", "he", "him", "his", "himself", "she", "her", "hers", "herself", "it", "its", "itself", "they", "them", "their", "theirs", "themselves", "what", "which", "who", "whom", "this", "that", "these", "those", "am", "is", "are", "was", "were", "be", "been", "being", "have", "has", "had", "having", "do", "does", "did", "doing", "a", "an", "the", "and", "but", "if", "or", "because", "as", "until", "while", "of", "at", "by", "for", "with", "about", "against", "between", "into", "through", "during", "before", "after", "above", "below", "to", "from", "up", "down", "in", "out", "on", "off", "over", "under", "again", "further", "then", "once", "here", "there", "when", "where", "why", "how", "all", "any", "both", "each", "few", "more", "most", "other", "some", "such", "no", "nor", "not", "only", "own", "same", "so", "than", "too", "very", "s", "t", "can", "will", "just", "don", "should", "now",
+            "Manila", "Philippines", "akin", "aking", "ako", "alin", "am", "amin", "aming", "ang", "ano", "anumang", "apat", "at", "atin", "ating", "ay", "bababa", "bago", "bakit", "bawat", "bilang", "dahil", "dalawa", "dapat", "din", "dito", "doon", "gagawin", "gayunman", "ginagawa", "ginawa", "ginawang", "gumawa", "gusto", "habang", "hanggang", "hindi", "huwag", "iba", "ibaba", "ibabaw", "ibig", "ikaw", "ilagay", "ilalim", "ilan", "inyong", "isa", "isang", "itaas", "ito", "iyo", "iyon", "iyong", "ka", "kahit", "kailangan", "kailanman", "kami", "kanila", "kanilang", "kanino", "kanya", "kanyang", "kapag", "kapwa", "karamihan", "katiyakan", "katulad", "kaya", "kaysa", "ko", "kong", "kulang", "kumuha", "kung", "laban", "lahat", "lamang", "likod", "lima", "maaari", "maaaring", "maging", "mahusay", "makita", "marami", "marapat", "masyado", "may", "mayroon", "mga", "minsan", "mismo", "mula", "muli", "na", "nabanggit", "naging", "nagkaroon", "nais", "nakita", "namin", "napaka", "narito", "nasaan", "ng", "ngayon", "ni", "nila", "nilang", "nito", "niya", "niyang", "noon", "o", "pa", "paano", "pababa", "paggawa", "pagitan", "pagkakaroon", "pagkatapos", "palabas", "pamamagitan", "panahon", "pangalawa", "para", "paraan", "pareho", "pataas", "pero", "pumunta", "pumupunta", "sa", "saan", "sabi", "sabihin", "sarili", "sila", "sino", "siya", "tatlo", "tayo", "tulad", "tungkol", "una", "walang"
+        ];
 
         return $stopwords;
     }
@@ -159,7 +165,7 @@ class HomeController extends Controller
                     $complaint_desc[] = $type;
                 }
 
-                
+
                 //$str_CD = htmlspecialchars(json_encode($complaint_desc), ENT_QUOTES, "UTF-8");
                 $str_CD = json_encode($complaint_desc);
                 $stop_words = $this->getStopWords();
@@ -167,7 +173,133 @@ class HomeController extends Controller
 
 
                 //ongoing blotter cases
-                
+                $case_hearing = array();
+                $blotter = array();
+                $hearings = array();
+
+                $data = Blotter::latest()->get();
+                $chs = CaseHearing::latest()->get()->unique('case_no');
+
+                foreach ($data as $d) {
+                    if (!$chs->contains('case_no', $d->case_no)) {
+                        $blotter[] = Blotter::where('case_no', $d->case_no)->first();
+                    }
+                }
+                foreach ($chs as $c) {
+                    $hearings[] = Hearing::where('hearing_id', $c->hearing_id)->first();
+                }
+
+                foreach ($hearings as $h) {
+                    if (!$h->settlement_id && !$h->award_id) {
+                        $case_hearing[] = CaseHearing::where('hearing_id', $h->hearing_id)->first();
+                    }
+                }
+
+                foreach ($case_hearing as $ch) {
+                    $blotter[] = Blotter::where('case_no', $ch->case_no)->latest()->first();
+                }
+
+                //blotter
+                $currentCountBlotter = Blotter::count();
+                $todayCountBlotter = count(Blotter::whereDate('created_at', Carbon::today())->get());
+                $weekCountBlotter = count(Blotter::whereBetween('created_at', [Carbon::now()->subWeek()->format("Y-m-d H:i:s"), Carbon::now()])->get());
+                $monthCountBlotter = count(Blotter::whereMonth('created_at', Carbon::now()->month)->get());
+
+                //settled cases
+                $case_hearing = CaseHearing::all();
+                $data = array();
+                $hearings = array();
+
+                foreach ($case_hearing as $ch) {
+                    $hearings[] = Hearing::where('hearing_id', $ch->hearing_id)->first();
+                }
+
+                foreach ($case_hearing as $key => $value) {
+                    if ($hearings[$key]->settlement_id || $hearings[$key]->award_id) {
+                        $data[] = Blotter::where('blotter_report.case_no', $value->case_no)->first();
+                    }
+                }
+                $settledCases = count($data);
+                $unsettledCases = count($blotter);
+                $courtAction = count(CourtAction::get());
+
+
+                //HEARINGS
+
+                //med
+                $mediation_hearing = array();
+                $blotter_report_med = array();
+                $case_hearing = array();
+                $all_case_hearing = DB::select('SELECT * FROM case_hearings WHERE id IN (SELECT MAX(id) FROM case_hearings GROUP BY case_no)');
+
+                foreach ($all_case_hearing as $ch) {
+                    $mediation_hearing[] = Hearing::where('hearing_id', $ch->hearing_id)->where('hearing_type_id', 1)->whereNull('settlement_id')->first();
+                }
+                foreach ($mediation_hearing as $mediation) {
+                    if ($mediation) {
+                        $case_hearing[] = CaseHearing::where('hearing_id', $mediation->hearing_id)->first();
+                    }
+                }
+                foreach ($case_hearing as $c) {
+                    $court_action = CourtAction::where('case_no', $c->case_no)->first();
+                    if (!$court_action) {
+                        $blotter_report_med[] = Blotter::where('case_no', $c->case_no)->first();
+                    }
+                }
+
+
+                //con
+                $conciliation_hearing = array();
+                $blotter_report_con = array();
+                $case_hearing = array();
+                $all_case_hearing = DB::select('SELECT * FROM case_hearings WHERE id IN (SELECT MAX(id) FROM case_hearings GROUP BY case_no)');
+
+                foreach ($all_case_hearing as $ch) {
+                    $conciliation_hearing[] = Hearing::where('hearing_id', $ch->hearing_id)->where('hearing_type_id', 2)->whereNull('settlement_id')->first();
+                }
+                foreach ($conciliation_hearing as $conciliation) {
+                    if ($conciliation) {
+                        $case_hearing[] = CaseHearing::where('hearing_id', $conciliation->hearing_id)->first();
+                    }
+                }
+                foreach ($case_hearing as $c) {
+                    $court_action = CourtAction::where('case_no', $c->case_no)->first();
+                    if (!$court_action) {
+                        $blotter_report_con[] = Blotter::where('case_no', $c->case_no)->first();
+                    }
+                }
+
+
+                //arb
+                $arbitration_hearing = Hearing::where('hearing_type_id', 3)->whereNull('award_id')->get();
+                $blotter_report_arb = array();
+                foreach ($arbitration_hearing as $arbitration) {
+                    $case_hearing = CaseHearing::where('hearing_id', $arbitration->hearing_id)->first();
+
+                    $court_action = CourtAction::where('case_no', $case_hearing->case_no)->first();
+                    if (!$court_action) {
+                        $blotter_report_arb[] = Blotter::where('case_no', $case_hearing->case_no)->first();
+                    }
+                }
+
+
+                //mediationCount
+                $mediationCount = count($blotter_report_med);
+                //conciliationCount
+                $conciliationCount = count($blotter_report_con);
+                //arbitrationCount
+                $arbitrationCount = count($blotter_report_arb);
+
+
+
+
+
+
+                //incident reports
+                $currentCountIncident = Report::count();
+                $todayCountIncident = count(Report::whereDate('created_at', Carbon::today())->get());
+                $weekCountIncident = count(Report::whereBetween('created_at', [Carbon::now()->subWeek()->format("Y-m-d H:i:s"), Carbon::now()])->get());
+                $monthCountIncident = count(Report::whereMonth('created_at', Carbon::now()->month)->get());
 
                 //dd($cleanedText);
 
@@ -196,6 +328,20 @@ class HomeController extends Controller
                     'report_count' => $report_count,
                     'complaint_desc' => $complaint_desc,
                     'cleanedText' => $cleanedText,
+                    'currentCountBlotter' => $currentCountBlotter,
+                    'todayCountBlotter' => $todayCountBlotter,
+                    'weekCountBlotter' => $weekCountBlotter,
+                    'monthCountBlotter' => $monthCountBlotter,
+                    'currentCountIncident' => $currentCountIncident,
+                    'todayCountIncident' => $todayCountIncident,
+                    'weekCountIncident' => $weekCountIncident,
+                    'monthCountIncident' => $monthCountIncident,
+                    'settledCases' => $settledCases,
+                    'unsettledCases' => $unsettledCases,
+                    'courtAction' => $courtAction,
+                    'mediationCount' => $mediationCount,
+                    'conciliationCount' => $conciliationCount,
+                    'arbitrationCount' => $arbitrationCount,
                 ]);
             } else {
                 return view('user.home');

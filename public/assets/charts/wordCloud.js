@@ -1,5 +1,5 @@
 const withoutQuotes = complaint_desc.replaceAll('&quot;', '');
-console.log(withoutQuotes)
+//console.log(withoutQuotes)
 const text = withoutQuotes,
     lines = text.replace(/[\[\]"():'?0-9]+/g, '').split(/[,\. ]+/g),
     
