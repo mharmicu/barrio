@@ -6,6 +6,8 @@ use App\Models\Blotter;
 use App\Models\CaseHearing;
 use App\Models\CourtAction;
 use App\Models\Hearing;
+use App\Models\Incident_Case;
+use App\Models\Notice;
 use App\Models\Report;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -37,9 +39,10 @@ class HomeController extends Controller
         if (Auth::id()) {
             if (Auth::user()->user_type_id == '1' || Auth::user()->user_type_id == 2) {
                 $data = Blotter::select('case_no', 'created_at')->orderBy('created_at')->get()->groupBy(function ($data) {
-                    return Carbon::parse($data->created_at)->format('M');
+                    return Carbon::parse($data->created_at)->format('Y-m-d');
                 });
 
+                //bar graph
                 $months = [];
                 $monthCount = [];
                 foreach ($data as $month => $values) {
@@ -47,16 +50,66 @@ class HomeController extends Controller
                     $monthCount[] = count($values);
                 }
 
-                // $incident_data = Report::select('street', 'created_at')->orderBy('created_at')->get()->groupBy(function($incident_data){
-                //     return Carbon::parse($incident_data->created_at)->format('Y-m-d');
-                // });
+                //hearing_type counter
+                $hearing_id = [];
+                $hearing_type_count = [];
+                $case_hearing = DB::select('SELECT * FROM case_hearings WHERE id IN (SELECT MAX(id) FROM case_hearings GROUP BY case_no)');
+                foreach ($case_hearing as $ch) {
+                    $hearing_id[] = $ch->hearing_id;
+                }
 
-                // $dates=[];
-                // $dateCount=[];
-                // foreach($incident_data as $date => $values){
-                //     $dates[]=$date;
-                //     $dateCount[]=count($values);
-                // }
+                $hearing = Hearing::select('hearing_type_id')->whereIn('hearing_id', $hearing_id)->orderBy('hearing_type_id')->get()->groupBy('hearing_type_id');
+
+                foreach ($hearing as $h => $values) {
+                    $hearing_type_count[] = count($values);
+                }
+
+                //article no. 
+                $articles_of_incidents = Incident_Case::select('article_no', DB::raw('count(*) as total'))->orderBy('total', 'desc')->groupBy('article_no')->get();
+
+                $article_no = [];
+                $article_count = [];
+                foreach ($articles_of_incidents as $article => $values) {
+                    $article_no[] = 'Article No. ' . $values->article_no;
+                    $article_count[] = $values->total;
+                }
+
+                //hearing schedule
+                $present_sched = Notice::select('notices.case_no', 'date_of_meeting', 'case_title')
+                    ->distinct('notices.case_no')
+                    ->leftJoin('blotter_report', 'blotter_report.case_no', '=', 'notices.case_no')
+                    ->orderby('date_of_meeting', 'desc')
+                    ->get();
+
+                $todayCaseTitle = [];
+                $todaySchedule = [];
+
+                $tomorrowCaseTitle = [];
+                $tomorrowSchedule = [];
+
+                $nextWeekCaseTitle = [];
+                $nextWeekSchedule = [];
+
+                $now = Carbon::now()->addWeeks(1);
+                $weekStartDate = $now->startOfWeek()->format('Y-m-d');
+                $weekEndDate = $now->endOfWeek()->format('Y-m-d');
+
+                foreach ($present_sched as $sched) {
+                    $parsedDate = Carbon::parse($sched->date_of_meeting)->format('Y-m-d');
+                    if ($parsedDate == Carbon::today()->format('Y-m-d')) {
+                        $todayCaseTitle[] = $sched->case_title;
+                        $todaySchedule[] =  Carbon::parse($sched->date_of_meeting)->format('F j, Y, h:i A');
+                    } else if ($parsedDate == Carbon::tomorrow()->format('Y-m-d')) {
+                        $tomorrowCaseTitle[] = $sched->case_title;
+                        $tomorrowSchedule[] =  Carbon::parse($sched->date_of_meeting)->format('F j, Y, h:i A');
+                    } else if (($parsedDate >= $weekStartDate) && ($parsedDate <= $weekEndDate)) {
+                        $nextWeekCaseTitle[] = $sched->case_title;
+                        $nextWeekSchedule[] =  Carbon::parse($sched->date_of_meeting)->format('F j, Y, h:i A');
+                    }
+                }
+                $todayCount = count($todaySchedule);
+                $tomorrowCount = count($tomorrowSchedule);
+                $nextWeekCount = count($nextWeekSchedule);
 
                 //arlegui
                 $report_arlegui = Report::select('street', 'created_at')->where('street', 'Arlegui St.')->orderBy('created_at')->get()->groupBy(function ($incident_data) {
@@ -147,13 +200,24 @@ class HomeController extends Controller
                 }
 
                 // # of report per type
-                $report_types = Report::select('type')->orderBy('type')->get()->groupBy('type');
+                $report_types = Report::select('type', DB::raw('count(*) as total'))->orderBy('total')->groupBy('type')->take(10)->get();
+                //dd($report_types);
                 $types = [];
                 $typeCount = [];
                 foreach ($report_types as $type => $values) {
-                    $types[] = $type;
-                    $typeCount[] = count($values);
+                    $types[] = $values->type;
+                    $typeCount[] = $values->total;
                 }
+
+                $report_types2 = Report::select('type',  DB::raw('count(*) as total'))->orderBy('total', 'desc')->groupBy('type')->take(5)->get();
+                $types2 = [];
+                $typeCount2 = [];
+                foreach ($report_types2 as $type2 => $values) {
+                    $types2[] = $values->type;
+                    $typeCount2[] = $values->total;
+                }
+                //dd($typeCount2);
+                //dd($report_types);
 
                 //dougnut
                 $report_count = Report::count();
@@ -225,7 +289,6 @@ class HomeController extends Controller
 
 
                 //HEARINGS
-
                 //med
                 $mediation_hearing = array();
                 $blotter_report_med = array();
@@ -325,6 +388,8 @@ class HomeController extends Controller
                     'dateCount_ver' => $dateCount_ver,
                     'types' => $types,
                     'typeCount' => $typeCount,
+                    'types2' => $types2,
+                    'typeCount2' => $typeCount2,
                     'report_count' => $report_count,
                     'complaint_desc' => $complaint_desc,
                     'cleanedText' => $cleanedText,
@@ -342,6 +407,21 @@ class HomeController extends Controller
                     'mediationCount' => $mediationCount,
                     'conciliationCount' => $conciliationCount,
                     'arbitrationCount' => $arbitrationCount,
+                    'hearing_type_count' => $hearing_type_count,
+                    'article_no' => $article_no,
+                    'article_count' => $article_count,
+
+                    'todayCaseTitle' => $todayCaseTitle,
+                    'todaySchedule' => $todaySchedule,
+                    'todayCount' => $todayCount,
+
+                    'tomorrowCaseTitle' => $tomorrowCaseTitle,
+                    'tomorrowSchedule' => $tomorrowSchedule,
+                    'tomorrowCount' => $tomorrowCount,
+
+                    'nextWeekCaseTitle' => $nextWeekCaseTitle,
+                    'nextWeekSchedule' => $nextWeekSchedule,
+                    'nextWeekCount' => $nextWeekCount,
                 ]);
             } else {
                 return view('user.home');

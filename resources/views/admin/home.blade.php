@@ -1,3 +1,8 @@
+<?php
+
+use Maize\Encryptable\Encryption;
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -10,6 +15,8 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns/dist/chartjs-adapter-date-fns.bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chartjs-chart-matrix@1.2.0/dist/chartjs-chart-matrix.min.js"></script>
+    <script src="https://unpkg.com/chart.js-plugin-labels-dv/dist/chartjs-plugin-labels.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/chartjs-plugin-datalabels/2.1.0/chartjs-plugin-datalabels.min.js" integrity="sha512-Tfw6etYMUhL4RTki37niav99C6OHwMDB2iBT5S5piyHO+ltK2YX8Hjy9TXxhE1Gm/TmAV0uaykSpnHKFIAif/A==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
 
     <script src="https://code.highcharts.com/highcharts.js"></script>
@@ -42,11 +49,27 @@
             width: 100% !important;
         }
 
+        #lineBlotter {
+            width: 100% !important;
+        }
+
         #doughnutChart {
             width: 100% !important;
         }
 
         #onGoingChart {
+            width: 100% !important;
+        }
+
+        #pieChartIncident {
+            width: 100% !important;
+        }
+
+        #pieBlotter {
+            width: 100% !important;
+        }
+
+        #horizontalBarArticle{
             width: 100% !important;
         }
 
@@ -218,7 +241,7 @@
                         </div>
                     </div>
 
-                    <div class="col">
+                    <div class="col mt-sm-0 mt-3">
                         <div class="card mb-3" id="stats">
                             <div class="card-header"><b>Incident Reports</b></div>
                             <div class="card-body align-items-center">
@@ -253,9 +276,9 @@
                         </div>
                     </div>
 
-                    <div class="col">
+                    <div class="col mt-lg-0 mt-3">
                         <div class="card mb-3" id="stats">
-                            <div class="card-header"><b>Hearings</b></div>
+                            <div class="card-header"><b>Current Hearings</b></div>
                             <div class="card-body d-flex justify-content-center align-items-center">
                                 <ul class="list-group list-group-flush">
                                     <li class="list-group-item">
@@ -263,15 +286,15 @@
                                             <div class="col">
                                                 <b>Mediation by the Lupon </b>
                                             </div>
-                                            <div class="col text-end">{{$mediationCount}}</div>
+                                            <div class="col text-end"><a href="{{route('settlement.show.mediation')}}"><span class="badge bg-primary rounded-pill">{{$mediationCount}}</span></a></div>
                                         </div>
                                     </li>
                                     <li class="list-group-item">
                                         <div class="row">
                                             <div class="col">
-                                               <b> Conciliation by the Pangkat </b>
+                                                <b> Conciliation by the Pangkat </b>
                                             </div>
-                                            <div class="col text-end">{{$conciliationCount}}</div>
+                                            <div class="col text-end"><a href="{{route('settlement.show.conciliation')}}"><span class="badge bg-primary rounded-pill">{{$conciliationCount}}</span></a></div>
                                         </div>
                                     </li>
                                     <li class="list-group-item">
@@ -279,7 +302,7 @@
                                             <div class="col">
                                                 <b> Arbitration </b>
                                             </div>
-                                            <div class="col text-end">{{$arbitrationCount}}</div>
+                                            <div class="col text-end"> <a href="{{route('settlement.show.arbitration')}}"><span class="badge bg-primary rounded-pill">{{$arbitrationCount}}</span></a></div>
                                         </div>
                                     </li>
                                 </ul>
@@ -289,18 +312,135 @@
 
                 </div>
 
+                <h5 class="mt-4 fw-bold">Blotter Cases</h5>
                 <div class="row mt-3 mb-3">
                     <div class="col">
                         <div class="card">
-                            <h5 class="card-header"><i class="bi bi-bar-chart-line-fill"></i> Blotter per month</h5>
+                            <h5 class="card-header"><i class="bi bi-record-circle"></i> Blotter Reports</h5>
                             <div class="card-body">
-                                <canvas id="barChart"></canvas>
+                                <div class="row g-0">
+                                    <div class="col">
+                                        <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                                            <input type="month" class="" onchange="filterChart(this)" id="month" />
+                                            <button onclick="reset()" class="btn btn-sm btn-primary">Reset</button>
+                                        </div>
+                                        <canvas id="lineBlotter"></canvas>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
+
+                    <div class="col">
+                        <div class="card h-100">
+                            <h5 class="card-header"><i class="bi bi-bar-chart-line-fill"></i> Total Hearings</h5>
+                            <div class="card-body">
+                                <canvas id="pieBlotter"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row mt-3 mb-3">
                     <div class="col">
                         <div class="card">
-                            <h5 class="card-header"><i class="bi bi-record-circle"></i> Incident Reports</h5>
+                            <h5 class="card-header"><i class="bi bi-bar-chart-line-fill"></i> Article No.</h5>
+                            <div class="card-body">
+                                <canvas id="horizontalBarArticle"></canvas>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col">
+                        <div class="card">
+                            <h5 class="card-header"><i class="bi bi-bar-chart-line-fill"></i> Hearing Schedule</h5>
+                            <div class="card-body">
+                                <ul class="list-group">
+                                    <li class="list-group-item list-group-item-action">
+                                        <div class="d-flex w-100 justify-content-between">
+                                            <h5 class="mb-1">Today</h5>
+                                            <small>{{$todayCount}}</small>
+                                        </div>
+
+                                        @forelse($todaySchedule as $sched => $values)
+                                        <?php
+                                        $case_title = Encryption::php()->decrypt($todayCaseTitle[$sched]);
+                                        ?>
+                                        <small><b>{{$case_title}}</b> <i>{{$values}}</i></small><br>
+                                        @empty
+                                        <small>-</small>
+                                        @endforelse
+
+                                    </li>
+                                    <li class="list-group-item list-group-item-action">
+                                        <div class="d-flex w-100 justify-content-between">
+                                            <h5 class="mb-1">Tomorrow</h5>
+                                            <small>{{$tomorrowCount}}</small>
+                                        </div>
+
+                                        @forelse($tomorrowSchedule as $sched => $values)
+                                        <?php
+                                        $case_title = Encryption::php()->decrypt($tomorrowCaseTitle[$sched]);
+                                        ?>
+                                        <small><b>{{$case_title}}</b> <i>{{$values}}</i></small><br>
+                                        @empty
+                                        <small>-</small>
+                                        @endforelse
+                                    </li>
+                                    <li class="list-group-item list-group-item-action">
+                                        <div class="d-flex w-100 justify-content-between">
+                                            <h5 class="mb-1">Next Week</h5>
+                                            <small>{{$nextWeekCount}}</small>
+                                        </div>
+                                        
+                                        @forelse($nextWeekSchedule as $sched => $values)
+                                        <?php
+                                        $case_title = Encryption::php()->decrypt($nextWeekCaseTitle[$sched]);
+                                        ?>
+                                        <small><b>{{$case_title}}</b> <i>{{$values}}</i></small><br>
+                                        @empty
+                                        <small>-</small>
+                                        @endforelse
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row mt-3 mb-3">
+                    <div class="col">
+                        <div class="card">
+                            <h5 class="card-header"><i class="bi bi-badge-wc-fill"></i> Word Analytics</h5>
+                            <div class="card-body">
+                                <figure class="highcharts-figure">
+                                    <div id="container"></div>
+                                </figure>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <hr class="mb-3">
+
+                <h5 class="mt-4 fw-bold">Incident Reports</h5>
+                <div class="row mb-3">
+                    <div class="col">
+                        <div class="card">
+                            <h5 class="card-header"><i class="bi bi-record-circle"></i> Top 5 Incidents</h5>
+                            <div class="card-body">
+                                <div class="row g-0">
+                                    <div class="col">
+                                        <canvas id="pieChartIncident"></canvas>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col">
+                        <div class="card">
+                            <h5 class="card-header"><i class="bi bi-record-circle"></i> Incident Distribution</h5>
                             <div class="card-body">
                                 <div class="row g-0">
                                     <div class="col">
@@ -335,35 +475,35 @@
 
                                     <div class="carousel-inner text-center">
                                         <div class="carousel-item active" data-bs-interval="10000">
-                                            <h5><span class="badge rounded-pill bg-dark">Arlegui St.</span></h5>
+                                            <h5><span class="badge rounded-pill bg-dark">1. Arlegui St.</span></h5>
                                             <canvas id="matrixChartArlegui" class=""></canvas>
                                         </div>
                                         <div class="carousel-item " data-bs-interval="100000">
-                                            <h5><span class="badge rounded-pill bg-dark">Castillejos St.</span></h5>
+                                            <h5><span class="badge rounded-pill bg-dark">2. Castillejos St.</span></h5>
                                             <canvas id="matrixChartCastillejos" class=""></canvas>
                                         </div>
                                         <div class="carousel-item " data-bs-interval="100000">
-                                            <h5><span class="badge rounded-pill bg-dark">Duque St.</span></h5>
+                                            <h5><span class="badge rounded-pill bg-dark">3. Duque St.</span></h5>
                                             <canvas id="matrixChartDuque" class=""></canvas>
                                         </div>
                                         <div class="carousel-item " data-bs-interval="100000">
-                                            <h5><span class="badge rounded-pill bg-dark">Farnecio St.</span></h5>
+                                            <h5><span class="badge rounded-pill bg-dark">4. Farnecio St.</span></h5>
                                             <canvas id="matrixChartFarnecio" class=""></canvas>
                                         </div>
                                         <div class="carousel-item " data-bs-interval="100000">
-                                            <h5><span class="badge rounded-pill bg-dark">Fraternal St.</span></h5>
+                                            <h5><span class="badge rounded-pill bg-dark">5. Fraternal St.</span></h5>
                                             <canvas id="matrixChartFraternal" class=""></canvas>
                                         </div>
                                         <div class="carousel-item " data-bs-interval="100000">
-                                            <h5><span class="badge rounded-pill bg-dark">Pascual Casal St.</span></h5>
+                                            <h5><span class="badge rounded-pill bg-dark">6. Pascual Casal St.</span></h5>
                                             <canvas id="matrixChartPCasal" class=""></canvas>
                                         </div>
                                         <div class="carousel-item " data-bs-interval="100000">
-                                            <h5><span class="badge rounded-pill bg-dark">Pax St.</span></h5>
+                                            <h5><span class="badge rounded-pill bg-dark">7. Pax St.</span></h5>
                                             <canvas id="matrixChartPax" class=""></canvas>
                                         </div>
                                         <div class="carousel-item " data-bs-interval="100000">
-                                            <h5><span class="badge rounded-pill bg-dark">Vergara St.</span></h5>
+                                            <h5><span class="badge rounded-pill bg-dark">8. Vergara St.</span></h5>
                                             <canvas id="matrixChartVergara" class=""></canvas>
                                         </div>
 
@@ -377,19 +517,6 @@
                                         <span class="visually-hidden">Next</span>
                                     </button>
                                 </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="row mt-3 mb-3">
-                    <div class="col">
-                        <div class="card">
-                            <h5 class="card-header"><i class="bi bi-badge-wc-fill"></i> Word Analytics</h5>
-                            <div class="card-body">
-                                <figure class="highcharts-figure">
-                                    <div id="container"></div>
-                                </figure>
                             </div>
                         </div>
                     </div>
@@ -410,6 +537,12 @@
 
         var x_type = JSON.parse('{!! json_encode($types) !!}');
         var y_type = JSON.parse('{!! json_encode($typeCount) !!}');
+
+        var x_type2 = JSON.parse('{!! json_encode($types2) !!}');
+        var y_type2 = JSON.parse('{!! json_encode($typeCount2) !!}');
+
+        var article_no = JSON.parse('{!! json_encode($article_no) !!}');
+        var article_count = JSON.parse('{!! json_encode($article_count) !!}');
 
         var report_count = JSON.parse('{!! json_encode($report_count) !!}');
 
@@ -438,9 +571,11 @@
         var y_ver = JSON.parse('{!! json_encode($dateCount_ver) !!}');
 
         var complaint_desc = '{!! htmlspecialchars($cleanedText, ENT_QUOTES, "UTF-8") !!}';
+
+        var y_pie_blotter = JSON.parse('{!! json_encode($hearing_type_count) !!}');
         //console.log('{!! htmlspecialchars($cleanedText, ENT_QUOTES, "UTF-8") !!}')
     </script>
-    <script src="{{ asset('assets/charts/bar.js')}} "></script>
+    <!-- <script src="{{ asset('assets/charts/bar.js')}} "></script> -->
     <!-- <script src="{{ asset('assets/charts/line.js')}} "></script> -->
     <!-- <script src="{{ asset('assets/charts/matrix.js')}} "></script> -->
     <script src="{{ asset('assets/charts/matrixArlegui.js')}} "></script>
@@ -453,6 +588,10 @@
     <script src="{{ asset('assets/charts/matrixVergara.js')}} "></script>
     <script src="{{ asset('assets/charts/doughnutReports.js')}} "></script>
     <script src="{{ asset('assets/charts/wordCloud.js')}} "></script>
+    <script src="{{ asset('assets/charts/pieIncident.js')}} "></script>
+    <script src="{{ asset('assets/charts/barBlotter.js')}} "></script>
+    <script src="{{ asset('assets/charts/pieBlotter.js')}} "></script>
+    <script src="{{ asset('assets/charts/horizontalBarArticle.js')}} "></script>
 </body>
 <!-- Charts.js -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js" integrity="sha512-ElRFoEQdI5Ht6kZvyzXhYG9NqjtkmlkfYk0wr6wHxU9JEHakS7UJZNeml5ALk+8IKlU6jDgMabC3vkumRokgJA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>

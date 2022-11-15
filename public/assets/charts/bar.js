@@ -7,14 +7,26 @@ const myChart1 = new Chart(ctx1, {
             label: '# of Blotter Cases',
             data: _xdata,
             backgroundColor: [
-                'rgba(255, 44, 44, 0.6)',
+                '#0D4C92',
+                '#EB4747',
+                '#F9D923',
+                '#36AE7C',
+                '#29252C',
+                '#EDF2F6',
             ],
             borderColor: [
-                'rgba(255, 99, 132, 1)',
+                '#EDF2F6'
             ],
-            borderWidth: 1
+            borderWidth: 1,
+            datalabels: {
+                color: 'black',
+                anchor: 'end',
+                align: 'top',
+                offset: 3
+            }
         }]
     },
+    plugins: [ChartDataLabels],
     options: {
         scales: {
             y: {
