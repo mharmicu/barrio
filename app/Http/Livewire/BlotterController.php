@@ -115,7 +115,7 @@ class BlotterController extends Component
 
 
 
-                return back()->with('success', '');
+                return redirect()->route('blotter.show')->with('successAddBlotter', '');
             } else {
                 return redirect()->back();
             }
@@ -128,7 +128,8 @@ class BlotterController extends Component
     {
         if (Auth::id()) {
             if (Auth::user()->user_type_id == 1 || Auth::user()->user_type_id == 2) {
-                return view('blotter.show');
+                $kp_cases = DB::select('SELECT * FROM kp_cases');
+                return view('blotter.show', compact('kp_cases'));
             } else {
                 return redirect()->back();
             }

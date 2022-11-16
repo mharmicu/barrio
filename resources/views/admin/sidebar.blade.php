@@ -32,13 +32,14 @@
         <span class="fw-bold p-2">CONTENT</span>
         <a class="list-group-item list-group-item-action  p-3 dropdown-toggle" href="#blotterSubmenu" data-bs-toggle="collapse" aria-expanded="false"><i class="bi bi-pen"></i> Blotter</a>
         <ul class="collapse" id="blotterSubmenu">
-            @if(Auth::user()->user_type_id == 1)
+            
+            <!-- @if(Auth::user()->user_type_id == 1)
             <li>
                 <a href="{{route('blotter.create')}}" :active="request()->routeIs('blotter.create')" class="subMenu">Create Blotter Report</a>
                 <hr>
             </li>
-            @endif
-            <li>
+            @endif -->
+            <li class="mt-3">
                 <?php
 
                 use App\Models\Blotter;
@@ -82,7 +83,7 @@
             </li>
 
             <li>
-                <a href="{{route('blotter.court-actions')}}" class="subMenu">Court Actions</a>
+                <a href="{{route('blotter.court-actions')}}" class="subMenu p-2">Court Actions</a>
                 <hr>
             </li>
         </ul>
