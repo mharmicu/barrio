@@ -386,6 +386,9 @@ class BlotterController extends Component
                     if ($compliance->compliance == 0) return '<span class="badge rounded-pill bg-secondary">NON-COMPLIANCE</span>';
                     if ($compliance->compliance == 1) return '<span class="badge rounded-pill bg-dark">COMPLIANCE</span>';
                 })
+                ->editColumn('date_of_execution', function ($date_of_execution) {
+                    return date('F d, Y', strtotime($date_of_execution->date_of_execution));
+                })
                 ->addColumn('agreement', function ($row) {
                     $case_hearing = CaseHearing::where('case_no', $row->case_no)->latest()->first();
                     if ($case_hearing) {
