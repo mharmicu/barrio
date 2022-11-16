@@ -128,25 +128,6 @@ class BlotterController extends Component
     {
         if (Auth::id()) {
             if (Auth::user()->user_type_id == 1 || Auth::user()->user_type_id == 2) {
-
-                $chs2 = DB::table('case_hearings')->select('case_no')->distinct('case_no')->get();
-                $data = Blotter::get();
-                //dd($chs2);
-
-                $chs = CaseHearing::latest()->get()->unique('case_no');
-                //foreach ($data as $d) {
-
-                //    if ($chs2->contains('case_no', $d->case_no)) {
-                //         echo '<script>alert("Welcome to Geeks for Geeks")</script>';
-                //    } else {
-                //        echo '<script>alert("NO")</script>';
-                //      }
-                //  }
-
-
-
-
-
                 return view('blotter.show');
             } else {
                 return redirect()->back();
@@ -181,8 +162,17 @@ class BlotterController extends Component
                 }
             }
 
+            //check if the case is in COURT ACTION, if yes then wag na idisplay
+            $court_actions = CourtAction::select('case_no')->get();
+            $CA_case_no = [];
+            foreach ($court_actions as $ca) {
+                $CA_case_no[] = $ca->case_no;
+            }
+
             foreach ($case_hearing as $ch) {
-                $blotter[] = Blotter::where('case_no', $ch->case_no)->latest()->first();
+                if (!in_array($ch->case_no, $CA_case_no, TRUE)) {
+                    $blotter[] = Blotter::where('case_no', $ch->case_no)->latest()->first();
+                }
             }
 
 
