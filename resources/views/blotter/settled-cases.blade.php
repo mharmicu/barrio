@@ -39,7 +39,7 @@
 
             <!-- Page content-->
             <div class="container-fluid">
-                <div class="row d-flex justify-content-center mt-5">
+                <div class="row d-flex justify-content-center mt-5 p-3">
                     @if(session()->has('successMed'))
                     <script>
                         Swal.fire({
@@ -87,27 +87,29 @@
                         </ol>
                     </nav>
 
-                    <p class="fs-4 fw-bold">Settled Cases</p>
-                    <div class="table-responsive">
-                        <table class="table table-bordered  yajra-datatable">
-                            <thead>
-                                <tr>
-                                    <th>Case No.</th>
-                                    <th>Case Title</th>
-                                    <th>Compliant Case</th>
-                                    <th>Hearing/Action</th>
-                                    <th>Date of Agreement</th>
-                                    <th>Date of Execution</th>
-                                    <th>Agreement</th>
-                                    <th>Status of Compliance</th>
-                                    <th>Remarks</th>
-                                    <th>Action</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                            </tbody>
+                    <div class="card p-3 shadow">
+                        <p class="fs-4 fw-bold">Settled Cases</p>
+                        <div class="table-responsive">
+                            <table class="table table-bordered  yajra-datatable">
+                                <thead>
+                                    <tr>
+                                        <th>Case No.</th>
+                                        <th>Case Title</th>
+                                        <th>Compliant Case</th>
+                                        <th>Hearing/Action</th>
+                                        <th>Date of Agreement</th>
+                                        <th>Date of Execution</th>
+                                        <th>Agreement</th>
+                                        <th>Status of Compliance</th>
+                                        <th>Remarks</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                </tbody>
 
-                        </table>
+                            </table>
+                        </div>
                     </div>
                 </div>
             </div>

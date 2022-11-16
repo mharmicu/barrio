@@ -38,32 +38,35 @@
 
             <!-- Page content-->
             <div class="container-fluid">
-                <div class="row d-flex justify-content-center mt-5">
-                    
-                    
+                <div class="row d-flex justify-content-center mt-5 p-5">
+
+
                     <nav aria-label="breadcrumb">
                         <ol class="breadcrumb">
                             <li class="breadcrumb-item">Notice</li>
                             <li class="breadcrumb-item active" aria-current="page">Set Schedule & Create Notices</li>
                         </ol>
                     </nav>
+                    <div class="card p-3 shadow">
+                        <p class="fs-4 fw-bold">Incomplete Notices</p>
 
-                    <div class="table-responsive">
-                        <table class="table table-bordered  yajra-datatable">
-                            <thead>
-                                <tr>
-                                    <th>Case No.</th>
-                                    <th>Case Title</th>
-                                    <th>Date Reported</th>
-                                    <th>Processed By</th>
-                                    <th>Date of Hearing</th>
-                                    <th>Actions</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                            </tbody>
+                        <div class="table-responsive">
+                            <table class="table table-bordered  yajra-datatable">
+                                <thead>
+                                    <tr>
+                                        <th>Case No.</th>
+                                        <th>Case Title</th>
+                                        <th>Date Reported</th>
+                                        <th>Processed By</th>
+                                        <th>Date of Hearing</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                </tbody>
 
-                        </table>
+                            </table>
+                        </div>
                     </div>
                 </div>
             </div>
