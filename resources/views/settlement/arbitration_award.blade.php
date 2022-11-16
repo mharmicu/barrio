@@ -82,14 +82,14 @@
                             <div class="col">
                                 <div class="card shadow-sm p-2" style="height: 12rem;">
                                     <p class="fw-bold text-primary">Complainant</p>
-                                    <p class="fw-normal"><span class="text-uppercase">&nbsp;&nbsp;&nbsp;&nbsp; {{$complainant->last_name}}</span>, {{$complainant->last_name}}, {{$complainant->middle_name}}</p>
+                                    <p class="fw-normal"><span class="text-uppercase">&nbsp;&nbsp;&nbsp;&nbsp; {{$complainant->last_name}}</span>, {{$complainant->first_name}} {{$complainant->middle_name}}</p>
                                 </div>
 
                             </div>
                             <div class="col">
                                 <div class="card shadow-sm p-2" style="height: 12rem;">
                                     <p class="fw-bold text-primary">Respondent</p>
-                                    <p class="fw-normal"><span class="text-uppercase">&nbsp;&nbsp;&nbsp;&nbsp; {{$respondent->last_name}}</span>, {{$respondent->last_name}}, {{$respondent->middle_name}}</p>
+                                    <p class="fw-normal"><span class="text-uppercase">&nbsp;&nbsp;&nbsp;&nbsp; {{$respondent->last_name}}</span>, {{$respondent->first_name}} {{$respondent->middle_name}}</p>
                                 </div>
                             </div>
                             <div class="col">
@@ -98,7 +98,7 @@
                                     @forelse($persons as $person)
                                     <ul style="border-bottom: 1px solid;">
                                         <li>
-                                            <span class="text-uppercase"> {{$person->last_name}}</span>, {{$person->first_name}}, {{$person->middle_name}}
+                                            <span class="text-uppercase"> {{$person->last_name}}</span>, {{$person->first_name}} {{$person->middle_name}}
                                         </li>
                                     </ul>
                                     @empty
