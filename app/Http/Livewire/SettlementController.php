@@ -664,7 +664,7 @@ class SettlementController extends Component
                 $court_action->case_no = $id;
                 $court_action->save();
 
-                return redirect('../home')->with('filed_court_action', '');
+                return redirect()->route('blotter.court-actions')->with('filed_court_action', '');
             } else {
                 return redirect()->back();
             }

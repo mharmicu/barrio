@@ -160,15 +160,7 @@ use Maize\Encryptable\Encryption;
 
             <!-- Page content-->
             <div class="container-fluid p-5" style="background-color: #f1f2f5;">
-                @if(session()->has('filed_court_action'))
-                <script>
-                    Swal.fire({
-                        icon: 'success',
-                        title: 'Court Action Filed Successfully'
-                    })
-                </script>
-                @endif
-
+                
                 <h1 class="mb-3">Dashboard</h1>
                 <div class="row">
                     <div class="col">

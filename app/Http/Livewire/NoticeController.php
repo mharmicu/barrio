@@ -131,7 +131,7 @@ class NoticeController extends Component
                     $notice->save();
                 }
 
-                return redirect('../notice/show')->with('success', '');
+                return redirect()->route('blotter.show')->with('success', '');
             } else {
                 return redirect()->back();
             }

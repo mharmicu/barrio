@@ -40,7 +40,16 @@
             <!-- Page content-->
             <div class="container-fluid">
                 <div class="row d-flex justify-content-center mt-5 p-5">
-
+                    @if(session()->has('success'))
+                    <script>
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Notice hearing schedule updated successfully',
+                            footer: '<a href="/notice/show">Return to notices</a>'
+                        })
+                    </script>
+                    @endif
+                    
                     <nav aria-label="breadcrumb">
                         <ol class="breadcrumb">
                             <li class="breadcrumb-item">Blotter</li>
