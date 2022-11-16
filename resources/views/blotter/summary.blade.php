@@ -37,16 +37,6 @@
             <!-- Page content-->
             <div class="container-fluid">
                 <div class="row d-flex justify-content-center mt-5 px-5">
-                    @if(session()->has('updated'))
-                    <script>
-                        Swal.fire({
-                            icon: 'success',
-                            title: 'Blotter updated successfully',
-                            footer: '<a href="/blotter/summary">Return to case summary</a>'
-                        })
-                    </script>
-                    @endif
-
                     @if(session()->has('none'))
                     <script>
                         Swal.fire({

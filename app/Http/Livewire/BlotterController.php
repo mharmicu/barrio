@@ -331,7 +331,7 @@ class BlotterController extends Component
                 $blotter->remarks = $request->remarks;
                 $blotter->save();
 
-                return redirect()->back()->with('updated', '');
+                return redirect()->route('blotter.settled')->with('updated', '');
             } else {
                 return redirect()->back();
             }

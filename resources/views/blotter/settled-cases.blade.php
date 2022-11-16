@@ -40,7 +40,15 @@
             <!-- Page content-->
             <div class="container-fluid">
                 <div class="row d-flex justify-content-center mt-5">
-
+                    @if(session()->has('updated'))
+                    <script>
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Blotter updated successfully',
+                            footer: '<a href="/blotter/summary">Return to case summary</a>'
+                        })
+                    </script>
+                    @endif
                     <nav aria-label="breadcrumb">
                         <ol class="breadcrumb">
                             <li class="breadcrumb-item">Blotter</li>
