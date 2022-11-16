@@ -104,6 +104,7 @@
         </ul>
 
 
+        @if(Auth::user()->user_type_id == 1 || Auth::user()->user_type_id == 2)
         <a class="list-group-item list-group-item-action  p-3 dropdown-toggle" href="#hearingSubmenu" data-bs-toggle="collapse" aria-expanded="false"><i class="bi bi-alarm"></i> Hearing Process</a>
         <ul class="collapse" id="hearingSubmenu">
             <li>
@@ -119,6 +120,7 @@
                 <hr>
             </li>
         </ul>
+        @endif
 
 
         <a class="list-group-item list-group-item-action  p-3 dropdown-toggle" href="#incidentSubMenu" data-bs-toggle="collapse" aria-expanded="false"><i class="bi bi-inboxes"></i> Incident Report</a>
@@ -131,6 +133,8 @@
 
         <br>
         <span class="fw-bold p-2">MANAGEMENT</span>
+
+        @if(Auth::user()->user_type_id == 1)
         <a class="list-group-item list-group-item-action  p-3 dropdown-toggle" href="#accountSubmenu" data-bs-toggle="collapse" aria-expanded="false"><i class="bi bi-person"></i> Accounts</a>
         <ul class="collapse" id="accountSubmenu">
             <li>
@@ -142,6 +146,7 @@
                 <hr>
             </li>
         </ul>
+        @endif
 
         <a class="list-group-item list-group-item-action  p-3 " href="{{route('blotter.kp_case')}}"><i class="bi bi-list-check"></i> KP Cases</a>
 

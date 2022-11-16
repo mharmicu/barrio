@@ -23,7 +23,7 @@ class AccountController extends Component
     public function show_users()
     {
         if (Auth::id()) {
-            if (Auth::user()->user_type_id == 1 || 2) {
+            if (Auth::user()->user_type_id == 1) {
 
                 return view('account.manage-acc');
             } else {
@@ -108,7 +108,7 @@ class AccountController extends Component
     public function disable($id)
     {
         if (Auth::id()) {
-            if (Auth::user()->user_type_id == 1 || 2) {
+            if (Auth::user()->user_type_id == 1) {
 
                 $user = User::find($id);
                 //dd($user);
@@ -127,7 +127,7 @@ class AccountController extends Component
     public function show_register()
     {
         if (Auth::id()) {
-            if (Auth::user()->user_type_id == 1 || 2) {
+            if (Auth::user()->user_type_id == 1) {
 
                 return view('account.register-acc');
             } else {
@@ -141,7 +141,7 @@ class AccountController extends Component
     public function new_acc(Request $request)
     {
         if (Auth::id()) {
-            if (Auth::user()->user_type_id == 1 || 2) {
+            if (Auth::user()->user_type_id == 1) {
 
                 // validation
                 $request->validate([
@@ -179,7 +179,7 @@ class AccountController extends Component
     public function show_edit($id)
     {
         if (Auth::id()) {
-            if (Auth::user()->user_type_id == 1 || 2) {
+            if (Auth::user()->user_type_id == 1) {
 
                 $user = User::find($id);
 
@@ -195,7 +195,7 @@ class AccountController extends Component
     public function store_edit($id, Request $request)
     {
         if (Auth::id()) {
-            if (Auth::user()->user_type_id == 1 || 2) {
+            if (Auth::user()->user_type_id == 1) {
 
                 $user = User::find($id);
                 $user->user_type_id = $request->user_type;

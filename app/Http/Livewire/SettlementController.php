@@ -77,7 +77,7 @@ class SettlementController extends Component
     public function proceed_to_conciliation($id)
     {
         if (Auth::id()) {
-            if (Auth::user()->user_type_id == 1 || 2) {
+            if (Auth::user()->user_type_id == 1) {
                 $hearingNotice = Notice::where('case_no', $id)->where('notice_type_id', 1)->where('notified', 1)->first();
                 $hearingRecord = new Hearing();
                 $hearingRecord->date_of_meeting = $hearingNotice->date_of_meeting;
@@ -104,7 +104,7 @@ class SettlementController extends Component
     public function proceed_to_arbitration($id)
     {
         if (Auth::id()) {
-            if (Auth::user()->user_type_id == 1 || 2) {
+            if (Auth::user()->user_type_id == 1) {
                 $hearingNotice = Notice::where('case_no', $id)->where('notice_type_id', 1)->where('notified', 1)->first();
                 $hearingRecord = new Hearing();
                 $hearingRecord->date_of_meeting = $hearingNotice->date_of_meeting;
@@ -154,8 +154,13 @@ class SettlementController extends Component
             return Datatables::of($blotter_report)
                 ->addIndexColumn()
                 ->addColumn('action', function ($row) {
-                    $actionBtn = '<div class="d-grid gap-2"><a href="mediation/' . $row->case_no   . '" class="btn btn-primary btn-sm">Go to Hearing</a><a href="../notice/create/' . $row->case_no   . '" class="btn btn-secondary btn-sm">Add Witness</a><a href="file-court-action/' . $row->case_no   . '" class="btn btn-outline-danger btn-sm">File Court Action</a></div>';
-                    return $actionBtn;
+                    if (Auth::user()->user_type_id == 1) {
+                        $actionBtn = '<div class="d-grid gap-2"><a href="mediation/' . $row->case_no   . '" class="btn btn-primary btn-sm">Go to Hearing</a><a href="../notice/create/' . $row->case_no   . '" class="btn btn-secondary btn-sm">Add Witness</a><a href="file-court-action/' . $row->case_no   . '" class="btn btn-outline-danger btn-sm">File Court Action</a></div>';
+                        return $actionBtn;
+                    } else {
+                        $actionBtn = '';
+                        return $actionBtn;
+                    }
                 })
                 ->addColumn('complainant', function ($row) {
                     $case_involved = DB::table('case_involved')->where('case_no', $row->case_no)->first();
@@ -218,15 +223,20 @@ class SettlementController extends Component
             return Datatables::of($blotter_report)
                 ->addIndexColumn()
                 ->addColumn('action', function ($row) {
-                    //check whether it has PANGKAT CONSTITUTION NOTICE
-                    $notice = DB::table('notices')->where('case_no', $row->case_no)->where('notice_type_id', 4)->where('notified', 1)->first();
-                    if ($notice) {
-                        $requirementButton = '<a href="conciliation/' . $row->case_no   . '" class="btn btn-primary btn-sm">Go to Hearing</a>';
+                    if (Auth::user()->user_type_id == 1) {
+                        //check whether it has PANGKAT CONSTITUTION NOTICE
+                        $notice = DB::table('notices')->where('case_no', $row->case_no)->where('notice_type_id', 4)->where('notified', 1)->first();
+                        if ($notice) {
+                            $requirementButton = '<a href="conciliation/' . $row->case_no   . '" class="btn btn-primary btn-sm">Go to Hearing</a>';
+                        } else {
+                            $requirementButton = '<a href="../notice/create/' . $row->case_no   . '" class="btn btn-info btn-sm">Create Notice</a>';
+                        }
+                        $actionBtn = '<div class="d-grid gap-2">' . $requirementButton  . '<a href="../notice/create/' . $row->case_no   . '" class="btn btn-secondary btn-sm">Add Witness</a><a href="file-court-action/' . $row->case_no   . '" class="btn btn-outline-danger btn-sm">File Court Action</a></div>';
+                        return $actionBtn;
                     } else {
-                        $requirementButton = '<a href="../notice/create/' . $row->case_no   . '" class="btn btn-info btn-sm">Create Notice</a>';
+                        $actionBtn = '';
+                        return $actionBtn;
                     }
-                    $actionBtn = '<div class="d-grid gap-2">' . $requirementButton  . '<a href="../notice/create/' . $row->case_no   . '" class="btn btn-secondary btn-sm">Add Witness</a><a href="file-court-action/' . $row->case_no   . '" class="btn btn-outline-danger btn-sm">File Court Action</a></div>';
-                    return $actionBtn;
                 })
                 ->addColumn('complainant', function ($row) {
                     $case_involved = DB::table('case_involved')->where('case_no', $row->case_no)->first();
@@ -291,16 +301,21 @@ class SettlementController extends Component
             return Datatables::of($blotter_report)
                 ->addIndexColumn()
                 ->addColumn('action', function ($row) {
-                    $case_hearing = DB::table('case_hearings')->where('case_no', $row->case_no)->latest()->first();
-                    //check whether it has ARBITRATION AGREEMENT
-                    $arbitration_agreements = DB::table('arbitration_agreements')->where('hearing_id', $case_hearing->hearing_id)->first();
-                    if ($arbitration_agreements) {
-                        $requirementButton = '<a href="arbitration-award/' . $row->case_no   . '" class="btn btn-primary btn-sm">Go to Hearing</a>';
+                    if (Auth::user()->user_type_id == 1) {
+                        $case_hearing = DB::table('case_hearings')->where('case_no', $row->case_no)->latest()->first();
+                        //check whether it has ARBITRATION AGREEMENT
+                        $arbitration_agreements = DB::table('arbitration_agreements')->where('hearing_id', $case_hearing->hearing_id)->first();
+                        if ($arbitration_agreements) {
+                            $requirementButton = '<a href="arbitration-award/' . $row->case_no   . '" class="btn btn-primary btn-sm">Go to Hearing</a>';
+                        } else {
+                            $requirementButton = '<a href="arbitration-agreement/' . $row->case_no   . '" class="btn btn-warning btn-sm">Create Arbitration Requirement</a>';
+                        }
+                        $actionBtn = '<div class="d-grid gap-2">' . $requirementButton  . '<a href="../notice/create/' . $row->case_no   . '" class="btn btn-secondary btn-sm">Add Witness</a><a href="file-court-action/' . $row->case_no   . '" class="btn btn-outline-danger btn-sm">File Court Action</a></div>';
+                        return $actionBtn;
                     } else {
-                        $requirementButton = '<a href="arbitration-agreement/' . $row->case_no   . '" class="btn btn-warning btn-sm">Create Arbitration Requirement</a>';
+                        $actionBtn = '';
+                        return $actionBtn;
                     }
-                    $actionBtn = '<div class="d-grid gap-2">' . $requirementButton  . '<a href="../notice/create/' . $row->case_no   . '" class="btn btn-secondary btn-sm">Add Witness</a><a href="file-court-action/' . $row->case_no   . '" class="btn btn-outline-danger btn-sm">File Court Action</a></div>';
-                    return $actionBtn;
                 })
                 ->addColumn('complainant', function ($row) {
                     $case_involved = DB::table('case_involved')->where('case_no', $row->case_no)->first();
@@ -352,7 +367,7 @@ class SettlementController extends Component
     public function mediation($id)
     {
         if (Auth::id()) {
-            if (Auth::user()->user_type_id == 1 || 2) {
+            if (Auth::user()->user_type_id == 1) {
                 $blotter_report = Blotter::find($id);
                 $case_involved = DB::table('case_involved')->where('case_no', $id)->first();
                 $complainant = Person::where('person_id', $case_involved->complainant_id)->first();
@@ -377,7 +392,7 @@ class SettlementController extends Component
     public function store_mediation($id, Request $request)
     {
         if (Auth::id()) {
-            if (Auth::user()->user_type_id == 1 || 2) {
+            if (Auth::user()->user_type_id == 1) {
                 $request->validate([
                     'agreement_desc' => 'required|max:2500|regex:"^[^-]{1}?[^\"\']*$"', //regex for alphanumeric and some special characters and spaces only
                     //'complainant_sign' => ['nullable', 'mimes:jpg,bmp,jpeg,png', 'max:15000'],
@@ -426,7 +441,7 @@ class SettlementController extends Component
     public function conciliation($id)
     {
         if (Auth::id()) {
-            if (Auth::user()->user_type_id == 1 || 2) {
+            if (Auth::user()->user_type_id == 1) {
                 $blotter_report = Blotter::find($id);
                 $case_involved = DB::table('case_involved')->where('case_no', $id)->first();
                 $complainant = Person::where('person_id', $case_involved->complainant_id)->first();
@@ -451,7 +466,7 @@ class SettlementController extends Component
     public function store_conciliation($id, Request $request)
     {
         if (Auth::id()) {
-            if (Auth::user()->user_type_id == 1 || 2) {
+            if (Auth::user()->user_type_id == 1) {
                 $request->validate([
                     'agreement_desc' => 'required|max:2500|regex:"^[^-]{1}?[^\"\']*$"', //regex for alphanumeric and some special characters and spaces only
                     //'complainant_sign' => ['nullable', 'mimes:jpg,bmp,jpeg,png', 'max:15000'],
@@ -500,7 +515,7 @@ class SettlementController extends Component
     public function arbitration_agreement($id)
     {
         if (Auth::id()) {
-            if (Auth::user()->user_type_id == 1 || 2) {
+            if (Auth::user()->user_type_id == 1) {
                 $blotter_report = Blotter::find($id);
                 $case_involved = DB::table('case_involved')->where('case_no', $id)->first();
                 $complainant = Person::where('person_id', $case_involved->complainant_id)->first();
@@ -525,7 +540,7 @@ class SettlementController extends Component
     public function store_arbitration_agreement($id, Request $request)
     {
         if (Auth::id()) {
-            if (Auth::user()->user_type_id == 1 || 2) {
+            if (Auth::user()->user_type_id == 1) {
                 $request->validate([
                     //'complainant_sign' => ['nullable', 'mimes:jpg,bmp,jpeg,png', 'max:15000'],
                     //'complainant_sign_check' => ['required'],
@@ -571,7 +586,7 @@ class SettlementController extends Component
     public function arbitration_award($id)
     {
         if (Auth::id()) {
-            if (Auth::user()->user_type_id == 1 || 2) {
+            if (Auth::user()->user_type_id == 1) {
                 $blotter_report = Blotter::find($id);
                 $case_involved = DB::table('case_involved')->where('case_no', $id)->first();
                 $complainant = Person::where('person_id', $case_involved->complainant_id)->first();
@@ -596,7 +611,7 @@ class SettlementController extends Component
     public function store_arbitration_award($id, Request $request)
     {
         if (Auth::id()) {
-            if (Auth::user()->user_type_id == 1 || 2) {
+            if (Auth::user()->user_type_id == 1) {
                 $request->validate([
                     'agreement_desc' => 'required|max:2500|regex:"^[^-]{1}?[^\"\']*$"', //regex for alphanumeric and some special characters and spaces only
                     'complainant_sign' => ['nullable', 'mimes:jpg,bmp,jpeg,png', 'max:15000'],
@@ -636,7 +651,7 @@ class SettlementController extends Component
     public function fileCourtAction($id)
     {
         if (Auth::id()) {
-            if (Auth::user()->user_type_id == 1 || 2) {
+            if (Auth::user()->user_type_id == 1) {
                 $blotter_report = Blotter::find($id);
                 $case_involved = DB::table('case_involved')->where('case_involved.case_no', $id)->first();
                 $respondent = Person::where('person_id', $case_involved->respondent_id)->first();
@@ -657,7 +672,7 @@ class SettlementController extends Component
     public function courtActionStore($id)
     {
         if (Auth::id()) {
-            if (Auth::user()->user_type_id == 1 || 2) {
+            if (Auth::user()->user_type_id == 1) {
 
                 $court_action = new CourtAction();
                 $court_action->date_filed = date("Y-m-d H:i:s");

@@ -285,7 +285,7 @@ class NoticeController extends Component
     public function notify($id)
     {
         if (Auth::id()) {
-            if (Auth::user()->user_type_id == 1) {
+            if (Auth::user()->user_type_id == 1 || 2) {
                 $notice = Notice::find($id);
 
                 if ($notice->notice_type_id != 4) {
@@ -469,7 +469,7 @@ class NoticeController extends Component
     public function addWitness($id, Request $request)
     {
         if (Auth::id()) {
-            if (Auth::user()->user_type_id == 1 || Auth::user()->user_type_id == 2) {
+            if (Auth::user()->user_type_id == 1) {
 
                 $field_values_array = $request->lastName;
                 $field_values_array2 = $request->firstName;
@@ -508,7 +508,7 @@ class NoticeController extends Component
     public function removeWitness($id)
     {
         if (Auth::id()) {
-            if (Auth::user()->user_type_id == 1 || Auth::user()->user_type_id == 2) {
+            if (Auth::user()->user_type_id == 1) {
                 $person = Person::find($id);
                 $person->delete();
 
@@ -524,7 +524,7 @@ class NoticeController extends Component
     public function subpoenaPDF($id)
     {
         if (Auth::id()) {
-            if (Auth::user()->user_type_id == 1 || Auth::user()->user_type_id == 2) {
+            if (Auth::user()->user_type_id == 1) {
                 $notice = DB::table('notices')->where('notice_id', $id)->first();
                 $blotter_report = Blotter::where('blotter_report.case_no', $notice->case_no)->first();
 

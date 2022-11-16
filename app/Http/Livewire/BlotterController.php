@@ -31,7 +31,7 @@ class BlotterController extends Component
     public function create()
     {
         if (Auth::id()) {
-            if (Auth::user()->user_type_id == 1) {
+            if (Auth::user()->user_type_id == 1  || Auth::user()->user_type_id == 2) {
                 $kp_cases = DB::select('SELECT * FROM kp_cases');
                 return view('blotter.create', compact('kp_cases'));
             } else {
@@ -45,7 +45,7 @@ class BlotterController extends Component
     public function store(Request $request)
     {
         if (Auth::id()) {
-            if (Auth::user()->user_type_id == 1) {
+            if (Auth::user()->user_type_id == 1 || Auth::user()->user_type_id == 2) {
                 // validation
                 $request->validate([
                     //'salutation' => 'required',
@@ -175,14 +175,6 @@ class BlotterController extends Component
                     $blotter[] = Blotter::where('case_no', $ch->case_no)->latest()->first();
                 }
             }
-
-
-
-
-
-
-
-
 
             return Datatables::of($blotter)
                 ->addIndexColumn()
@@ -452,7 +444,7 @@ class BlotterController extends Component
     public function complaintPDF($id)
     {
         if (Auth::id()) {
-            if (Auth::user()->user_type_id == 1) {
+            if (Auth::user()->user_type_id == 1 || Auth::user()->user_type_id == 2) {
                 $blotter_report = Blotter::where('blotter_report.case_no', '=', $id)->first();
                 $incident_case = DB::table('incident_case')->where('case_no', $id)->first();
                 $kp_case = DB::table('kp_cases')->where('kp_cases.article_no', $incident_case->article_no)->first();
@@ -475,7 +467,7 @@ class BlotterController extends Component
     public function amicablePDF($id)
     {
         if (Auth::id()) {
-            if (Auth::user()->user_type_id == 1) {
+            if (Auth::user()->user_type_id == 1  || Auth::user()->user_type_id == 2) {
                 $blotter_report = Blotter::where('blotter_report.case_no', '=', $id)->first();
                 $incident_case = DB::table('incident_case')->where('case_no', $id)->first();
                 $kp_case = DB::table('kp_cases')->where('kp_cases.article_no', $incident_case->article_no)->first();
@@ -502,7 +494,7 @@ class BlotterController extends Component
     public function arbitrationPDF($id)
     {
         if (Auth::id()) {
-            if (Auth::user()->user_type_id == 1) {
+            if (Auth::user()->user_type_id == 1  || Auth::user()->user_type_id == 2) {
                 $blotter_report = Blotter::where('blotter_report.case_no', '=', $id)->first();
                 $incident_case = DB::table('incident_case')->where('case_no', $id)->first();
                 $kp_case = DB::table('kp_cases')->where('kp_cases.article_no', $incident_case->article_no)->first();
@@ -566,7 +558,7 @@ class BlotterController extends Component
     public function courtActionPDF($id)
     {
         if (Auth::id()) {
-            if (Auth::user()->user_type_id == 1) {
+            if (Auth::user()->user_type_id == 1 || Auth::user()->user_type_id == 2) {
                 $blotter_report = Blotter::where('blotter_report.case_no', '=', $id)->first();
                 $incident_case = DB::table('incident_case')->where('case_no', $id)->first();
                 $kp_case = DB::table('kp_cases')->where('kp_cases.article_no', $incident_case->article_no)->first();
