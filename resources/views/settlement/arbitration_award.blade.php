@@ -122,7 +122,7 @@
 
                             <div class="row">
                                 <div class="col-md-auto mb-3">
-                                    <p class="fw-bold text-primary">Complainant's Signature</p>
+                                    <p class="fw-bold text-primary">Complainant's and Respondent's Signature</p>
                                     <!--
                                     <input type="file" class="form-control shadow-none  @error('complainant_sign') is-invalid @enderror" onchange="previewFile(this)" name="complainant_sign" value="{{old('complainant_sign')}}">
                                     @error('complainant_sign')
