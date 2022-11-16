@@ -80,14 +80,7 @@
                 </a>
                 <hr>
             </li>
-            <li>
-                <a href="{{route('blotter.settled')}}" class="subMenu">Settled Cases</a>
-                <hr>
-            </li>
-            <li>
-                <a href="{{route('blotter.summary')}}" class="subMenu">Search</a>
-                <hr>
-            </li>
+
             <li>
                 <a href="{{route('blotter.court-actions')}}" class="subMenu">Court Actions</a>
                 <hr>
