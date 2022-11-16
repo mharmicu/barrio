@@ -413,7 +413,7 @@ class SettlementController extends Component
                 $person_signature->person_id = $case_involved->respondent_id;
                 $person_signature->save();
 
-                return redirect('settlement/show-mediation')->with('success', '');
+                return redirect()->route('blotter.settled')->with('successMed', '');
             } else {
 
                 return redirect()->back();
@@ -487,7 +487,7 @@ class SettlementController extends Component
                 $person_signature->person_id = $case_involved->respondent_id;
                 $person_signature->save();
 
-                return redirect('settlement/show-conciliation')->with('success', '');
+                return redirect()->route('blotter.settled')->with('successCon', '');
             } else {
 
                 return redirect()->back();
@@ -623,7 +623,7 @@ class SettlementController extends Component
                 $hearing->award_id = $arbitration_award_record->award_id;
                 $hearing->save();
 
-                return redirect('settlement/show-arbitration')->with('award_success', '');
+                return redirect()->route('blotter.settled')->with('award_success', '');
             } else {
 
                 return redirect()->back();

@@ -40,6 +40,36 @@
             <!-- Page content-->
             <div class="container-fluid">
                 <div class="row d-flex justify-content-center mt-5">
+                    @if(session()->has('successMed'))
+                    <script>
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Amicable Settlement has been created.',
+                            footer: '<a href="/settlement/show-mediation">Return to list of mediations</a>'
+                        })
+                    </script>
+                    @endif
+
+                    @if(session()->has('successCon'))
+                    <script>
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Amicable Settlement has been created.',
+                            footer: '<a href="/settlement/show-conciliation">Return to list of conciliations</a>'
+                        })
+                    </script>
+                    @endif
+
+                    @if(session()->has('award_success'))
+                    <script>
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Arbitration Award has been created.',
+                            footer: '<a href="/settlement/show-arbitration">Return to list of arbitrations</a>'
+                        })
+                    </script>
+                    @endif
+
                     @if(session()->has('updated'))
                     <script>
                         Swal.fire({
@@ -49,6 +79,7 @@
                         })
                     </script>
                     @endif
+
                     <nav aria-label="breadcrumb">
                         <ol class="breadcrumb">
                             <li class="breadcrumb-item">Blotter</li>

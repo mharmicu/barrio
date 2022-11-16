@@ -50,14 +50,6 @@
                         })
                     </script>
                     @endif
-                    @if(session()->has('award_success'))
-                    <script>
-                        Swal.fire({
-                            icon: 'success',
-                            title: 'Arbitration Award has been created.'
-                        })
-                    </script>
-                    @endif
 
                     <nav aria-label="breadcrumb">
                         <ol class="breadcrumb">

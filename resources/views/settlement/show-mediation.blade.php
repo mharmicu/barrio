@@ -42,16 +42,6 @@
             <div class="container-fluid">
 
                 <div class="row d-flex justify-content-center  p-5">
-                    @if(session()->has('success'))
-                    <script>
-                        Swal.fire({
-                            icon: 'success',
-                            title: 'Amicable Settlement has been created.',
-                            footer: '<a href="/settlement/show-mediation">Return to list of mediations</a>'
-                        })
-                    </script>
-                    @endif
-
                     <nav aria-label="breadcrumb">
                         <ol class="breadcrumb">
                             <li class="breadcrumb-item">Settlement</li>
