@@ -15,10 +15,10 @@
 <body>
     <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
         <div class="container">
-            <a class="navbar-brand" href="#">
+            <a class="navbar-brand" href="">
                 <img src="{{ asset('/img/385-logo.png')}}" width="40" height="40" alt="">
             </a>
-            <a class="navbar-brand" href="#"><span class="text-danger">BAR</span>RIO</a>
+            <a class="navbar-brand" href=""><span class="text-danger">BAR</span>RIO</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -86,7 +86,7 @@
             <div class="carousel-item active">
                 <img src="../img/home-1.jpg" class="d-block w-100" alt="...">
                 <div class="carousel-caption">
-                    <h5>Secure Cases Repository</h5>
+                    <h5>Blotter Cases Repository</h5>
                     <p> Secure Cases Repository with Incident Reporting and Analytics Generation</p>
                     <p><a href="#" class="btn btn-danger mt-3">Learn More</a></p>
                 </div>
