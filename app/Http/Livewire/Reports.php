@@ -28,8 +28,8 @@ class Reports extends Component
         $request->validate([
 
             'date_of_incident' => 'required',
-            'location' => 'required|max:255|regex:/^[\pL\s\-]+$/u',
-            'persons' => 'required|max:255|regex:/^[\pL\s\-]+$/u',
+            'location' => 'required',
+            'persons' => 'required',
             'narrative' => 'required',
 
         ], []);
