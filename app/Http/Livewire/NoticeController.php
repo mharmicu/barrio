@@ -443,7 +443,7 @@ class NoticeController extends Component
         if (Auth::id()) {
             if (Auth::user()->user_type_id == 1 || Auth::user()->user_type_id == 2) {
 
-                $blotter_report = Blotter::paginate('4');
+                $blotter_report = Blotter::paginate('5');
 
                 $case_involved = array();
                 $complainant = array();
@@ -455,7 +455,7 @@ class NoticeController extends Component
                     $notices[] = DB::table('notices')->where('case_no', $value->case_no)->get();
                 }
 
-                //dd($notices[0][2]);
+                //dd($notices);
 
                 return view('notice.summary', compact('blotter_report', 'notices', 'complainant', 'respondent'));
             } else {

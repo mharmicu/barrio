@@ -94,7 +94,7 @@
                                     <!--
                                     <p class="card-text text-end"><b>Hearing Type</b></p>
                                     <p class="card-text text-end"><b>Hearing Schedule</b></p>
-                    -->
+                                    -->
                                 </div>
                             </div>
 
@@ -314,7 +314,14 @@
                                             </tr>
 
                                             <tr>
+                                                @forelse($notices[$loop->index] as $notice)
+                                                @if ($notice->notice_id)
                                                 <td class="text-right" colspan="5"><a href="{{route('notice.create', $notice->case_no)}}" class="btn btn-sm btn-primary text-right">Manage Notice</a></td>
+                                                @endif
+                                                @break
+                                                @empty
+                                                <td class="text-right" colspan="5"><a href="{{route('notice.schedule', $blotter->case_no)}}" class="btn btn-sm btn-danger text-right">No schedule yet</a></td>
+                                                @endforelse
                                             </tr>
 
                                         </tbody>
