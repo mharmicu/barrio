@@ -7,7 +7,7 @@
 
     <div class="sidebar-heading border-bottom mt-3 mb-3">
 
-        <img src="{{ asset('/img/385-logo.png')}}" width="150" height="150" alt="" class="img-fluid mx-auto d-block">
+        <img src="{{ asset('/img/385-logo-white.png')}}" width="150" height="150" alt="" class="img-fluid mx-auto d-block">
     </div>
 
 

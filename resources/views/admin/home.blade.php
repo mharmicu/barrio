@@ -69,7 +69,7 @@ use Maize\Encryptable\Encryption;
             width: 100% !important;
         }
 
-        #horizontalBarArticle{
+        #horizontalBarArticle {
             width: 100% !important;
         }
 
@@ -160,7 +160,7 @@ use Maize\Encryptable\Encryption;
 
             <!-- Page content-->
             <div class="container-fluid p-5" style="background-color: #f1f2f5;">
-                
+
                 <h1 class="mb-3">Dashboard</h1>
                 <div class="row">
                     <div class="col">
@@ -324,26 +324,6 @@ use Maize\Encryptable\Encryption;
                     </div>
 
                     <div class="col">
-                        <div class="card h-100">
-                            <h5 class="card-header"><i class="bi bi-bar-chart-line-fill"></i> Total Hearings</h5>
-                            <div class="card-body">
-                                <canvas id="pieBlotter"></canvas>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="row mt-3 mb-3">
-                    <div class="col">
-                        <div class="card">
-                            <h5 class="card-header"><i class="bi bi-bar-chart-line-fill"></i> Article No.</h5>
-                            <div class="card-body">
-                                <canvas id="horizontalBarArticle"></canvas>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col">
                         <div class="card">
                             <h5 class="card-header"><i class="bi bi-bar-chart-line-fill"></i> Hearing Schedule</h5>
                             <div class="card-body">
@@ -384,7 +364,7 @@ use Maize\Encryptable\Encryption;
                                             <h5 class="mb-1">Next Week</h5>
                                             <small>{{$nextWeekCount}}</small>
                                         </div>
-                                        
+
                                         @forelse($nextWeekSchedule as $sched => $values)
                                         <?php
                                         $case_title = Encryption::php()->decrypt($nextWeekCaseTitle[$sched]);
@@ -398,6 +378,30 @@ use Maize\Encryptable\Encryption;
                             </div>
                         </div>
                     </div>
+
+
+                </div>
+
+                <div class="row mt-3 mb-3">
+                    <div class="col">
+                        <div class="card">
+                            <h5 class="card-header"><i class="bi bi-bar-chart-line-fill"></i> Article No.</h5>
+                            <div class="card-body">
+                                <canvas id="horizontalBarArticle"></canvas>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col">
+                        <div class="card h-100">
+                            <h5 class="card-header"><i class="bi bi-bar-chart-line-fill"></i> Total Hearings</h5>
+                            <div class="card-body">
+                                <canvas id="pieBlotter"></canvas>
+                            </div>
+                        </div>
+                    </div>
+
+
                 </div>
 
                 <div class="row mt-3 mb-3">
