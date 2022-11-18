@@ -25,7 +25,18 @@
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
                     <li class="nav-item">
-                        <a class="nav-link" href="#home">Home</a>
+                        @if(Route::has('login'))
+                        @auth
+                            @if(Auth::user()->user_type_id == 1 || Auth::user()->user_type_id == 2)
+                            <a class="nav-link" href="{{route('home')}}">Dashboard</a>
+                            @endif
+
+                        @else
+                            <a class="nav-link" href="">Home</a>
+                        @endauth
+                        @endif
+
+
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="#services">Services</a>
@@ -46,7 +57,7 @@
                     <li class="nav-item">
                         <a class="nav-link" href="{{route('report')}}">Report</a>
                     </li>
-                    
+
 
                     @if(Route::has('login'))
                     @auth
@@ -124,7 +135,7 @@
                 <div class="col-12 col-md-12 col-lg-6">
                     <div class="card text-white text-center bg-dark pb-2">
                         <div class="card-body">
-                        <i class="bi bi-person-lines-fill"></i>
+                            <i class="bi bi-person-lines-fill"></i>
                             <h3 class="card-title">Blotter</h3>
                             <p class="lead">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Possimus quo
                                 dignissimos officia, neque ducimus ab enim optio voluptates omnis nesciunt incidunt
