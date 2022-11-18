@@ -131,3 +131,7 @@ Route::get('activity-log/list', [AccountController::class, 'getActivityLogs'])->
 Route::get('blotter/kp_case', [BlotterController::class, 'showKPCases'])->name('blotter.kp_case');
 Route::post('blotter/kp_case/edit/{id}', [BlotterController::class, 'editKP'])->name('blotter.editKP');
 Route::post('blotter/kp_case/store', [BlotterController::class, 'addKP'])->name('blotter.addKP');
+
+//CONTACT FORM
+Route::get('/user/home', 'App\Http\Controllers\ContactFormController@index');
+Route::post('/contactForm', 'App\Http\Controllers\ContactFormController@contactForm');
