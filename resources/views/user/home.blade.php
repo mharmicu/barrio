@@ -12,6 +12,17 @@
     <link rel="icon" type="image/png" href="{{ asset('/img/385-logo.png') }}">
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
+    <style>
+        h1 {
+            font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+            font-weight: bolder;
+        }
+
+        h2 {
+            font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+        }
+    </style>
+
 </head>
 
 <body>
@@ -41,12 +52,12 @@
                     <li class="nav-item">
                         @if(Route::has('login'))
                         @auth
-                            @if(Auth::user()->user_type_id == 1 || Auth::user()->user_type_id == 2)
-                            <a class="nav-link" href="{{route('home')}}">Dashboard</a>
-                            @endif
+                        @if(Auth::user()->user_type_id == 1 || Auth::user()->user_type_id == 2)
+                        <a class="nav-link" href="{{route('home')}}">Dashboard</a>
+                        @endif
 
                         @else
-                            <a class="nav-link" href="">Home</a>
+                        <a class="nav-link" href="">Home</a>
                         @endauth
                         @endif
 
@@ -62,7 +73,7 @@
                         <a class="nav-link" href="#about">About</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#team">Team</a>
+                        <a class="nav-link" href="#team">Officials</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="#contact">Contact</a>
@@ -98,7 +109,7 @@
         </div>
         <div class="carousel-inner">
             <div class="carousel-item active">
-                <img src="../img/home-1.jpg" class="d-block w-100" alt="...">
+                <img src="../img/street-2.jpg" class="d-block w-100" alt="...">
                 <div class="carousel-caption">
                     <h5>Blotter Cases Repository</h5>
                     <p> Secure Cases Repository with Incident Reporting and Analytics Generation</p>
@@ -106,7 +117,7 @@
                 </div>
             </div>
             <div class="carousel-item">
-                <img src="../img/home-2.jpg" class="d-block w-100" alt="...">
+                <img src="../img/street-1.jpg" class="d-block w-100" alt="...">
                 <div class="carousel-caption">
                     <h5>Incident Reporting</h5>
                     <p>Secure Cases Repository with Incident Reporting and Analytics Generation</p>
@@ -114,7 +125,7 @@
                 </div>
             </div>
             <div class="carousel-item">
-                <img src="../img/home-3.jpg" class="d-block w-100" alt="...">
+                <img src="../img/street-3.jpg" class="d-block w-100" alt="...">
                 <div class="carousel-caption">
                     <h5>Analytics</h5>
                     <p>Secure Cases Repository with Incident Reporting and Analytics Generation</p>
@@ -137,10 +148,9 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-12">
-                    <div class="section-header text-center pb-5">
-                        <h2>Services</h2>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. <br>Facere delectus veritatis
-                            dolores laborum nesciunt vitae.</p>
+                    <div class="section-header text-center pb-2">
+                        <h1>Services</h1>
+                        <p class="lead">These various services are what this system offers.</p>
                     </div>
                 </div>
             </div>
@@ -149,24 +159,20 @@
                 <div class="col-12 col-md-12 col-lg-6">
                     <div class="card text-white text-center bg-dark pb-2">
                         <div class="card-body">
-                            <i class="bi bi-person-lines-fill"></i>
-                            <h3 class="card-title">Blotter</h3>
-                            <p class="lead">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Possimus quo
-                                dignissimos officia, neque ducimus ab enim optio voluptates omnis nesciunt incidunt
-                                illum pariatur vel magni.</p>
+                            <i class="bi bi-pen"></i>
+                            <h2 class="card-title">Blotter</h2>
+                            <p class=" fs-6">This is a record of daily events/cases occurring within the territory/jurisdiction of the barangay. It provides important information on reported or discovered violations of laws, rules, and ordinances as well as requests for barangay assistance on any issue calling for legal or additional action. This barangay blotter is a record of information that can be used as evidence or as a reference.</p>
                             <button class="btn btn-warning text-dark">Read More </button>
                         </div>
                     </div>
                 </div>
 
                 <div class="col-12 col-md-12 col-lg-6">
-                    <div class="card text-white text-center bg-dark pb-2">
+                    <div class="card text-white text-center bg-dark pb-2 h-100">
                         <div class="card-body">
-                            <i class="bi bi-megaphone"></i>
-                            <h3 class="card-title">Hearings</h3>
-                            <p class="lead">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Possimus quo
-                                dignissimos officia, neque ducimus ab enim optio voluptates omnis nesciunt incidunt
-                                illum pariatur vel magni.</p>
+                            <i class="bi bi-bell"></i>
+                            <h2 class="card-title">Notices</h2>
+                            <p class="fs-6">Before an incident report case will be subjected to hearing process of determine agreement, notice records must first be created. </p>
                             <button class="btn btn-warning text-dark">Read More </button>
                         </div>
                     </div>
@@ -179,11 +185,9 @@
                 <div class="col-12 col-md-12 col-lg-6">
                     <div class="card text-white text-center bg-dark pb-2">
                         <div class="card-body">
-                            <i class="bi bi-journal-text"></i>
-                            <h3 class="card-title">Incidents</h3>
-                            <p class="lead">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Possimus quo
-                                dignissimos officia, neque ducimus ab enim optio voluptates omnis nesciunt incidunt
-                                illum pariatur vel magni.</p>
+                            <i class="bi bi-alarm"></i>
+                            <h2 class="card-title">Hearings</h2>
+                            <p class="fs-6">The goal of the hearing process to allow the complainant and respondent to find all possible ways to amicably settle their dispute. Dispute that is caused the respondent towards the complaint where its rights have been violated.</p>
                             <button class="btn btn-warning text-dark">Read More </button>
                         </div>
                     </div>
@@ -192,11 +196,9 @@
                 <div class="col-12 col-md-12 col-lg-6">
                     <div class="card text-white text-center bg-dark pb-2">
                         <div class="card-body">
-                            <i class="bi bi-envelope-paper"></i>
-                            <h3 class="card-title">Notices</h3>
-                            <p class="lead">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Possimus quo
-                                dignissimos officia, neque ducimus ab enim optio voluptates omnis nesciunt incidunt
-                                illum pariatur vel magni.</p>
+                            <i class="bi bi-inboxes"></i>
+                            <h2 class="card-title">Incidents</h2>
+                            <p class="fs-6">Incident reporting is a component of the katarungang pambarangay, or barangay justice system, which amicably resolves conflicts within the community to promote peace, justice, and harmonious relationships. </p>
                             <button class="btn btn-warning text-dark">Read More </button>
                         </div>
                     </div>
@@ -210,24 +212,22 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-12">
-                    <div class="section-header text-center pb-5">
-                        <h2>Features</h2>
-                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. <br>Quibusdam reprehenderit,
-                            perferendis cupiditate est consequuntur impedit dicta maiores debitis consequatur eligendi.
+                    <div class="section-header text-center pb-2">
+                        <h1>Features</h1>
+                        <p class="lead">Analytics • Encryption • Audit Trail</p>
                     </div>
                 </div>
             </div>
 
             <div class="row">
                 <div class="col-12 col-md-12 col-lg-4">
-                    <div class="card text-center bg-white pb-2">
+                    <div class="card text-center bg-white pb-2 h-100">
                         <div class="card-body text-dark">
                             <div class="img-area mb-4">
-                                <img src="../img/feature-1.png" alt="" class="img-fluid">
+                                <img src="../img/analysis.png" alt="" class="img-fluid mx-auto d-block" style="max-width: 250px;">
                             </div>
-                            <h3 class="card-title">Building Make</h3>
-                            <p class="lead">Lorem ipsum dolor sit amet consectetur adipisicing elit. Vitae recusandae
-                                beatae cupiditate ullam praesentium fuga eius amet repudiandae necessitatibus provident.
+                            <h2 class="card-title">Analytics</h2>
+                            <p class="lead">Refers to the procedure of gathering data from the system, processing it, and then analyzing it to identify patterns and make inferences about the data it collects.
                             </p>
                             <button class="btn bg-warning text-dark">Learn More</button>
                         </div>
@@ -235,14 +235,13 @@
                 </div>
 
                 <div class="col-12 col-md-12 col-lg-4">
-                    <div class="card text-center bg-white pb-2">
+                    <div class="card text-center bg-white pb-2 h-100">
                         <div class="card-body text-dark">
                             <div class="img-area mb-4">
-                                <img src="../img/feature-2.png" alt="" class="img-fluid">
+                                <img src="../img/encryption.png" alt="" class="img-fluid mx-auto d-block" style="max-width: 250px;">
                             </div>
-                            <h3 class="card-title">Building Make</h3>
-                            <p class="lead">Lorem ipsum dolor sit amet consectetur adipisicing elit. Vitae recusandae
-                                beatae cupiditate ullam praesentium fuga eius amet repudiandae necessitatibus provident.
+                            <h2 class="card-title">Encryption</h2>
+                            <p class="lead">Data privacy can be protected in this way as it is saved on computers and transmitted over the internet. This can validate the data's origin and make sure that it hasn't changed since it was received, while also protecting its confidentiality.
                             </p>
                             <button class="btn bg-warning text-dark">Learn More</button>
                         </div>
@@ -250,14 +249,13 @@
                 </div>
 
                 <div class="col-12 col-md-12 col-lg-4">
-                    <div class="card text-center bg-white pb-2">
+                    <div class="card text-center bg-white pb-2 h-100">
                         <div class="card-body text-dark">
                             <div class="img-area mb-4">
-                                <img src="../img/feature-3.png" alt="" class="img-fluid">
+                                <img src="../img/audit.png" alt="" class="img-fluid mx-auto d-block" style="max-width: 250px;">
                             </div>
-                            <h3 class="card-title">Building Make</h3>
-                            <p class="lead">Lorem ipsum dolor sit amet consectetur adipisicing elit. Vitae recusandae
-                                beatae cupiditate ullam praesentium fuga eius amet repudiandae necessitatibus provident.
+                            <h2 class="card-title">Audit Trail</h2>
+                            <p class="lead">Every transaction a user makes in this system will be recorded by the audit trail feature. This allows for easier monitoring and investigation of any fraudulent activity and has the ability to list the recorded trails.
                             </p>
                             <button class="btn bg-warning text-dark">Learn More</button>
                         </div>
@@ -279,12 +277,8 @@
                 </div>
                 <div class="col-lg-8 col-md-12 col-12 ps-lg-5 mt-md-5">
                     <div class="about-text">
-                        <h2>We Provide Best Quality <br> Services Ever</h2>
-                        <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Soluta, quam suscipit. Voluptate
-                            ullam corrupti dolorum deserunt, soluta dolorem nobis minima obcaecati omnis, sed nihil
-                            excepturi unde. Magnam ipsa nihil vero dolorum harum modi ut inventore. Accusantium
-                            excepturi, odio adipisci quidem facilis accusamus in. Pariatur temporibus illo error
-                            tempore, aperiam fuga?</p>
+                        <h1>We Provide Best Quality <br> Services Ever</h1>
+                        <p class="lead">The Barangay, through active citizen engagement and a professionalized corps of civil workers, promotes peace and order, ensures safety of the public, and strengthens the capacity of local government units.</p>
                         <a href="#" class="btn btn-warning">Learn More</a>
                     </div>
                 </div>
@@ -302,79 +296,119 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-12">
-                    <div class="section-header text-center pb-5">
-                        <h2>Our Team</h2>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. <br>Facere delectus veritatis
-                            dolores laborum nesciunt vitae.</p>
+                    <div class="section-header text-center pb-3 fw-bold">
+                        <h1>Barangay 385 / Zone 39 Public Servants</h1>
                     </div>
                 </div>
             </div>
 
+            <!-- part 1 officials -->
+            <div class="row mb-3">
+                <div class="col">
+                    <div class="card text-center h-100">
+                        <div class="card-body">
+                            <img src="../img/team-1.jpg" alt="" class="rounded-circle mx-auto d-block">
+                            <h3 class="card-title py-2 fs-4 mt-2">Ma. Aileen Frances Aquino Zarate</h3>
+                            <p class="card-text">Barangay Chairperson (Captain)</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col">
+                    <div class="card text-center h-100">
+                        <div class="card-body">
+                            <img src="../img/team-2.jpg" alt="" class="rounded-circle mx-auto d-block">
+                            <h3 class="card-title py-2 fs-4 mt-2">Angel Acueda De Jesus</h3>
+                            <p class="card-text">Kagawad (Councilor)</p>
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col">
+                    <div class="card text-center h-100">
+                        <div class="card-body">
+                            <img src="../img/team-3.jpg" alt="" class="rounded-circle mx-auto d-block">
+                            <h3 class="card-title py-2 fs-4 mt-2">Melanie Garcia Maglapit</h3>
+                            <p class="card-text">Kagawad (Councilor)</p>
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col">
+                    <div class="card text-center h-100">
+                        <div class="card-body">
+                            <img src="../img/team-4.jpg" alt="" class="rounded-circle mx-auto d-block">
+                            <h3 class="card-title py-2 fs-4 mt-2">David Cañete Calces</h3>
+                            <p class="card-text">Kagawad (Councilor)</p>
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col">
+                    <div class="card text-center h-100">
+                        <div class="card-body">
+                            <img src="../img/team-4.jpg" alt="" class="rounded-circle mx-auto d-block">
+                            <h3 class="card-title py-2 fs-4 mt-2">Rocelyn Maglapit Santos</h3>
+                            <p class="card-text">Kagawad (Councilor)</p>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- part 2 officials-->
             <div class="row">
-                <div class="col-12 col-md-6 col-lg-3">
-                    <div class="card text-center">
+                <div class="col">
+                    <div class="card text-center h-100">
                         <div class="card-body">
-                            <img src="../img/team-1.jpg" alt="" class="img-fluid rounded-center">
-                            <h3 class="card-title py-2">Jack Wilson</h3>
-                            <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Enim, harum.</p>
+                            <img src="../img/team-1.jpg" alt="" class="rounded-circle mx-auto d-block">
+                            <h3 class="card-title py-2 fs-4 mt-2">Bernardine Upaga Andaya</h3>
+                            <p class="card-text">Kagawad (Councilor)</p>
 
-                            <p class="socials">
-                                <i class="bi bi-twitter text-dark mx-1"></i>
-                                <i class="bi bi-facebook text-dark mx-1"></i>
-                                <i class="bi bi-linkedin text-dark mx-1"></i>
-                                <i class="bi bi-instagram text-dark mx-1"></i>
-                            </p>
                         </div>
                     </div>
                 </div>
 
-                <div class="col-12 col-md-6 col-lg-3">
-                    <div class="card text-center">
+                <div class="col">
+                    <div class="card text-center h-100">
                         <div class="card-body">
-                            <img src="../img/team-2.jpg" alt="" class="img-fluid rounded-center">
-                            <h3 class="card-title py-2">Jack Wilson</h3>
-                            <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Enim, harum.</p>
+                            <img src="../img/team-2.jpg" alt="" class="rounded-circle mx-auto d-block">
+                            <h3 class="card-title py-2 fs-4 mt-2">Emeterio Yabut Acuzar</h3>
+                            <p class="card-text">Kagawad (Councilor)</p>
 
-                            <p class="socials">
-                                <i class="bi bi-twitter text-dark mx-1"></i>
-                                <i class="bi bi-facebook text-dark mx-1"></i>
-                                <i class="bi bi-linkedin text-dark mx-1"></i>
-                                <i class="bi bi-instagram text-dark mx-1"></i>
-                            </p>
                         </div>
                     </div>
                 </div>
 
-                <div class="col-12 col-md-6 col-lg-3">
-                    <div class="card text-center">
+                <div class="col">
+                    <div class="card text-center h-100">
                         <div class="card-body">
-                            <img src="../img/team-3.jpg" alt="" class="img-fluid rounded-center">
-                            <h3 class="card-title py-2">Jack Wilson</h3>
-                            <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Enim, harum.</p>
-
-                            <p class="socials">
-                                <i class="bi bi-twitter text-dark mx-1"></i>
-                                <i class="bi bi-facebook text-dark mx-1"></i>
-                                <i class="bi bi-linkedin text-dark mx-1"></i>
-                                <i class="bi bi-instagram text-dark mx-1"></i>
-                            </p>
+                            <img src="../img/team-3.jpg" alt="" class="rounded-circle mx-auto d-block">
+                            <h3 class="card-title py-2 fs-4 mt-2">Quiterio Ferrer Atutubo</h3>
+                            <p class="card-text">Kagawad (Councilor)</p>
                         </div>
                     </div>
                 </div>
 
-                <div class="col-12 col-md-6 col-lg-3">
-                    <div class="card text-center">
+                <div class="col">
+                    <div class="card text-center h-100">
                         <div class="card-body">
-                            <img src="../img/team-4.jpg" alt="" class="img-fluid rounded-center">
-                            <h3 class="card-title py-2">Jack Wilson</h3>
-                            <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Enim, harum.</p>
+                            <img src="../img/team-4.jpg" alt="" class="rounded-circle mx-auto d-block">
+                            <h3 class="card-title py-2 fs-4 mt-2">Johne Jerome Maglapit Bareja</h3>
+                            <p class="card-text">SK Chairperson</p>
 
-                            <p class="socials">
-                                <i class="bi bi-twitter text-dark mx-1"></i>
-                                <i class="bi bi-facebook text-dark mx-1"></i>
-                                <i class="bi bi-linkedin text-dark mx-1"></i>
-                                <i class="bi bi-instagram text-dark mx-1"></i>
-                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col">
+                    <div class="card text-center h-100">
+                        <div class="card-body">
+                            <img src="../img/team-4.jpg" alt="" class="rounded-circle mx-auto d-block">
+                            <h3 class="card-title py-2 fs-4 mt-2">Irene Tuscano</h3>
+                            <p class="card-text">Barangay Secretary</p>
                         </div>
                     </div>
                 </div>
@@ -387,10 +421,9 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-12">
-                    <div class="section-header text-center pb-5">
-                        <h2>Contact Us</h2>
-                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. <br>Quibusdam reprehenderit,
-                            perferendis cupiditate est consequuntur impedit dicta maiores debitis consequatur eligendi.
+                    <div class="section-header text-center">
+                        <h1>Your voice matters</h1>
+                        <p class="lead">You may reach us if you have any concern regarding the barangay services. Rest assured that your concerns will be receive.
                     </div>
                 </div>
             </div>
@@ -415,7 +448,7 @@
                                     <input type="email" class="form-control" name="email" id="email" required placeholder="Your Email Here">
                                 </div>
                             </div>
-                            
+
                             <div class="col-md-12">
                                 <div class="mb-3">
                                     <textarea rows="3" required class="form-control" name="message" id="message" placeholder="Your Query Here"></textarea>
@@ -433,7 +466,7 @@
     <!-- footer -->
     <footer class="bg-dark p-2 text-center">
         <div class="container">
-            <p class="text-white">All Rights Reserved Barrio 2022</p>
+            <p class="text-white pt-2"><i class="bi bi-c-circle"></i> All Rights Reserved BARRIO 2022</p>
         </div>
     </footer>
 
