@@ -13,12 +13,14 @@
 
 
     <div class="list-group list-group-flush" data-spy="affix" data-offset-top="205">
-        <a class="list-group-item list-group-item-action text-warning text-center" href="#!">
+        <a class="list-group-item list-group-item-action text-warning text-center" href="">
             <script>
                 var today = new Date();
                 var date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
-                var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
-                document.write(date + ' ' + time);
+                var time = today.getHours() + ":" + today.getMinutes();
+                document.write(today.toDateString() + ' | ' + time);
+
+
             </script>
         </a>
 
