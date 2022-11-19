@@ -31,7 +31,7 @@
                     <li class="nav-item">
                         <a class="nav-link" href="/">Go back to Home</a>
                     </li>
-                    
+
                     <li class="nav-item">
                         <a class="nav-link active" href="{{route('report')}}">Report</a>
                     </li>
@@ -185,6 +185,19 @@
                                                         @error('narrative')
                                                         <small id="helpId" class="form-text text-danger">{{ $message }}</small>
                                                         @enderror
+                                                    </div>
+
+                                                    <div class="mb-3">
+                                                        <div class="form-check form-switch">
+                                                            <input class="form-check-input" type="checkbox" role="switch" id="data_privacy" required>
+                                                            <label class="form-check-label" for="data_privacy">
+                                                                PRIVACY CONSENT. I understand and agree that by filling out this report, I am allowing the Barangay 385 / Zone 39 
+                                                                to collect, process, use, share, and disclose the information I provided and also to store it as long as necessary for the 
+                                                                fulfillment of Incident Reporting stated purpose and in accordance with applicable laws, 
+                                                                including the Data Privacy Act of 2012 and its Implementing Rules and Regulations, and the Barangay 385 / Zone 39 Privacy Policy. 
+                                                                The purpose and extent of the collection, use, sharing, disclosure, and storage of the information were cleared to me.
+                                                            </label>
+                                                        </div>
                                                     </div>
                                                 </div>
                                         </div>
