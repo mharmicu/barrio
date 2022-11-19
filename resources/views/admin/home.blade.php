@@ -74,6 +74,11 @@ use Maize\Encryptable\Encryption;
             width: 100% !important;
         }
 
+        #matrixAll {
+            width: 100% !important;
+            height: 500px !important;
+        }
+
         #matrixChartArlegui,
         #matrixChartCastillejos,
         #matrixChartDuque,
@@ -455,7 +460,7 @@ use Maize\Encryptable\Encryption;
                 <div class="row mb-3 ">
                     <div class="col">
                         <div class="card">
-                            <h5 class="card-header"><i class="bi bi-map-fill"></i> Incidents in each street</h5>
+                            <h5 class="card-header"><i class="bi bi-map-fill"></i> Incidents Reports</h5>
                             <div class="card-body">
                                 <div id="matrixCarousel" class="carousel slide carousel-dark" data-bs-ride="carousel">
 
@@ -468,10 +473,16 @@ use Maize\Encryptable\Encryption;
                                         <button type="button" data-bs-target="#matrixCarousel" data-bs-slide-to="5" aria-label="Slide 6"></button>
                                         <button type="button" data-bs-target="#matrixCarousel" data-bs-slide-to="6" aria-label="Slide 7"></button>
                                         <button type="button" data-bs-target="#matrixCarousel" data-bs-slide-to="7" aria-label="Slide 8"></button>
+                                        <button type="button" data-bs-target="#matrixCarousel" data-bs-slide-to="8" aria-label="Slide 9"></button>
                                     </div>
 
                                     <div class="carousel-inner text-center">
-                                        <div class="carousel-item active" data-bs-interval="10000">
+                                        <div class="carousel-item active" data-bs-interval="15000">
+                                        <h5><span class="badge rounded-pill bg-dark">Monthly incident reports on each street</span></h5>
+                                            <h5><span class="badge rounded-pill bg-dark"></span></h5>
+                                            <canvas id="matrixAll" class=""></canvas>
+                                        </div>
+                                        <div class="carousel-item " data-bs-interval="10000">
                                             <h5><span class="badge rounded-pill bg-dark">1. Arlegui St.</span></h5>
                                             <canvas id="matrixChartArlegui" class=""></canvas>
                                         </div>
@@ -518,77 +529,86 @@ use Maize\Encryptable\Encryption;
                         </div>
                     </div>
                 </div>
-
             </div>
         </div>
-    </div>
 
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    <!-- Bootstrap core JS-->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+        <!-- Bootstrap core JS-->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
 
-    <script type="text/javascript">
-        var _ydata = JSON.parse('{!! json_encode($months) !!}');
-        var _xdata = JSON.parse('{!! json_encode($monthCount) !!}');
+        <script type="text/javascript">
+            var _ydata = JSON.parse('{!! json_encode($months) !!}');
+            var _xdata = JSON.parse('{!! json_encode($monthCount) !!}');
 
-        var x_type = JSON.parse('{!! json_encode($types) !!}');
-        var y_type = JSON.parse('{!! json_encode($typeCount) !!}');
+            var x_type = JSON.parse('{!! json_encode($types) !!}');
+            var y_type = JSON.parse('{!! json_encode($typeCount) !!}');
 
-        var x_type2 = JSON.parse('{!! json_encode($types2) !!}');
-        var y_type2 = JSON.parse('{!! json_encode($typeCount2) !!}');
+            var x_type2 = JSON.parse('{!! json_encode($types2) !!}');
+            var y_type2 = JSON.parse('{!! json_encode($typeCount2) !!}');
 
-        var article_no = JSON.parse('{!! json_encode($article_no) !!}');
-        var article_count = JSON.parse('{!! json_encode($article_count) !!}');
+            var article_no = JSON.parse('{!! json_encode($article_no) !!}');
+            var article_count = JSON.parse('{!! json_encode($article_count) !!}');
 
-        var report_count = JSON.parse('{!! json_encode($report_count) !!}');
+            var report_count = JSON.parse('{!! json_encode($report_count) !!}');
 
-        var x_ar = JSON.parse('{!! json_encode($dates_ar) !!}');
-        var y_ar = JSON.parse('{!! json_encode($dateCount_ar) !!}');
+            var x_ar = JSON.parse('{!! json_encode($dates_ar) !!}');
+            var y_ar = JSON.parse('{!! json_encode($dateCount_ar) !!}');
 
-        var x_cas = JSON.parse('{!! json_encode($dates_cas) !!}');
-        var y_cas = JSON.parse('{!! json_encode($dateCount_cas) !!}');
+            var x_cas = JSON.parse('{!! json_encode($dates_cas) !!}');
+            var y_cas = JSON.parse('{!! json_encode($dateCount_cas) !!}');
 
-        var x_duq = JSON.parse('{!! json_encode($dates_duq) !!}');
-        var y_duq = JSON.parse('{!! json_encode($dateCount_duq) !!}');
+            var x_duq = JSON.parse('{!! json_encode($dates_duq) !!}');
+            var y_duq = JSON.parse('{!! json_encode($dateCount_duq) !!}');
 
-        var x_far = JSON.parse('{!! json_encode($dates_far) !!}');
-        var y_far = JSON.parse('{!! json_encode($dateCount_far) !!}');
+            var x_far = JSON.parse('{!! json_encode($dates_far) !!}');
+            var y_far = JSON.parse('{!! json_encode($dateCount_far) !!}');
 
-        var x_fra = JSON.parse('{!! json_encode($dates_fra) !!}');
-        var y_fra = JSON.parse('{!! json_encode($dateCount_fra) !!}');
+            var x_fra = JSON.parse('{!! json_encode($dates_fra) !!}');
+            var y_fra = JSON.parse('{!! json_encode($dateCount_fra) !!}');
 
-        var x_pcasal = JSON.parse('{!! json_encode($dates_pcasal) !!}');
-        var y_pcasal = JSON.parse('{!! json_encode($dateCount_pcasal) !!}');
+            var x_pcasal = JSON.parse('{!! json_encode($dates_pcasal) !!}');
+            var y_pcasal = JSON.parse('{!! json_encode($dateCount_pcasal) !!}');
 
-        var x_pax = JSON.parse('{!! json_encode($dates_pax) !!}');
-        var y_pax = JSON.parse('{!! json_encode($dateCount_pax) !!}');
+            var x_pax = JSON.parse('{!! json_encode($dates_pax) !!}');
+            var y_pax = JSON.parse('{!! json_encode($dateCount_pax) !!}');
 
-        var x_ver = JSON.parse('{!! json_encode($dates_ver) !!}');
-        var y_ver = JSON.parse('{!! json_encode($dateCount_ver) !!}');
+            var x_ver = JSON.parse('{!! json_encode($dates_ver) !!}');
+            var y_ver = JSON.parse('{!! json_encode($dateCount_ver) !!}');
 
-        var complaint_desc = '{!! htmlspecialchars($cleanedText, ENT_QUOTES, "UTF-8") !!}';
+            var complaint_desc = '{!! htmlspecialchars($cleanedText, ENT_QUOTES, "UTF-8") !!}';
 
-        var y_pie_blotter = JSON.parse('{!! json_encode($hearing_type_count) !!}');
-        //console.log('{!! htmlspecialchars($cleanedText, ENT_QUOTES, "UTF-8") !!}')
-    </script>
-    <!-- <script src="{{ asset('assets/charts/bar.js')}} "></script> -->
-    <!-- <script src="{{ asset('assets/charts/line.js')}} "></script> -->
-    <!-- <script src="{{ asset('assets/charts/matrix.js')}} "></script> -->
-    <script src="{{ asset('assets/charts/matrixArlegui.js')}} "></script>
-    <script src="{{ asset('assets/charts/matrixCastillejos.js')}} "></script>
-    <script src="{{ asset('assets/charts/matrixDuque.js')}} "></script>
-    <script src="{{ asset('assets/charts/matrixFarnecio.js')}} "></script>
-    <script src="{{ asset('assets/charts/matrixFraternal.js')}} "></script>
-    <script src="{{ asset('assets/charts/matrixPCasal.js')}} "></script>
-    <script src="{{ asset('assets/charts/matrixPax.js')}} "></script>
-    <script src="{{ asset('assets/charts/matrixVergara.js')}} "></script>
-    <script src="{{ asset('assets/charts/doughnutReports.js')}} "></script>
-    <script src="{{ asset('assets/charts/wordCloud.js')}} "></script>
-    <script src="{{ asset('assets/charts/pieIncident.js')}} "></script>
-    <script src="{{ asset('assets/charts/barBlotter.js')}} "></script>
-    <script src="{{ asset('assets/charts/pieBlotter.js')}} "></script>
-    <script src="{{ asset('assets/charts/horizontalBarArticle.js')}} "></script>
+            var y_pie_blotter = JSON.parse('{!! json_encode($hearing_type_count) !!}');
+            //console.log('{!! htmlspecialchars($cleanedText, ENT_QUOTES, "UTF-8") !!}')
+
+            var _monthX = JSON.parse('{!! json_encode($monthX) !!}');
+            var _streetY = JSON.parse('{!! json_encode($streetY) !!}');
+            var _incidentCount = JSON.parse('{!! json_encode($incidentCount) !!}');
+            var numberArray = [];
+            length = _incidentCount.length;
+            for (var i = 0; i < length; i++) {
+                numberArray.push(parseInt(_incidentCount[i]));
+            }
+            //console.log(numberArray);
+        </script>
+        <!-- <script src="{{ asset('assets/charts/bar.js')}} "></script> -->
+        <!-- <script src="{{ asset('assets/charts/line.js')}} "></script> -->
+        <!-- <script src="{{ asset('assets/charts/matrix.js')}} "></script> -->
+        <script src="{{ asset('assets/charts/matrixArlegui.js')}} "></script>
+        <script src="{{ asset('assets/charts/matrixCastillejos.js')}} "></script>
+        <script src="{{ asset('assets/charts/matrixDuque.js')}} "></script>
+        <script src="{{ asset('assets/charts/matrixFarnecio.js')}} "></script>
+        <script src="{{ asset('assets/charts/matrixFraternal.js')}} "></script>
+        <script src="{{ asset('assets/charts/matrixPCasal.js')}} "></script>
+        <script src="{{ asset('assets/charts/matrixPax.js')}} "></script>
+        <script src="{{ asset('assets/charts/matrixVergara.js')}} "></script>
+        <script src="{{ asset('assets/charts/doughnutReports.js')}} "></script>
+        <script src="{{ asset('assets/charts/wordCloud.js')}} "></script>
+        <script src="{{ asset('assets/charts/pieIncident.js')}} "></script>
+        <script src="{{ asset('assets/charts/barBlotter.js')}} "></script>
+        <script src="{{ asset('assets/charts/pieBlotter.js')}} "></script>
+        <script src="{{ asset('assets/charts/horizontalBarArticle.js')}} "></script>
+        <script src="{{ asset('assets/charts/matrixAll.js')}} "></script>
 </body>
 <!-- Charts.js -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js" integrity="sha512-ElRFoEQdI5Ht6kZvyzXhYG9NqjtkmlkfYk0wr6wHxU9JEHakS7UJZNeml5ALk+8IKlU6jDgMabC3vkumRokgJA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>

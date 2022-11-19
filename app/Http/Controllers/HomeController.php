@@ -366,6 +366,87 @@ class HomeController extends Controller
 
                 //dd($cleanedText);
 
+
+                //matrix all
+
+                // $matrixAll = Report::select('street', DB::raw('count(*) as total'), DB::raw("(DATE_FORMAT(date_of_incident, '%m-%Y')) as month_year"))
+                // ->whereYear('date_of_incident', Carbon::now()->year)
+                // ->groupBy('street', DB::raw("DATE_FORMAT(date_of_incident, '%m-%Y')"))
+                // ->get();
+                //dd($matrixAll);
+
+                $matrixAll = Report::select(
+                    'street',
+                    DB::raw('SUM(if(MONTH(created_at) = 1, 1,0)) as Jan'),
+                    DB::raw('SUM(if(MONTH(created_at) = 2, 1,0)) as Feb'),
+                    DB::raw('SUM(if(MONTH(created_at) = 3, 1,0)) as Mar'),
+                    DB::raw('SUM(if(MONTH(created_at) = 4, 1,0)) as Apr'),
+                    DB::raw('SUM(if(MONTH(created_at) = 5, 1,0)) as May'),
+                    DB::raw('SUM(if(MONTH(created_at) = 6, 1,0)) as Jun'),
+                    DB::raw('SUM(if(MONTH(created_at) = 7, 1,0)) as Jul'),
+                    DB::raw('SUM(if(MONTH(created_at) = 8, 1,0)) as Aug'),
+                    DB::raw('SUM(if(MONTH(created_at) = 9, 1,0)) as Sep'),
+                    DB::raw('SUM(if(MONTH(created_at) = 10, 1,0)) as Oct'),
+                    DB::raw('SUM(if(MONTH(created_at) = 11, 1,0)) as Nov'),
+                    DB::raw('SUM(if(MONTH(created_at) = 12, 1,0)) as `Dec`'),
+                )
+                    ->whereYear('created_at', Carbon::now()->year)
+                    ->groupBy('street')
+                    ->get();
+                //dd($matrixAll);
+
+                $incidentCount = [];
+                $streetY = [];
+                $monthX = [];
+
+
+                foreach ($matrixAll as $key => $value) {
+                    for ($i = 1; $i <= 12; $i++) {
+                        $monthX[] = $i;
+                        $streetY[] = $key + 1;
+                        switch ($monthX[$i-1]) {
+                            case 1:
+                                $incidentCount[] = $value->Jan;
+                                break;
+                            case 2:
+                                $incidentCount[] = $value->Feb;
+                                break;
+                            case 3:
+                                $incidentCount[] = $value->Mar;
+                                break;
+                            case 4:
+                                $incidentCount[] = $value->Apr;
+                                break;
+                            case 5:
+                                $incidentCount[] = $value->May;
+                                break;
+                            case 6:
+                                $incidentCount[] = $value->Jun;
+                                break;
+                            case 7:
+                                $incidentCount[] = $value->Jul;
+                                break;
+                            case 8:
+                                $incidentCount[] = $value->Aug;
+                                break;
+                            case 9:
+                                $incidentCount[] = $value->Sep;
+                                break;
+                            case 10:
+                                $incidentCount[] = $value->Oct;
+                                break;
+                            case 11:
+                                $incidentCount[] = $value->Nov;
+                                break;
+                            case 12:
+                                $incidentCount[] = $value->Dec;
+                                break;
+                            default:
+                        }
+                    }
+                }
+                //dd($incidentCount);
+
                 return view('admin.home', [
                     'data' => $data,
                     'months' => $months,
@@ -422,6 +503,10 @@ class HomeController extends Controller
                     'nextWeekCaseTitle' => $nextWeekCaseTitle,
                     'nextWeekSchedule' => $nextWeekSchedule,
                     'nextWeekCount' => $nextWeekCount,
+
+                    'incidentCount' => $incidentCount,
+                    'streetY' => $streetY,
+                    'monthX' => $monthX,
                 ]);
             } else {
                 return view('user.home');
