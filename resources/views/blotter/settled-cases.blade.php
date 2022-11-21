@@ -11,6 +11,17 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <link href="https://cdn.datatables.net/1.10.21/css/jquery.dataTables.min.css" rel="stylesheet">
     <link href="https://cdn.datatables.net/1.10.21/css/dataTables.bootstrap4.min.css" rel="stylesheet">
+
+    <style>
+        .navbar-nav>.active>a {
+            color: blue !important;
+        }
+
+
+        .navbar-nav .nav-item:hover .nav-link {
+            color: blue !important;
+        }
+    </style>
 </head>
 
 <body>
@@ -27,8 +38,8 @@
                     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
                     <div class="collapse navbar-collapse" id="navbarSupportedContent">
                         <ul class="navbar-nav ms-auto mt-2 mt-lg-0">
-                            <li class="nav-item active"><a class="nav-link" href="{{route('blotter.settled')}}">Settled Cases</a></li>
-                            <li class="nav-item"><a class="nav-link" href="{{route('blotter.summary')}}">Search Case</a></li>
+                            <li class="nav-item active "><a class="nav-link text-dark fw-bold" href="{{route('blotter.settled')}}">Settled Cases</a></li>
+                            <li class="nav-item"><a class="nav-link text-dark fw-bold" href="{{route('blotter.summary')}}">Search Case</a></li>
 
                             <x-app-layout>
                             </x-app-layout>

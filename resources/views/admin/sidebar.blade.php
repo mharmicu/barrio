@@ -2,6 +2,7 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 
+
 <!-- Sidebar-->
 <div class="border-end" id="sidebar-wrapper">
 
@@ -19,8 +20,6 @@
                 var date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
                 var time = today.getHours() + ":" + today.getMinutes();
                 document.write(today.toDateString() + ' | ' + time);
-
-
             </script>
         </a>
 
@@ -34,7 +33,7 @@
         <span class="fw-bold p-2">CONTENT</span>
         <a class="list-group-item list-group-item-action  p-3 dropdown-toggle" href="#blotterSubmenu" data-bs-toggle="collapse" aria-expanded="false"><i class="bi bi-pen"></i> Blotter</a>
         <ul class="collapse" id="blotterSubmenu">
-            
+
             <!-- @if(Auth::user()->user_type_id == 1)
             <li>
                 <a href="{{route('blotter.create')}}" :active="request()->routeIs('blotter.create')" class="subMenu">Create Blotter Report</a>
