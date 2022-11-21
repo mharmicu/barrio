@@ -220,7 +220,7 @@
             </div>
 
             <div class="row">
-                <div class="col-12 col-md-12 col-lg-4">
+                <div class="col-12 col-md-12 col-lg-4 mb-3 mb-xxl-0">
                     <div class="card text-center bg-white pb-2 h-100">
                         <div class="card-body text-dark">
                             <div class="img-area mb-4">
@@ -234,7 +234,7 @@
                     </div>
                 </div>
 
-                <div class="col-12 col-md-12 col-lg-4">
+                <div class="col-12 col-md-12 col-lg-4 mb-3 mb-xxl-0">
                     <div class="card text-center bg-white pb-2 h-100">
                         <div class="card-body text-dark">
                             <div class="img-area mb-4">
@@ -248,7 +248,7 @@
                     </div>
                 </div>
 
-                <div class="col-12 col-md-12 col-lg-4">
+                <div class="col-12 col-md-12 col-lg-4 mb-3 mb-xxl-0">
                     <div class="card text-center bg-white pb-2 h-100">
                         <div class="card-body text-dark">
                             <div class="img-area mb-4">
@@ -272,13 +272,16 @@
             <div class="row">
                 <div class="col-lg-4 col-md-12 col-12">
                     <div class="about-img">
-                        <img src="../img/barangay-385.jpg" alt="" class="img-fluid">
+                        <img src="../img/map.jpg" alt="" class="img-fluid">
                     </div>
                 </div>
-                <div class="col-lg-8 col-md-12 col-12 ps-lg-5 mt-md-5">
+                <div class="col-lg-8 col-md-12 col-12 ps-lg-5 ">
                     <div class="about-text">
-                        <h1>We Provide Best Quality <br> Services Ever</h1>
-                        <p class="lead">The Barangay, through active citizen engagement and a professionalized corps of civil workers, promotes peace and order, ensures safety of the public, and strengthens the capacity of local government units.</p>
+                        <h1>About Barangay 385 Zone 39 District III</h1>
+                        <h5 class="fw-bold">MISSION</h5>
+                        <p class="lead">Barangay 385 and all its stakeholders are committed to empower disadvantaged families to ATTAIN better lives acquiring ORDFERLY, PEACEFUL, BEAUTIFUL and very CLEAN COMMUNITY and maximization of their potentials to gain a very healthy, well educated citizenry to become enlightened, economically dependent and values oriented FILIPINOS.</p>
+                        <h5 class="fw-bold">VISION</h5>
+                        <p class="lead">Five years from now, Barangay 385 envisions itself to have an orderly peaceful, beautiful, very clean community with a very healthy, well educated, virtue oriented and productive citizenry.</p>
                         <a href="#" class="btn btn-warning">Learn More</a>
                     </div>
                 </div>
@@ -303,21 +306,24 @@
             </div>
 
             <!-- part 1 officials -->
-            <div class="row mb-3">
-                <div class="col">
+            <div class="row mb-3 justify-content-center">
+                <div class="col-4 col-xxl-2">
                     <div class="card text-center h-100">
                         <div class="card-body">
-                            <img src="../img/team-1.jpg" alt="" class="rounded-circle mx-auto d-block">
+                            <img src="../img/zarate.jpg" alt="" class="rounded-circle mx-auto d-block">
                             <h3 class="card-title py-2 fs-4 mt-2">Ma. Aileen Frances Aquino Zarate</h3>
                             <p class="card-text">Barangay Chairperson (Captain)</p>
                         </div>
                     </div>
                 </div>
+            </div>
 
-                <div class="col">
+            <div class="row mb-3">
+
+                <div class="col mb-3 mb-xxl-0">
                     <div class="card text-center h-100">
                         <div class="card-body">
-                            <img src="../img/team-2.jpg" alt="" class="rounded-circle mx-auto d-block">
+                            <img src="../img/de_jesus.jpg" alt="" class="rounded-circle mx-auto d-block">
                             <h3 class="card-title py-2 fs-4 mt-2">Angel Acueda De Jesus</h3>
                             <p class="card-text">Kagawad (Councilor)</p>
 
@@ -325,10 +331,10 @@
                     </div>
                 </div>
 
-                <div class="col">
+                <div class="col mb-3 mb-xxl-0">
                     <div class="card text-center h-100">
                         <div class="card-body">
-                            <img src="../img/team-3.jpg" alt="" class="rounded-circle mx-auto d-block">
+                            <img src="../img/maglapit.jpg" alt="" class="rounded-circle mx-auto d-block">
                             <h3 class="card-title py-2 fs-4 mt-2">Melanie Garcia Maglapit</h3>
                             <p class="card-text">Kagawad (Councilor)</p>
 
@@ -336,10 +342,10 @@
                     </div>
                 </div>
 
-                <div class="col">
+                <div class="col mb-3 mb-xxl-0">
                     <div class="card text-center h-100">
                         <div class="card-body">
-                            <img src="../img/team-4.jpg" alt="" class="rounded-circle mx-auto d-block">
+                            <img src="../img/calces.jpg" alt="" class="rounded-circle mx-auto d-block">
                             <h3 class="card-title py-2 fs-4 mt-2">David Cañete Calces</h3>
                             <p class="card-text">Kagawad (Councilor)</p>
 
@@ -347,23 +353,21 @@
                     </div>
                 </div>
 
-                <div class="col">
+                <div class="col mb-3 mb-xxl-0">
                     <div class="card text-center h-100">
                         <div class="card-body">
-                            <img src="../img/team-4.jpg" alt="" class="rounded-circle mx-auto d-block">
+                            <img src="../img/santos_rocelyn.jpg" alt="" class="rounded-circle mx-auto d-block">
                             <h3 class="card-title py-2 fs-4 mt-2">Rocelyn Maglapit Santos</h3>
                             <p class="card-text">Kagawad (Councilor)</p>
 
                         </div>
                     </div>
                 </div>
-            </div>
-            <!-- part 2 officials-->
-            <div class="row">
-                <div class="col">
+
+                <div class="col mb-3 mb-xxl-0">
                     <div class="card text-center h-100">
                         <div class="card-body">
-                            <img src="../img/team-1.jpg" alt="" class="rounded-circle mx-auto d-block">
+                            <img src="../img/andaya.jpg" alt="" class="rounded-circle mx-auto d-block">
                             <h3 class="card-title py-2 fs-4 mt-2">Bernardine Upaga Andaya</h3>
                             <p class="card-text">Kagawad (Councilor)</p>
 
@@ -371,10 +375,10 @@
                     </div>
                 </div>
 
-                <div class="col">
+                <div class="col mb-3 mb-xxl-0">
                     <div class="card text-center h-100">
                         <div class="card-body">
-                            <img src="../img/team-2.jpg" alt="" class="rounded-circle mx-auto d-block">
+                            <img src="../img/acuzar.jpg" alt="" class="rounded-circle mx-auto d-block">
                             <h3 class="card-title py-2 fs-4 mt-2">Emeterio Yabut Acuzar</h3>
                             <p class="card-text">Kagawad (Councilor)</p>
 
@@ -382,33 +386,48 @@
                     </div>
                 </div>
 
-                <div class="col">
+                <div class="col  mb-3 mb-xxl-0">
                     <div class="card text-center h-100">
                         <div class="card-body">
-                            <img src="../img/team-3.jpg" alt="" class="rounded-circle mx-auto d-block">
-                            <h3 class="card-title py-2 fs-4 mt-2">Quiterio Ferrer Atutubo</h3>
+                            <img src="../img/atutubo.jpg" alt="" class="rounded-circle mx-auto d-block">
+                            <h3 class="card-title py-2 fs-4 mt-2">Quiterio F. Atutubo</h3>
                             <p class="card-text">Kagawad (Councilor)</p>
+
                         </div>
                     </div>
                 </div>
 
-                <div class="col">
+                
+            </div>
+            <!-- part 2 officials-->
+            <div class="row justify-content-center">
+
+                <div class="col col-lg-2">
                     <div class="card text-center h-100">
                         <div class="card-body">
-                            <img src="../img/team-4.jpg" alt="" class="rounded-circle mx-auto d-block">
+                            <img src="../img/tuscano.jpg" alt="" class="rounded-circle mx-auto d-block">
+                            <h3 class="card-title py-2 fs-4 mt-2">Irene Tuscano</h3>
+                            <p class="card-text">Barangay Secretary</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col col-lg-2">
+                    <div class="card text-center h-100">
+                        <div class="card-body">
+                            <img src="../img/dela_cruz.jpg" alt="" class="rounded-circle mx-auto d-block">
+                            <h3 class="card-title py-2 fs-4 mt-2">Laila P. Dela Cruz</h3>
+                            <p class="card-text">Barangay Treasurer</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col col-lg-2">
+                    <div class="card text-center h-100">
+                        <div class="card-body">
+                            <img src="../img/bareja.jpg" alt="" class="rounded-circle mx-auto d-block">
                             <h3 class="card-title py-2 fs-4 mt-2">Johne Jerome Maglapit Bareja</h3>
                             <p class="card-text">SK Chairperson</p>
 
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col">
-                    <div class="card text-center h-100">
-                        <div class="card-body">
-                            <img src="../img/team-4.jpg" alt="" class="rounded-circle mx-auto d-block">
-                            <h3 class="card-title py-2 fs-4 mt-2">Irene Tuscano</h3>
-                            <p class="card-text">Barangay Secretary</p>
                         </div>
                     </div>
                 </div>
