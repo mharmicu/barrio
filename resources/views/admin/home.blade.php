@@ -11,6 +11,7 @@ use Maize\Encryptable\Encryption;
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="../css/styles.css" rel="stylesheet" />
+    <title>Dashboard | BARRIO</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css">
     <link rel="icon" type="image/png" href="{{ asset('/img/385-logo.png') }}">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>

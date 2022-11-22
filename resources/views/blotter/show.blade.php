@@ -9,6 +9,7 @@
     <link rel="icon" type="image/png" href="{{ asset('/img/385-logo.png') }}">
 
     <meta name="csrf-token" content="{{ csrf_token() }}">
+    <title>Ongoing Cases | BARRIO</title>
     <link href="https://cdn.datatables.net/1.10.21/css/jquery.dataTables.min.css" rel="stylesheet">
     <link href="https://cdn.datatables.net/1.10.21/css/dataTables.bootstrap4.min.css" rel="stylesheet">
 </head>
@@ -90,7 +91,7 @@
                                             <form method="POST" action="{{route('blotter.store')}}" enctype="multipart/form-data" id="form">
                                                 @csrf
                                                 <div class="mb-3" id="textboxDiv">
-                                                    <label for="complainant" class="form-label">Complainant(s)</label>
+                                                    <label for="complainant" class="form-label">Complainant</label>
                                                     <!-- <button type="button" class="btn btn-light btn-sm" id="addComplainant">Add another complainant</button>
                                                     <button type="button" class="btn btn-light btn-sm" id="Remove">Remove</button> -->
                                                     <div class="row">
@@ -155,7 +156,7 @@
                                                 </div>
 
                                                 <div class="mb-3" id="textboxDiv">
-                                                    <label for="respondent" class="form-label">Respondent(s)</label>
+                                                    <label for="respondent" class="form-label">Respondent</label>
                                                     <!--<button type="button" class="btn btn-light btn-sm" id="addComplainant">Add another respondent</button>
                                                      <button type="button" class="btn btn-light btn-sm" id="Remove">Remove</button> -->
                                                     <div class="row">
@@ -198,7 +199,7 @@
                                                 </div>
 
                                                 <div class="mb-3">
-                                                    <label for="file" class="form-label">Complainant(s) Digital Signature</label>
+                                                    <label for="file" class="form-label">Complainant Digital Signature</label>
                                                     <input type="file" class="form-control shadow-none  @error('file') is-invalid @enderror" onchange="loadFile(event)" name="file" required>
                                                     <img id="previewImg" alt="digital signature" style="max-width:15rem; margin-top:2rem;">
                                                     @error('file')
