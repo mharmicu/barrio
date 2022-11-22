@@ -306,26 +306,70 @@
             </div>
 
             <!-- part 1 officials -->
-            <div class="row mb-3 justify-content-center">
-                <div class="col-4 col-xxl-2">
+            <div class="row mb-3">
+                <div class="col mb-3 mb-xxl-0">
                     <div class="card text-center h-100">
                         <div class="card-body">
-                            <img src="../img/zarate.jpg" alt="" class="rounded-circle mx-auto d-block">
-                            <h3 class="card-title py-2 fs-4 mt-2">Ma. Aileen Frances Aquino Zarate</h3>
-                            <p class="card-text">Barangay Chairperson (Captain)</p>
+                            <img src="../img/zarate.jpg" alt="" class="rounded-circle mx-auto d-block" width="150px">
+                            <h3 class="card-title py-2 fs-4 mt-2">Ma. Aileen Frances A. Zarate</h3>
+                            <p class="card-text fw-bold">Barangay Chairperson (Captain)</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col mb-3 mb-xxl-0">
+                    <div class="card text-center h-100">
+                        <div class="card-body">
+                            <img src="../img/de_jesus.jpg" alt="" class="rounded-circle mx-auto d-block" width="150px">
+                            <h3 class="card-title py-2 fs-4 mt-2">Angel A. De Jesus</h3>
+                            <p class="card-text fw-bold">Kagawad (Councilor)</p>
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col mb-3 mb-xxl-0">
+                    <div class="card text-center h-100">
+                        <div class="card-body">
+                            <img src="../img/maglapit.jpg" alt="" class="rounded-circle mx-auto d-block" width="150px">
+                            <h3 class="card-title py-2 fs-4 mt-2">Melanie G. Maglapit</h3>
+                            <p class="card-text fw-bold">Kagawad (Councilor)</p>
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col mb-3 mb-xxl-0">
+                    <div class="card text-center h-100">
+                        <div class="card-body">
+                            <img src="../img/calces.jpg" alt="" class="rounded-circle mx-auto d-block" width="150px">
+                            <h3 class="card-title py-2 fs-4 mt-2">David C. Calces</h3>
+                            <p class="card-text fw-bold">Kagawad (Councilor)</p>
+
                         </div>
                     </div>
                 </div>
             </div>
-
             <div class="row mb-3">
 
                 <div class="col mb-3 mb-xxl-0">
                     <div class="card text-center h-100">
                         <div class="card-body">
-                            <img src="../img/de_jesus.jpg" alt="" class="rounded-circle mx-auto d-block">
-                            <h3 class="card-title py-2 fs-4 mt-2">Angel Acueda De Jesus</h3>
-                            <p class="card-text">Kagawad (Councilor)</p>
+                            <img src="../img/santos_rocelyn.jpg" alt="" class="rounded-circle mx-auto d-block" width="150px">
+                            <h3 class="card-title py-2 fs-4 mt-2">Rocelyn M. Santos</h3>
+                            <p class="card-text fw-bold">Kagawad (Councilor)</p>
+
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="col mb-3 mb-xxl-0">
+                    <div class="card text-center h-100">
+                        <div class="card-body">
+                            <img src="../img/andaya.jpg" alt="" class="rounded-circle mx-auto d-block" width="150px">
+                            <h3 class="card-title py-2 fs-4 mt-2">Bernardine U. Andaya</h3>
+                            <p class="card-text fw-bold">Kagawad (Councilor)</p>
 
                         </div>
                     </div>
@@ -334,9 +378,9 @@
                 <div class="col mb-3 mb-xxl-0">
                     <div class="card text-center h-100">
                         <div class="card-body">
-                            <img src="../img/maglapit.jpg" alt="" class="rounded-circle mx-auto d-block">
-                            <h3 class="card-title py-2 fs-4 mt-2">Melanie Garcia Maglapit</h3>
-                            <p class="card-text">Kagawad (Councilor)</p>
+                            <img src="../img/acuzar.jpg" alt="" class="rounded-circle mx-auto d-block" width="150px">
+                            <h3 class="card-title py-2 fs-4 mt-2">Emeterio Z. Acuzar</h3>
+                            <p class="card-text fw-bold">Kagawad (Councilor)</p>
 
                         </div>
                     </div>
@@ -345,88 +389,44 @@
                 <div class="col mb-3 mb-xxl-0">
                     <div class="card text-center h-100">
                         <div class="card-body">
-                            <img src="../img/calces.jpg" alt="" class="rounded-circle mx-auto d-block">
-                            <h3 class="card-title py-2 fs-4 mt-2">David Cañete Calces</h3>
-                            <p class="card-text">Kagawad (Councilor)</p>
-
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col mb-3 mb-xxl-0">
-                    <div class="card text-center h-100">
-                        <div class="card-body">
-                            <img src="../img/santos_rocelyn.jpg" alt="" class="rounded-circle mx-auto d-block">
-                            <h3 class="card-title py-2 fs-4 mt-2">Rocelyn Maglapit Santos</h3>
-                            <p class="card-text">Kagawad (Councilor)</p>
-
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col mb-3 mb-xxl-0">
-                    <div class="card text-center h-100">
-                        <div class="card-body">
-                            <img src="../img/andaya.jpg" alt="" class="rounded-circle mx-auto d-block">
-                            <h3 class="card-title py-2 fs-4 mt-2">Bernardine Upaga Andaya</h3>
-                            <p class="card-text">Kagawad (Councilor)</p>
-
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col mb-3 mb-xxl-0">
-                    <div class="card text-center h-100">
-                        <div class="card-body">
-                            <img src="../img/acuzar.jpg" alt="" class="rounded-circle mx-auto d-block">
-                            <h3 class="card-title py-2 fs-4 mt-2">Emeterio Yabut Acuzar</h3>
-                            <p class="card-text">Kagawad (Councilor)</p>
-
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col mb-3 mb-xxl-0" >
-                    <div class="card text-center h-100">
-                        <div class="card-body">
-                            <img src="../img/atutubo.jpg" alt="" class="rounded-circle mx-auto d-block">
+                            <img src="../img/atutubo.jpg" alt="" class="rounded-circle mx-auto d-block" width="150px">
                             <h3 class="card-title py-2 fs-4 mt-2">Quiterio F. Atutubo</h3>
-                            <p class="card-text">Kagawad (Councilor)</p>
+                            <p class="card-text fw-bold">Kagawad (Councilor)</p>
 
                         </div>
                     </div>
                 </div>
 
-                
+
             </div>
             <!-- part 2 officials-->
             <div class="row justify-content-center">
 
-                <div class="col col-lg-2">
+                <div class="col col-lg-3">
                     <div class="card text-center h-100">
                         <div class="card-body">
-                            <img src="../img/tuscano.jpg" alt="" class="rounded-circle mx-auto d-block">
+                            <img src="../img/tuscano.jpg" alt="" class="rounded-circle mx-auto d-block" width="150px">
                             <h3 class="card-title py-2 fs-4 mt-2">Irene Tuscano</h3>
-                            <p class="card-text">Barangay Secretary</p>
+                            <p class="card-text fw-bold">Barangay Secretary</p>
                         </div>
                     </div>
                 </div>
-                <div class="col col-lg-2">
+                <div class="col col-lg-3">
                     <div class="card text-center h-100">
                         <div class="card-body">
-                            <img src="../img/dela_cruz.jpg" alt="" class="rounded-circle mx-auto d-block">
+                            <img src="../img/dela_cruz.jpg" alt="" class="rounded-circle mx-auto d-block" width="150px">
                             <h3 class="card-title py-2 fs-4 mt-2">Laila P. Dela Cruz</h3>
-                            <p class="card-text">Barangay Treasurer</p>
+                            <p class="card-text fw-bold">Barangay Treasurer</p>
                         </div>
                     </div>
                 </div>
 
-                <div class="col col-lg-2">
+                <div class="col col-lg-3">
                     <div class="card text-center h-100">
                         <div class="card-body">
-                            <img src="../img/bareja.jpg" alt="" class="rounded-circle mx-auto d-block">
-                            <h3 class="card-title py-2 fs-4 mt-2">Johne Jerome Maglapit Bareja</h3>
-                            <p class="card-text">SK Chairperson</p>
+                            <img src="../img/bareja.jpg" alt="" class="rounded-circle mx-auto d-block" width="150px">
+                            <h3 class="card-title py-2 fs-4 mt-2">Johne Jerome M. Bareja</h3>
+                            <p class="card-text fw-bold">SK Chairperson</p>
 
                         </div>
                     </div>
