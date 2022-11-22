@@ -38,8 +38,8 @@ class HomeController extends Controller
     {
         if (Auth::id()) {
             if (Auth::user()->user_type_id == '1' || Auth::user()->user_type_id == 2) {
-                $data = Blotter::select('case_no', 'created_at')->orderBy('created_at')->get()->groupBy(function ($data) {
-                    return Carbon::parse($data->created_at)->format('Y-m-d');
+                $data = Blotter::select('case_no', 'date_of_incident')->orderBy('date_of_incident')->get()->groupBy(function ($data) {
+                    return Carbon::parse($data->date_of_incident)->format('Y-m-d');
                 });
 
                 //bar graph
@@ -112,8 +112,8 @@ class HomeController extends Controller
                 $nextWeekCount = count($nextWeekSchedule);
 
                 //arlegui
-                $report_arlegui = Report::select('street', 'created_at')->where('street', 'Arlegui St.')->orderBy('created_at')->get()->groupBy(function ($incident_data) {
-                    return Carbon::parse($incident_data->created_at)->format('Y-m-d');
+                $report_arlegui = Report::select('street', 'date_of_incident')->where('street', 'Arlegui St.')->orderBy('date_of_incident')->get()->groupBy(function ($incident_data) {
+                    return Carbon::parse($incident_data->date_of_incident)->format('Y-m-d');
                 });
                 $dates_ar = [];
                 $dateCount_ar = [];
@@ -123,8 +123,8 @@ class HomeController extends Controller
                 }
 
                 //castillejos
-                $report_castillejos = Report::select('street', 'created_at')->where('street', 'Castillejos St.')->orderBy('created_at')->get()->groupBy(function ($incident_data) {
-                    return Carbon::parse($incident_data->created_at)->format('Y-m-d');
+                $report_castillejos = Report::select('street', 'date_of_incident')->where('street', 'Castillejos St.')->orderBy('date_of_incident')->get()->groupBy(function ($incident_data) {
+                    return Carbon::parse($incident_data->date_of_incident)->format('Y-m-d');
                 });
                 $dates_cas = [];
                 $dateCount_cas = [];
@@ -134,8 +134,8 @@ class HomeController extends Controller
                 }
 
                 //duque
-                $report_duque = Report::select('street', 'created_at')->where('street', 'Duque St.')->orderBy('created_at')->get()->groupBy(function ($incident_data) {
-                    return Carbon::parse($incident_data->created_at)->format('Y-m-d');
+                $report_duque = Report::select('street', 'date_of_incident')->where('street', 'Duque St.')->orderBy('date_of_incident')->get()->groupBy(function ($incident_data) {
+                    return Carbon::parse($incident_data->date_of_incident)->format('Y-m-d');
                 });
                 $dates_duq = [];
                 $dateCount_duq = [];
@@ -145,8 +145,8 @@ class HomeController extends Controller
                 }
 
                 //farnecio
-                $report_farnecio = Report::select('street', 'created_at')->where('street', 'Farnecio St.')->orderBy('created_at')->get()->groupBy(function ($incident_data) {
-                    return Carbon::parse($incident_data->created_at)->format('Y-m-d');
+                $report_farnecio = Report::select('street', 'date_of_incident')->where('street', 'Farnecio St.')->orderBy('date_of_incident')->get()->groupBy(function ($incident_data) {
+                    return Carbon::parse($incident_data->date_of_incident)->format('Y-m-d');
                 });
                 $dates_far = [];
                 $dateCount_far = [];
@@ -156,8 +156,8 @@ class HomeController extends Controller
                 }
 
                 //fraternal
-                $report_fraternal = Report::select('street', 'created_at')->where('street', 'Fraternal St.')->orderBy('created_at')->get()->groupBy(function ($incident_data) {
-                    return Carbon::parse($incident_data->created_at)->format('Y-m-d');
+                $report_fraternal = Report::select('street', 'date_of_incident')->where('street', 'Fraternal St.')->orderBy('date_of_incident')->get()->groupBy(function ($incident_data) {
+                    return Carbon::parse($incident_data->date_of_incident)->format('Y-m-d');
                 });
                 $dates_fra = [];
                 $dateCount_fra = [];
@@ -167,8 +167,8 @@ class HomeController extends Controller
                 }
 
                 //p casal
-                $report_pcasal = Report::select('street', 'created_at')->where('street', 'Pascual Casal St.')->orderBy('created_at')->get()->groupBy(function ($incident_data) {
-                    return Carbon::parse($incident_data->created_at)->format('Y-m-d');
+                $report_pcasal = Report::select('street', 'date_of_incident')->where('street', 'Pascual Casal St.')->orderBy('date_of_incident')->get()->groupBy(function ($incident_data) {
+                    return Carbon::parse($incident_data->date_of_incident)->format('Y-m-d');
                 });
                 $dates_pcasal = [];
                 $dateCount_pcasal = [];
@@ -178,8 +178,8 @@ class HomeController extends Controller
                 }
 
                 //pax 
-                $report_pax = Report::select('street', 'created_at')->where('street', 'Pax St.')->orderBy('created_at')->get()->groupBy(function ($incident_data) {
-                    return Carbon::parse($incident_data->created_at)->format('Y-m-d');
+                $report_pax = Report::select('street', 'date_of_incident')->where('street', 'Pax St.')->orderBy('date_of_incident')->get()->groupBy(function ($incident_data) {
+                    return Carbon::parse($incident_data->date_of_incident)->format('Y-m-d');
                 });
                 $dates_pax = [];
                 $dateCount_pax = [];
@@ -189,8 +189,8 @@ class HomeController extends Controller
                 }
 
                 //vergara 
-                $report_ver = Report::select('street', 'created_at')->where('street', 'Vergara St.')->orderBy('created_at')->get()->groupBy(function ($incident_data) {
-                    return Carbon::parse($incident_data->created_at)->format('Y-m-d');
+                $report_ver = Report::select('street', 'date_of_incident')->where('street', 'Vergara St.')->orderBy('date_of_incident')->get()->groupBy(function ($incident_data) {
+                    return Carbon::parse($incident_data->date_of_incident)->format('Y-m-d');
                 });
                 $dates_ver = [];
                 $dateCount_ver = [];
@@ -353,42 +353,26 @@ class HomeController extends Controller
                 //arbitrationCount
                 $arbitrationCount = count($blotter_report_arb);
 
-
-
-
-
-
                 //incident reports
                 $currentCountIncident = Report::count();
                 $todayCountIncident = count(Report::whereDate('created_at', Carbon::today())->get());
                 $weekCountIncident = count(Report::whereBetween('created_at', [Carbon::now()->subWeek()->format("Y-m-d H:i:s"), Carbon::now()])->get());
                 $monthCountIncident = count(Report::whereMonth('created_at', Carbon::now()->month)->get());
 
-                //dd($cleanedText);
-
-
-                //matrix all
-
-                // $matrixAll = Report::select('street', DB::raw('count(*) as total'), DB::raw("(DATE_FORMAT(date_of_incident, '%m-%Y')) as month_year"))
-                // ->whereYear('date_of_incident', Carbon::now()->year)
-                // ->groupBy('street', DB::raw("DATE_FORMAT(date_of_incident, '%m-%Y')"))
-                // ->get();
-                //dd($matrixAll);
-
                 $matrixAll = Report::select(
                     'street',
-                    DB::raw('SUM(if(MONTH(created_at) = 1, 1,0)) as Jan'),
-                    DB::raw('SUM(if(MONTH(created_at) = 2, 1,0)) as Feb'),
-                    DB::raw('SUM(if(MONTH(created_at) = 3, 1,0)) as Mar'),
-                    DB::raw('SUM(if(MONTH(created_at) = 4, 1,0)) as Apr'),
-                    DB::raw('SUM(if(MONTH(created_at) = 5, 1,0)) as May'),
-                    DB::raw('SUM(if(MONTH(created_at) = 6, 1,0)) as Jun'),
-                    DB::raw('SUM(if(MONTH(created_at) = 7, 1,0)) as Jul'),
-                    DB::raw('SUM(if(MONTH(created_at) = 8, 1,0)) as Aug'),
-                    DB::raw('SUM(if(MONTH(created_at) = 9, 1,0)) as Sep'),
-                    DB::raw('SUM(if(MONTH(created_at) = 10, 1,0)) as Oct'),
-                    DB::raw('SUM(if(MONTH(created_at) = 11, 1,0)) as Nov'),
-                    DB::raw('SUM(if(MONTH(created_at) = 12, 1,0)) as `Dec`'),
+                    DB::raw('SUM(if(MONTH(date_of_incident) = 1, 1,0)) as Jan'),
+                    DB::raw('SUM(if(MONTH(date_of_incident) = 2, 1,0)) as Feb'),
+                    DB::raw('SUM(if(MONTH(date_of_incident) = 3, 1,0)) as Mar'),
+                    DB::raw('SUM(if(MONTH(date_of_incident) = 4, 1,0)) as Apr'),
+                    DB::raw('SUM(if(MONTH(date_of_incident) = 5, 1,0)) as May'),
+                    DB::raw('SUM(if(MONTH(date_of_incident) = 6, 1,0)) as Jun'),
+                    DB::raw('SUM(if(MONTH(date_of_incident) = 7, 1,0)) as Jul'),
+                    DB::raw('SUM(if(MONTH(date_of_incident) = 8, 1,0)) as Aug'),
+                    DB::raw('SUM(if(MONTH(date_of_incident) = 9, 1,0)) as Sep'),
+                    DB::raw('SUM(if(MONTH(date_of_incident) = 10, 1,0)) as Oct'),
+                    DB::raw('SUM(if(MONTH(date_of_incident) = 11, 1,0)) as Nov'),
+                    DB::raw('SUM(if(MONTH(date_of_incident) = 12, 1,0)) as `Dec`'),
                 )
                     ->whereYear('created_at', Carbon::now()->year)
                     ->groupBy('street')

@@ -323,7 +323,7 @@ use Maize\Encryptable\Encryption;
                                             <input type="month" class="" onchange="filterChart(this)" id="month" />
                                             <button onclick="reset()" class="btn btn-sm btn-primary">Reset</button>
                                         </div>
-                                        <canvas id="lineBlotter"></canvas>
+                                        <canvas id="barBlotter"></canvas>
                                     </div>
                                 </div>
                             </div>

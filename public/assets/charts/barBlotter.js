@@ -13,7 +13,12 @@ const dataLineBlotter = {
             '#EDF2F6',
         ],
         borderColor: [
-            '#29252C'
+            '#0D4C92',
+            '#EB4747',
+            '#F9D923',
+            '#36AE7C',
+            '#29252C',
+            '#EDF2F6',
         ],
         borderWidth: 1
     }]
@@ -39,15 +44,21 @@ const configLineBlotter = {
                 }
             },
             y: {
-                beginAtZero: true
-            }
+                min: 0,
+                max: 5,
+                beginAtZero: true,
+                ticks: {
+                    precision: 0
+                  }
+            },
+            
         }
     }
 };
 
 // render init block
 const lineBlotter = new Chart(
-    document.getElementById('lineBlotter'),
+    document.getElementById('barBlotter'),
     configLineBlotter
 );
 

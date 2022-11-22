@@ -386,7 +386,7 @@
                     </div>
                 </div>
 
-                <div class="col  mb-3 mb-xxl-0">
+                <div class="col mb-3 mb-xxl-0" >
                     <div class="card text-center h-100">
                         <div class="card-body">
                             <img src="../img/atutubo.jpg" alt="" class="rounded-circle mx-auto d-block">
