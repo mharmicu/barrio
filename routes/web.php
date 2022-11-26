@@ -135,3 +135,7 @@ Route::post('blotter/kp_case/store', [BlotterController::class, 'addKP'])->name(
 //CONTACT FORM
 Route::get('/user/home', 'App\Http\Controllers\ContactFormController@index');
 Route::post('/contactForm', 'App\Http\Controllers\ContactFormController@contactForm');
+
+//FEDBACKS UI
+Route::get('feedbacks/show', [Reports::class, 'feedbacks_show'])->name('feedbacks.show');
+Route::get('feedbacks/list', [Reports::class, 'getFeedbacks'])->name('feedbacks.list');

@@ -78,11 +78,11 @@ class Reports extends Component
                 ], [
                     //custom error message here if ever meron
                 ]);
-                */
+                 */
 
                 $report = Report::find($id);
 
-                
+
                 //$report->type = $request->type;
                 //$report->date_of_incident = $request->date_of_incident;
                 //$report->location = $request->location;
@@ -113,15 +113,15 @@ class Reports extends Component
                 ->addColumn('action', function ($row) {
                     $link = '<a href="" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#editModal' . $row->id . '"><i class="bi bi-pen"></i> Edit</a>';
                     $modal = '<!-- Modal -->
-                    <form method="post" action="'.route('report.update', $row->id).'" enctype="multipart/form-data">
+                    <form method="post" action="' . route('report.update', $row->id) . '" enctype="multipart/form-data">
                     
-                    <input type="hidden" name="_token" value="'.csrf_token().'" />
+                    <input type="hidden" name="_token" value="' . csrf_token() . '" />
 
                     <div class="modal fade" id="editModal' . $row->id . '" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                         <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
                             <div class="modal-content">
                                 <div class="modal-header">
-                                    <h5 class="modal-title" id="exampleModalLabel">Edit Incident #'.$row->id.'</h5>
+                                    <h5 class="modal-title" id="exampleModalLabel">Edit Incident #' . $row->id . '</h5>
                                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                 </div>
                                 
@@ -171,4 +171,28 @@ class Reports extends Component
         }
     }
 
+    public function feedbacks_show()
+    {
+        if (Auth::id()) {
+            if (Auth::user()->user_type_id == 1 || 2) {
+
+                return view('admin.feedbacks');
+            } else {
+                return redirect()->back();
+            }
+        } else {
+            return redirect('login');
+        }
+    }
+
+    public function getFeedbacks(Request $request)
+    {
+        if ($request->ajax()) {
+            $feedbacks = DB::table('contact_forms')->get();
+
+            return Datatables::of($feedbacks)
+                ->addIndexColumn()
+                ->make(true);
+        }
+    }
 }
