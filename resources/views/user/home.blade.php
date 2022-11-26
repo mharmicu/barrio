@@ -113,7 +113,7 @@
                 <div class="carousel-caption">
                     <h5>Blotter Cases Repository</h5>
                     <p> Secure Cases Repository with Incident Reporting and Analytics Generation</p>
-                    <p><a href="#" class="btn btn-danger mt-3">Learn More</a></p>
+                    
                 </div>
             </div>
             <div class="carousel-item">
@@ -121,7 +121,7 @@
                 <div class="carousel-caption">
                     <h5>Incident Reporting</h5>
                     <p>Secure Cases Repository with Incident Reporting and Analytics Generation</p>
-                    <p><a href="#" class="btn btn-danger mt-3">Learn More</a></p>
+                    
                 </div>
             </div>
             <div class="carousel-item">
@@ -129,7 +129,7 @@
                 <div class="carousel-caption">
                     <h5>Analytics</h5>
                     <p>Secure Cases Repository with Incident Reporting and Analytics Generation</p>
-                    <p><a href="#" class="btn btn-danger mt-3">Learn More</a></p>
+                    
                 </div>
             </div>
         </div>
@@ -162,7 +162,7 @@
                             <i class="bi bi-pen"></i>
                             <h2 class="card-title">Blotter</h2>
                             <p class=" fs-6">This is a record of daily events/cases occurring within the territory/jurisdiction of the barangay. It provides important information on reported or discovered violations of laws, rules, and ordinances as well as requests for barangay assistance on any issue calling for legal or additional action. This barangay blotter is a record of information that can be used as evidence or as a reference.</p>
-                            <button class="btn btn-warning text-dark">Read More </button>
+                           
                         </div>
                     </div>
                 </div>
@@ -173,7 +173,7 @@
                             <i class="bi bi-bell"></i>
                             <h2 class="card-title">Notices</h2>
                             <p class="fs-6">Before an incident report case will be subjected to hearing process of determine agreement, notice records must first be created. </p>
-                            <button class="btn btn-warning text-dark">Read More </button>
+                            
                         </div>
                     </div>
                 </div>
@@ -188,7 +188,7 @@
                             <i class="bi bi-alarm"></i>
                             <h2 class="card-title">Hearings</h2>
                             <p class="fs-6">The goal of the hearing process to allow the complainant and respondent to find all possible ways to amicably settle their dispute. Dispute that is caused the respondent towards the complaint where its rights have been violated.</p>
-                            <button class="btn btn-warning text-dark">Read More </button>
+                            
                         </div>
                     </div>
                 </div>
@@ -199,7 +199,7 @@
                             <i class="bi bi-inboxes"></i>
                             <h2 class="card-title">Incidents</h2>
                             <p class="fs-6">Incident reporting is a component of the katarungang pambarangay, or barangay justice system, which amicably resolves conflicts within the community to promote peace, justice, and harmonious relationships. </p>
-                            <button class="btn btn-warning text-dark">Read More </button>
+                            
                         </div>
                     </div>
                 </div>
@@ -229,7 +229,7 @@
                             <h2 class="card-title">Analytics</h2>
                             <p class="lead">Refers to the procedure of gathering data from the system, processing it, and then analyzing it to identify patterns and make inferences about the data it collects.
                             </p>
-                            <button class="btn bg-warning text-dark">Learn More</button>
+                           
                         </div>
                     </div>
                 </div>
@@ -243,7 +243,7 @@
                             <h2 class="card-title">Encryption</h2>
                             <p class="lead">Data privacy can be protected in this way as it is saved on computers and transmitted over the internet. This can validate the data's origin and make sure that it hasn't changed since it was received, while also protecting its confidentiality.
                             </p>
-                            <button class="btn bg-warning text-dark">Learn More</button>
+                            
                         </div>
                     </div>
                 </div>
@@ -257,7 +257,7 @@
                             <h2 class="card-title">Audit Trail</h2>
                             <p class="lead">Every transaction a user makes in this system will be recorded by the audit trail feature. This allows for easier monitoring and investigation of any fraudulent activity and has the ability to list the recorded trails.
                             </p>
-                            <button class="btn bg-warning text-dark">Learn More</button>
+                            
                         </div>
                     </div>
                 </div>
@@ -282,7 +282,7 @@
                         <p class="lead">Barangay 385 and all its stakeholders are committed to empower disadvantaged families to ATTAIN better lives acquiring ORDFERLY, PEACEFUL, BEAUTIFUL and very CLEAN COMMUNITY and maximization of their potentials to gain a very healthy, well educated citizenry to become enlightened, economically dependent and values oriented FILIPINOS.</p>
                         <h5 class="fw-bold">VISION</h5>
                         <p class="lead">Five years from now, Barangay 385 envisions itself to have an orderly peaceful, beautiful, very clean community with a very healthy, well educated, virtue oriented and productive citizenry.</p>
-                        <a href="#" class="btn btn-warning">Learn More</a>
+                        
                     </div>
                 </div>
             </div>

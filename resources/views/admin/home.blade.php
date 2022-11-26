@@ -275,7 +275,7 @@ use Maize\Encryptable\Encryption;
                         </div>
                     </div>
 
-                    <div class="col mt-lg-0 mt-3">
+                    <div class="col mt-sm-0 mt-3">
                         <div class="card mb-3" id="stats">
                             <div class="card-header"><b>Current Hearings</b></div>
                             <div class="card-body d-flex justify-content-center align-items-center">
@@ -330,7 +330,7 @@ use Maize\Encryptable\Encryption;
                         </div>
                     </div>
 
-                    <div class="col">
+                    <div class="col mt-sm-0 mt-3">
                         <div class="card">
                             <h5 class="card-header"><i class="bi bi-bar-chart-line-fill"></i> Hearing Schedule</h5>
                             <div class="card-body">
