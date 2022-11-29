@@ -92,7 +92,7 @@ class SettlementController extends Component
                 $case_hearing->hearing_id = $hearingRecord->hearing_id;
                 $case_hearing->save();
 
-                return redirect('settlement/show-mediation')->with('proceeded', '');
+                return redirect('settlement/show-conciliation')->with('proceeded', '');
             } else {
                 return redirect()->back();
             }

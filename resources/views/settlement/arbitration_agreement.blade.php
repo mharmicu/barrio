@@ -89,7 +89,7 @@
                             @csrf
                             <div class="row">
                                 <div class="p-3">
-                                    <p class="fw-bold text-primary">Amicable Settlement Agreement</p>
+                                    <p class="fw-bold text-primary">Arbitration Agreement</p>
                                     <p class="">We hereby agree to submit our dispute for arbitration to the Punong Barangay/Pangkat ng Tagapagsundo and bind ourselves to comply with the award that may be rendered thereon. We have made this agreement freely with a fully understanding of its nature and consequences.</p>
                                 </div>
                             </div>
