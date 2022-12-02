@@ -229,7 +229,7 @@ class SettlementController extends Component
                         if ($notice) {
                             $requirementButton = '<a href="conciliation/' . $row->case_no   . '" class="btn btn-primary btn-sm">Go to Hearing</a>';
                         } else {
-                            $requirementButton = '<a href="../notice/create/' . $row->case_no   . '" class="btn btn-info btn-sm">Create Notice</a>';
+                            $requirementButton = '<a href="../notice/create/' . $row->case_no   . '" class="btn btn-info btn-sm">Create Pangkat Notice</a>';
                         }
                         $actionBtn = '<div class="d-grid gap-2">' . $requirementButton  . '<a href="../notice/create/' . $row->case_no   . '" class="btn btn-secondary btn-sm">Add Witness</a><a href="file-court-action/' . $row->case_no   . '" class="btn btn-outline-danger btn-sm">File Court Action</a></div>';
                         return $actionBtn;
