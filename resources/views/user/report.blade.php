@@ -115,6 +115,11 @@
                                                         <label for="type" class="form-label">Description of Incident</label>
                                                         <select class="form-select shadow-none  @error('type') is-invalid @enderror" name="type" id="type" required>
                                                             <option selected disabled value="">-</option>
+                                                            <option value="disorderly conduct" {{ old('type') == "cursing" ? 'selected' : '' }}>cursing</option>
+                                                            <option value="disorderly conduct" {{ old('type') == "wolf-whistling" ? 'selected' : '' }}>wolf-whistling</option>
+                                                            <option value="disorderly conduct" {{ old('type') == "catcalling" ? 'selected' : '' }}>catcalling</option>
+                                                            <option value="disorderly conduct" {{ old('type') == "leering and intrusive gazing" ? 'selected' : '' }}>leering and intrusive gazing</option>
+                                                            <option value="disorderly conduct" {{ old('type') == "taunting" ? 'selected' : '' }}>taunting</option>
                                                             <option value="disorderly conduct" {{ old('type') == "disorderly conduct" ? 'selected' : '' }}>disorderly conduct</option>
                                                             <option value="public scandal" {{ old('type') == "public scandal" ? 'selected' : '' }}>public scandal</option>
                                                             <option value="harassment" {{ old('type') == "harassment" ? 'selected' : '' }}>harassment</option>
