@@ -146,6 +146,7 @@
             processing: true,
             serverSide: true,
             ajax: "{{ route('blotter.settled-list') }}",
+            order: [[0, 'desc']],
             columns: [{
                     data: 'case_no',
                     name: 'case_no'

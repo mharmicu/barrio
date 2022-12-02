@@ -138,7 +138,7 @@
                             -->
 
                             <div class="mb-3 mt-3">
-                                <button type="submit" class="btn btn-primary">Create Settlement</button>
+                                <button type="submit" class="btn btn-primary">Create Arbitration Agreement</button>
                             </div>
                         </form>
                     </div>

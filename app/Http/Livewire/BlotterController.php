@@ -550,6 +550,9 @@ class BlotterController extends Component
                     $case_title = $complainant->first_name . " " . $complainant->last_name . " vs " . $respondent->first_name . " " . $respondent->last_name;
                     return  $case_title;
                 })
+                ->editColumn('date_filed', function($row){
+                    return date('F d, Y', strtotime($row->date_filed));
+                })
                 ->rawColumns(['action'])
                 ->make(true);
         }
