@@ -7,10 +7,16 @@ const dataArticle = {
         data: article_count,
         fill: false,
         backgroundColor: [
-            '#F49D1A'
+            '#264ED0',
+            '#FFA800',
+            '#333333',
+            '#C23B21',
         ],
         borderColor: [
-            '#0D4C92'
+            '#264ED0',
+            '#FFA800',
+            '#333333',
+            '#C23B21',
         ],
         borderWidth: 1
     }]

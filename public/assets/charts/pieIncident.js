@@ -5,15 +5,19 @@ const dataPieIncident = {
         label: 'Weekly Sales',
         data: y_type2,
         backgroundColor: [
-            '#0D4C92',
-            '#EB4747',
-            '#F49D1A',
-            '#61764B',
-            '#29252C',
-            '#EDF2F6',
+            '#264ED0',
+            '#FFA800',
+            '#333333',
+            '#C23B21',
+            '#526144',
+            
         ],
         borderColor: [
-            'rgba(0, 0, 0, 1)'
+            '#264ED0',
+            '#FFA800',
+            '#333333',
+            '#C23B21',
+            '#526144',
         ],
         borderWidth: 1
     }]

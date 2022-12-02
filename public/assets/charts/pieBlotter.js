@@ -5,15 +5,16 @@ const dataPieBlotter = {
         label: 'Total Hearings',
         data: y_pie_blotter,
         backgroundColor: [
-            '#0D4C92',
-            '#EB4747',
-            '#F49D1A',
-            '#36AE7C',
-            '#29252C',
-            '#EDF2F6',
+            '#264ED0',
+            '#FFA800',
+            
+            '#C23B21',
         ],
         borderColor: [
-            'rgba(0, 0, 0, 1)'
+            '#264ED0',
+            '#FFA800',
+            
+            '#C23B21',
         ],
         borderWidth: 1
     }]

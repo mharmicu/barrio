@@ -171,12 +171,12 @@ use Maize\Encryptable\Encryption;
                 <h1 class="mb-3">Dashboard</h1>
                 <div class="row">
                     <div class="col">
-                        <div class="card mb-3" id="stats">
-                            <div class="card-header "><b>Blotter Cases</b></div>
+                        <div class="card mb-3" id="stats" style="background-color: #264ED0;">
+                            <div class="card-header text-light" style="background-color: #1c1919;"><b>Blotter Cases</b></div>
                             <div class="card-body align-items-center">
-                                <h1 class="card-title text-center text-primary" style="font-family: sans-serif; font-size: 60px;"><b>{{$currentCountBlotter}}</b></h1>
+                                <h1 class="card-title text-center text-light" style="font-family: sans-serif; font-size: 60px;"><b>{{$currentCountBlotter}}</b></h1>
                                 <ul class="list-group list-group-flush">
-                                    <li class="list-group-item list-group-item-action">
+                                    <li class="list-group-item list-group-item-action text-light" style="background-color: #264ED0;">
                                         <div class="row">
                                             <div class="col">
                                                 Today
@@ -184,7 +184,7 @@ use Maize\Encryptable\Encryption;
                                             <div class="col text-end">{{$todayCountBlotter}}</div>
                                         </div>
                                     </li>
-                                    <li class="list-group-item list-group-item-action">
+                                    <li class="list-group-item list-group-item-action text-light" style="background-color: #264ED0;">
                                         <div class="row">
                                             <div class="col">
                                                 This Week
@@ -192,7 +192,7 @@ use Maize\Encryptable\Encryption;
                                             <div class="col text-end">{{$weekCountBlotter}}</div>
                                         </div>
                                     </li>
-                                    <li class="list-group-item list-group-item-action">
+                                    <li class="list-group-item list-group-item-action text-light" style="background-color: #264ED0;">
                                         <div class="row">
                                             <div class="col">
                                                 This Month
@@ -205,12 +205,12 @@ use Maize\Encryptable\Encryption;
                         </div>
                     </div>
                     <div class="col">
-                        <div class="card mb-3" id="stats">
-                            <div class="card-header"><b>Settled Cases</b></div>
+                        <div class="card mb-3" id="stats" style="background-color: #FFA800;">
+                            <div class="card-header text-light " style="background-color: #1c1919;"><b>Settled Cases</b></div>
                             <div class="card-body align-items-center">
-                                <h1 class="card-title text-center text-primary" style="font-family: sans-serif; font-size: 60px;"><b>{{$settledCases}}</b></h1>
+                                <h1 class="card-title text-center text-light" style="font-family: sans-serif; font-size: 60px;"><b>{{$settledCases}}</b></h1>
                                 <ul class="list-group list-group-flush">
-                                    <li class="list-group-item list-group-item-action">
+                                    <li class="list-group-item list-group-item-action text-light" style="background-color: #FFA800;">
                                         <div class="row">
                                             <div class="col">
                                                 Total Cases
@@ -219,7 +219,7 @@ use Maize\Encryptable\Encryption;
                                         </div>
                                     </li>
 
-                                    <li class="list-group-item list-group-item-action">
+                                    <li class="list-group-item list-group-item-action text-light" style="background-color: #FFA800;">
                                         <div class="row">
                                             <div class="col">
                                                 Unsettled Cases
@@ -227,7 +227,7 @@ use Maize\Encryptable\Encryption;
                                             <div class="col text-end">{{$unsettledCases}}</div>
                                         </div>
                                     </li>
-                                    <li class="list-group-item list-group-item-action">
+                                    <li class="list-group-item list-group-item-action text-light" style="background-color: #FFA800;">
                                         <div class="row">
                                             <div class="col">
                                                 Court Action
@@ -241,12 +241,12 @@ use Maize\Encryptable\Encryption;
                     </div>
 
                     <div class="col mt-sm-0 mt-3">
-                        <div class="card mb-3" id="stats">
-                            <div class="card-header"><b>Incident Reports</b></div>
-                            <div class="card-body align-items-center">
-                                <h1 class="card-title text-center text-primary" style="font-family: sans-serif; font-size: 60px;"><b>{{$currentCountIncident}}</b></h1>
-                                <ul class="list-group list-group-flush">
-                                    <li class="list-group-item list-group-item-action">
+                        <div class="card mb-3" id="stats" style="background-color: #333333;">
+                            <div class="card-header text-light " style="background-color: #1c1919;"><b>Incident Reports</b></div>
+                            <div class="card-body align-items-center ">
+                                <h1 class="card-title text-center text-light" style="font-family: sans-serif; font-size: 60px;"><b>{{$currentCountIncident}}</b></h1>
+                                <ul class="list-group list-group-flush ">
+                                    <li class="list-group-item list-group-item-action text-light" style="background-color: #333333;">
                                         <div class="row">
                                             <div class="col">
                                                 Today
@@ -254,7 +254,7 @@ use Maize\Encryptable\Encryption;
                                             <div class="col text-end">{{$todayCountIncident}}</div>
                                         </div>
                                     </li>
-                                    <li class="list-group-item list-group-item-action">
+                                    <li class="list-group-item list-group-item-action text-light" style="background-color: #333333;">
                                         <div class="row">
                                             <div class="col">
                                                 This Week
@@ -262,7 +262,7 @@ use Maize\Encryptable\Encryption;
                                             <div class="col text-end">{{$weekCountIncident}}</div>
                                         </div>
                                     </li>
-                                    <li class="list-group-item list-group-item-action">
+                                    <li class="list-group-item list-group-item-action text-light" style="background-color: #333333;">
                                         <div class="row">
                                             <div class="col">
                                                 This Month
@@ -276,29 +276,29 @@ use Maize\Encryptable\Encryption;
                     </div>
 
                     <div class="col mt-sm-0 mt-3">
-                        <div class="card mb-3" id="stats">
-                            <div class="card-header"><b>Current Hearings</b></div>
+                        <div class="card mb-3" id="stats" style="background-color: #C23B21;">
+                            <div class="card-header text-light" style="background-color: #1c1919;"><b>Current Hearings</b></div>
                             <div class="card-body d-flex justify-content-center align-items-center ">
                                 <ul class="list-group list-group-flush">
-                                    <li class="list-group-item list-group-item-action">
+                                    <li class="list-group-item list-group-item-action" style="background-color: #C23B21;">
                                         <div class="row">
-                                            <div class="col">
+                                            <div class="col text-light">
                                                 <b>Mediation by the Lupon </b>
                                             </div>
                                             <div class="col text-end"><a href="{{route('settlement.show.mediation')}}"><span class="badge bg-primary rounded-pill">{{$mediationCount}}</span></a></div>
                                         </div>
                                     </li>
-                                    <li class="list-group-item list-group-item-action">
+                                    <li class="list-group-item list-group-item-action" style="background-color: #C23B21;">
                                         <div class="row">
-                                            <div class="col">
+                                            <div class="col text-light">
                                                 <b> Conciliation by the Pangkat </b>
                                             </div>
                                             <div class="col text-end"><a href="{{route('settlement.show.conciliation')}}"><span class="badge bg-primary rounded-pill">{{$conciliationCount}}</span></a></div>
                                         </div>
                                     </li>
-                                    <li class="list-group-item list-group-item-action">
+                                    <li class="list-group-item list-group-item-action" style="background-color: #C23B21;">
                                         <div class="row">
-                                            <div class="col">
+                                            <div class="col text-light">
                                                 <b> Arbitration </b>
                                             </div>
                                             <div class="col text-end"> <a href="{{route('settlement.show.arbitration')}}"><span class="badge bg-primary rounded-pill">{{$arbitrationCount}}</span></a></div>

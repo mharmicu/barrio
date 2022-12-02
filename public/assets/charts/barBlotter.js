@@ -5,20 +5,16 @@ const dataLineBlotter = {
         label:  '# of Blotter Cases',
         data: _xdata,
         backgroundColor: [
-            '#0D4C92',
-            '#EB4747',
-            '#F9D923',
-            '#36AE7C',
-            '#29252C',
-            '#EDF2F6',
+            '#264ED0',
+            '#FFA800',
+            '#333333',
+            '#C23B21',
         ],
         borderColor: [
-            '#0D4C92',
-            '#EB4747',
-            '#F9D923',
-            '#36AE7C',
-            '#29252C',
-            '#EDF2F6',
+            '#264ED0',
+            '#FFA800',
+            '#333333',
+            '#C23B21',
         ],
         borderWidth: 1
     }]
