@@ -11,6 +11,9 @@
     <link rel="stylesheet" href="../css/style.css">
     <link rel="icon" type="image/png" href="{{ asset('/img/385-logo.png') }}">
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://unpkg.com/chart.js-plugin-labels-dv/dist/chartjs-plugin-labels.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/chartjs-plugin-datalabels/2.1.0/chartjs-plugin-datalabels.min.js" integrity="sha512-Tfw6etYMUhL4RTki37niav99C6OHwMDB2iBT5S5piyHO+ltK2YX8Hjy9TXxhE1Gm/TmAV0uaykSpnHKFIAif/A==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
     <style>
         h1 {
@@ -20,6 +23,10 @@
 
         h2 {
             font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+        }
+
+        #barChartArl, #barChartCas, #barChartDuq, #barChartFar, #barChartFra, #barChartPax, #barChartPCasal, #barChartVer {
+            width: 100% !important;
         }
     </style>
 
@@ -113,7 +120,7 @@
                 <div class="carousel-caption">
                     <h5>Blotter Cases Repository</h5>
                     <p> Secure Cases Repository with Incident Reporting and Analytics Generation</p>
-                    
+
                 </div>
             </div>
             <div class="carousel-item">
@@ -121,7 +128,7 @@
                 <div class="carousel-caption">
                     <h5>Incident Reporting</h5>
                     <p>Secure Cases Repository with Incident Reporting and Analytics Generation</p>
-                    
+
                 </div>
             </div>
             <div class="carousel-item">
@@ -129,7 +136,7 @@
                 <div class="carousel-caption">
                     <h5>Analytics</h5>
                     <p>Secure Cases Repository with Incident Reporting and Analytics Generation</p>
-                    
+
                 </div>
             </div>
         </div>
@@ -162,7 +169,7 @@
                             <i class="bi bi-pen"></i>
                             <h2 class="card-title">Blotter</h2>
                             <p class=" fs-6">This is a record of daily events/cases occurring within the territory/jurisdiction of the barangay. It provides important information on reported or discovered violations of laws, rules, and ordinances as well as requests for barangay assistance on any issue calling for legal or additional action. This barangay blotter is a record of information that can be used as evidence or as a reference.</p>
-                           
+
                         </div>
                     </div>
                 </div>
@@ -173,7 +180,7 @@
                             <i class="bi bi-bell"></i>
                             <h2 class="card-title">Notices</h2>
                             <p class="fs-6">Before an incident report case will be subjected to hearing process of determine agreement, notice records must first be created. </p>
-                            
+
                         </div>
                     </div>
                 </div>
@@ -188,7 +195,7 @@
                             <i class="bi bi-alarm"></i>
                             <h2 class="card-title">Hearings</h2>
                             <p class="fs-6">The goal of the hearing process to allow the complainant and respondent to find all possible ways to amicably settle their dispute. Dispute that is caused the respondent towards the complaint where its rights have been violated.</p>
-                            
+
                         </div>
                     </div>
                 </div>
@@ -199,7 +206,7 @@
                             <i class="bi bi-inboxes"></i>
                             <h2 class="card-title">Incidents</h2>
                             <p class="fs-6">Incident reporting is a component of the katarungang pambarangay, or barangay justice system, which amicably resolves conflicts within the community to promote peace, justice, and harmonious relationships. </p>
-                            
+
                         </div>
                     </div>
                 </div>
@@ -229,7 +236,7 @@
                             <h2 class="card-title">Analytics</h2>
                             <p class="lead">Refers to the procedure of gathering data from the system, processing it, and then analyzing it to identify patterns and make inferences about the data it collects.
                             </p>
-                           
+
                         </div>
                     </div>
                 </div>
@@ -243,7 +250,7 @@
                             <h2 class="card-title">Encryption</h2>
                             <p class="lead">Data privacy can be protected in this way as it is saved on computers and transmitted over the internet. This can validate the data's origin and make sure that it hasn't changed since it was received, while also protecting its confidentiality.
                             </p>
-                            
+
                         </div>
                     </div>
                 </div>
@@ -257,7 +264,7 @@
                             <h2 class="card-title">Audit Trail</h2>
                             <p class="lead">Every transaction a user makes in this system will be recorded by the audit trail feature. This allows for easier monitoring and investigation of any fraudulent activity and has the ability to list the recorded trails.
                             </p>
-                            
+
                         </div>
                     </div>
                 </div>
@@ -282,7 +289,7 @@
                         <p class="lead">Barangay 385 and all its stakeholders are committed to empower disadvantaged families to ATTAIN better lives acquiring ORDFERLY, PEACEFUL, BEAUTIFUL and very CLEAN COMMUNITY and maximization of their potentials to gain a very healthy, well educated citizenry to become enlightened, economically dependent and values oriented FILIPINOS.</p>
                         <h5 class="fw-bold">VISION</h5>
                         <p class="lead">Five years from now, Barangay 385 envisions itself to have an orderly peaceful, beautiful, very clean community with a very healthy, well educated, virtue oriented and productive citizenry.</p>
-                        
+
                     </div>
                 </div>
             </div>
@@ -435,6 +442,97 @@
         </div>
     </section>
 
+    <!-- about section -->
+
+    <section id="analytics" class="analytics section-padding">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="section-header text-center pb-2">
+                        <h1>Analytics</h1>
+                        <p class="lead">Incident Reports</p>
+                    </div>
+                </div>
+            </div>
+            <div class="row pb-3">
+                <div class="col">
+                    <div class="card">
+                        <h5 class="card-header"><i class="bi bi-bar-chart-line-fill"></i> Arlegui St.</h5>
+                        <div class="card-body">
+                            <canvas id="barChartArl"></canvas>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col">
+                    <div class="card">
+                        <h5 class="card-header"><i class="bi bi-bar-chart-line-fill"></i> Castillejos St.</h5>
+                        <div class="card-body">
+                            <canvas id="barChartCas"></canvas>
+                        </div>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="card">
+                        <h5 class="card-header"><i class="bi bi-bar-chart-line-fill"></i> Duque St.</h5>
+                        <div class="card-body">
+                            <canvas id="barChartDuq"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row pb-3">
+                <div class="col">
+                    <div class="card">
+                        <h5 class="card-header"><i class="bi bi-bar-chart-line-fill"></i> Farnecio St.</h5>
+                        <div class="card-body">
+                            <canvas id="barChartFar"></canvas>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col">
+                    <div class="card">
+                        <h5 class="card-header"><i class="bi bi-bar-chart-line-fill"></i> Fraternal St.</h5>
+                        <div class="card-body">
+                            <canvas id="barChartFra"></canvas>
+                        </div>
+                    </div>
+                </div>
+                <div class="col ">
+                    <div class="card">
+                        <h5 class="card-header"><i class="bi bi-bar-chart-line-fill"></i> Pascual Casal St.</h5>
+                        <div class="card-body">
+                            <canvas id="barChartPCasal"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row justify-content-center">
+                <div class="col-6 col-sm-4">
+                    <div class="card">
+                        <h5 class="card-header"><i class="bi bi-bar-chart-line-fill"></i> Pax St.</h5>
+                        <div class="card-body">
+                            <canvas id="barChartPax"></canvas>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col col-sm-4">
+                    <div class="card">
+                        <h5 class="card-header"><i class="bi bi-bar-chart-line-fill"></i> Vergara St.</h5>
+                        <div class="card-body">
+                            <canvas id="barChartVer"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
     <!-- contact section -->
     <section id="contact" class="contact section-padding">
         <div class="container">
@@ -492,7 +590,43 @@
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
 
+    <script type="text/javascript">
+        var type_ARL = JSON.parse('{!! json_encode($type_ARL) !!}');
+        var type_count_ARL = JSON.parse('{!! json_encode($type_count_ARL) !!}');
 
+        var type_CAS = JSON.parse('{!! json_encode($type_CAS) !!}');
+        var type_count_CAS = JSON.parse('{!! json_encode($type_count_CAS) !!}');
+
+        var type_DUQ = JSON.parse('{!! json_encode($type_DUQ) !!}');
+        var type_count_DUQ = JSON.parse('{!! json_encode($type_count_DUQ) !!}');
+
+        var type_FAR = JSON.parse('{!! json_encode($type_FAR) !!}');
+        var type_count_FAR = JSON.parse('{!! json_encode($type_count_FAR) !!}');
+
+        var type_FRA = JSON.parse('{!! json_encode($type_FRA) !!}');
+        var type_count_FRA = JSON.parse('{!! json_encode($type_count_FRA) !!}');
+
+        var type_PCASAL = JSON.parse('{!! json_encode($type_PCASAL) !!}');
+        var type_count_PCASAL = JSON.parse('{!! json_encode($type_count_PCASAL) !!}');
+
+        var type_PAX = JSON.parse('{!! json_encode($type_PAX) !!}');
+        var type_count_PAX = JSON.parse('{!! json_encode($type_count_PAX) !!}');
+
+        var type_VER = JSON.parse('{!! json_encode($type_VER) !!}');
+        var type_count_VER = JSON.parse('{!! json_encode($type_count_VER) !!}');
+    </script>
+
+
+    <script src="{{ asset('assets/resident_charts/arlegui_bar.js')}} "></script>
+    <script src="{{ asset('assets/resident_charts/castillejos_bar.js')}} "></script>
+    <script src="{{ asset('assets/resident_charts/duque_bar.js')}} "></script>
+    <script src="{{ asset('assets/resident_charts/farnecia_bar.js')}} "></script>
+    <script src="{{ asset('assets/resident_charts/fraternal_bar.js')}} "></script>
+    <script src="{{ asset('assets/resident_charts/pax_bar.js')}} "></script>
+    <script src="{{ asset('assets/resident_charts/pcasal_bar.js')}} "></script>
+    <script src="{{ asset('assets/resident_charts/vergara_bar.js')}} "></script>
 </body>
+<!-- Charts.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js" integrity="sha512-ElRFoEQdI5Ht6kZvyzXhYG9NqjtkmlkfYk0wr6wHxU9JEHakS7UJZNeml5ALk+8IKlU6jDgMabC3vkumRokgJA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
 </html>

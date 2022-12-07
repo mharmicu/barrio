@@ -71,6 +71,10 @@ use Maize\Encryptable\Encryption;
             width: 100% !important;
         }
 
+        #lineIncident {
+            width: 100% !important;
+        }
+
         #horizontalBarArticle {
             width: 100% !important;
         }
@@ -315,7 +319,7 @@ use Maize\Encryptable\Encryption;
                 <div class="row mt-3 mb-3">
                     <div class="col">
                         <div class="card">
-                            <h5 class="card-header"><i class="bi bi-record-circle"></i> Blotter Reports</h5>
+                            <h5 class="card-header"><i class="bi bi-record-circle"></i> Blotter Trend</h5>
                             <div class="card-body">
                                 <div class="row g-0">
                                     <div class="col">
@@ -392,7 +396,7 @@ use Maize\Encryptable\Encryption;
                 <div class="row mt-3 mb-3">
                     <div class="col">
                         <div class="card">
-                            <h5 class="card-header"><i class="bi bi-bar-chart-line-fill"></i> Article No.</h5>
+                            <h5 class="card-header"><i class="bi bi-bar-chart-line-fill"></i> Common Case Article No.</h5>
                             <div class="card-body">
                                 <canvas id="horizontalBarArticle"></canvas>
                             </div>
@@ -443,15 +447,17 @@ use Maize\Encryptable\Encryption;
 
                     <div class="col">
                         <div class="card">
-                            <h5 class="card-header"><i class="bi bi-record-circle"></i> Incident Distribution</h5>
+                            <h5 class="card-header"><i class="bi bi-record-circle"></i> Incident Trend</h5>
                             <div class="card-body">
                                 <div class="row g-0">
                                     <div class="col">
-                                        <canvas id="doughnutChart"></canvas>
+                                        <canvas id="lineIncident"></canvas>
                                     </div>
+                                    <!--
                                     <div class="col">
                                         <div id="js-legend" class="float-end"></div>
                                     </div>
+                                    -->
                                 </div>
                             </div>
                         </div>
@@ -461,7 +467,7 @@ use Maize\Encryptable\Encryption;
                 <div class="row mb-3 ">
                     <div class="col">
                         <div class="card">
-                            <h5 class="card-header"><i class="bi bi-map-fill"></i> Incidents Reports</h5>
+                            <h5 class="card-header"><i class="bi bi-map-fill"></i> Street Reports</h5>
                             <div class="card-body">
                                 <div id="matrixCarousel" class="carousel slide carousel-dark" data-bs-ride="carousel">
 
@@ -479,7 +485,7 @@ use Maize\Encryptable\Encryption;
 
                                     <div class="carousel-inner text-center">
                                         <div class="carousel-item active" data-bs-interval="15000">
-                                        <h5><span class="badge rounded-pill bg-dark">Monthly incident reports on each street</span></h5>
+                                            <h5><span class="badge rounded-pill bg-dark">Monthly incident reports on each street</span></h5>
                                             <h5><span class="badge rounded-pill bg-dark"></span></h5>
                                             <canvas id="matrixAll" class=""></canvas>
                                         </div>
@@ -591,6 +597,14 @@ use Maize\Encryptable\Encryption;
                 numberArray.push(parseInt(_incidentCount[i]));
             }
             //console.log(numberArray);
+
+            var _monthIPM = JSON.parse('{!! json_encode($monthIPM) !!}');
+            var _incidentCount2 = JSON.parse('{!! json_encode($incidentCount2) !!}');
+            var numberArray2 = [];
+            length = _incidentCount2.length;
+            for (var i = 0; i < length; i++) {
+                numberArray2.push(parseInt(_incidentCount2[i]));
+            }
         </script>
         <!-- <script src="{{ asset('assets/charts/bar.js')}} "></script> -->
         <!-- <script src="{{ asset('assets/charts/line.js')}} "></script> -->
@@ -603,13 +617,14 @@ use Maize\Encryptable\Encryption;
         <script src="{{ asset('assets/charts/matrixPCasal.js')}} "></script>
         <script src="{{ asset('assets/charts/matrixPax.js')}} "></script>
         <script src="{{ asset('assets/charts/matrixVergara.js')}} "></script>
-        <script src="{{ asset('assets/charts/doughnutReports.js')}} "></script>
+        <!-- <script src="{{ asset('assets/charts/doughnutReports.js')}} "></script> -->
         <script src="{{ asset('assets/charts/wordCloud.js')}} "></script>
         <script src="{{ asset('assets/charts/pieIncident.js')}} "></script>
         <script src="{{ asset('assets/charts/barBlotter.js')}} "></script>
         <script src="{{ asset('assets/charts/pieBlotter.js')}} "></script>
         <script src="{{ asset('assets/charts/horizontalBarArticle.js')}} "></script>
         <script src="{{ asset('assets/charts/matrixAll.js')}} "></script>
+        <script src="{{ asset('assets/charts/lineIncident.js')}} "></script>
 </body>
 <!-- Charts.js -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js" integrity="sha512-ElRFoEQdI5Ht6kZvyzXhYG9NqjtkmlkfYk0wr6wHxU9JEHakS7UJZNeml5ALk+8IKlU6jDgMabC3vkumRokgJA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>

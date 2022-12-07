@@ -26,7 +26,6 @@
 
             <!-- Page content-->
             <div class="container-fluid">
-
                 <div class="row d-flex justify-content-center  p-5">
                     @if(session()->has('success'))
                     <script>
@@ -39,8 +38,29 @@
                     </script>
                     @endif
 
+                    @if(session()->has('backupSuccess'))
+                    <script>
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Database Backed Up Successfully!',
+                            text: 'File can be found in storage/app/backup',
+                        })
+                    </script>
+                    @endif
+
                     <div class="card p-3 shadow">
-                        <p class="fs-4 fw-bold">Activity Logs</p>
+                        <div class="row">
+                            <div class="col">
+                                <p class="fs-4 fw-bold">Activity Logs</p>
+                            </div>
+                            <div class="col">
+                                <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                                    <a href="{{route('DbBackup')}}" class="btn btn-success mb-3">Create Database Backup</a>
+                                </div>
+                            </div>
+                        </div>
+
+
 
                         <div class="table-responsive">
                             <table class="table table-bordered  yajra-datatable">
@@ -50,7 +70,7 @@
                                         <th>DATE RECORDED</th>
                                         <th>DONE BY</th>
                                         <th>DESCRIPTION</th>
-                                        <th>PROPERTIES</th> 
+                                        <th>PROPERTIES</th>
                                         <th>MODULE</th>
                                     </tr>
                                 </thead>
@@ -83,10 +103,11 @@
             processing: true,
             serverSide: true,
             ajax: "{{ route('activity_logs.list') }}",
-            order: [[0, 'desc']],
-            
-            columns: [
-                {
+            order: [
+                [0, 'desc']
+            ],
+
+            columns: [{
                     data: 'id',
                     name: 'id'
                 },
@@ -110,7 +131,7 @@
                     data: 'log_name',
                     name: 'log_name'
                 },
-                
+
             ]
         });
 

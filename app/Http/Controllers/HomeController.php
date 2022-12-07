@@ -388,7 +388,7 @@ class HomeController extends Controller
                     for ($i = 1; $i <= 12; $i++) {
                         $monthX[] = $i;
                         $streetY[] = $key + 1;
-                        switch ($monthX[$i-1]) {
+                        switch ($monthX[$i - 1]) {
                             case 1:
                                 $incidentCount[] = $value->Jan;
                                 break;
@@ -429,7 +429,95 @@ class HomeController extends Controller
                         }
                     }
                 }
-                //dd($incidentCount);
+
+                //article no. 
+                $articles_of_incidents = Incident_Case::select('article_no', DB::raw('count(*) as total'))->orderBy('total', 'desc')->groupBy('article_no')->get();
+
+                $article_no = [];
+                $article_count = [];
+                foreach ($articles_of_incidents as $article => $values) {
+                    $article_no[] = 'Article No. ' . $values->article_no;
+                    $article_count[] = $values->total;
+                }
+
+                //top incident report per street
+                $top_incident_street = Report::select('street', 'type', DB::raw('count(*) as total'))->groupBy('street', 'type')->orderBy('total', 'desc')->get()->unique('street');
+                //dd($top_incident_street);
+                $street = [];
+                $type = [];
+                $type_count = [];
+                foreach ($top_incident_street as $tis) {
+                    $street[] = $tis->street;
+                    $type[] = $tis->type;
+                    $type_count[] = $tis->total;
+                }
+
+                //
+                $incidentPerMonth = Report::select(
+
+                    DB::raw('SUM(if(MONTH(date_of_incident) = 1, 1,0)) as Jan'),
+                    DB::raw('SUM(if(MONTH(date_of_incident) = 2, 1,0)) as Feb'),
+                    DB::raw('SUM(if(MONTH(date_of_incident) = 3, 1,0)) as Mar'),
+                    DB::raw('SUM(if(MONTH(date_of_incident) = 4, 1,0)) as Apr'),
+                    DB::raw('SUM(if(MONTH(date_of_incident) = 5, 1,0)) as May'),
+                    DB::raw('SUM(if(MONTH(date_of_incident) = 6, 1,0)) as Jun'),
+                    DB::raw('SUM(if(MONTH(date_of_incident) = 7, 1,0)) as Jul'),
+                    DB::raw('SUM(if(MONTH(date_of_incident) = 8, 1,0)) as Aug'),
+                    DB::raw('SUM(if(MONTH(date_of_incident) = 9, 1,0)) as Sep'),
+                    DB::raw('SUM(if(MONTH(date_of_incident) = 10, 1,0)) as Oct'),
+                    DB::raw('SUM(if(MONTH(date_of_incident) = 11, 1,0)) as Nov'),
+                    DB::raw('SUM(if(MONTH(date_of_incident) = 12, 1,0)) as `Dec`'),
+                )
+                    ->whereYear('created_at', Carbon::now()->year)
+
+                    ->get();
+
+                $incidentCount2 = [];
+                foreach ($incidentPerMonth as $iPM) {
+                    for ($i = 1; $i <= 12; $i++) {
+                        $monthIPM[] = $i;
+                        switch ($monthIPM[$i - 1]) {
+                            case 1:
+                                $incidentCount2[] = $iPM->Jan;
+                                break;
+                            case 2:
+                                $incidentCount2[] = $iPM->Feb;
+                                break;
+                            case 3:
+                                $incidentCount2[] = $iPM->Mar;
+                                break;
+                            case 4:
+                                $incidentCount2[] = $iPM->Apr;
+                                break;
+                            case 5:
+                                $incidentCount2[] = $iPM->May;
+                                break;
+                            case 6:
+                                $incidentCount2[] = $iPM->Jun;
+                                break;
+                            case 7:
+                                $incidentCount2[] = $iPM->Jul;
+                                break;
+                            case 8:
+                                $incidentCount2[] = $iPM->Aug;
+                                break;
+                            case 9:
+                                $incidentCount2[] = $iPM->Sep;
+                                break;
+                            case 10:
+                                $incidentCount2[] = $iPM->Oct;
+                                break;
+                            case 11:
+                                $incidentCount2[] = $iPM->Nov;
+                                break;
+                            case 12:
+                                $incidentCount2[] = $iPM->Dec;
+                                break;
+                            default:
+                        }
+                    }
+                }
+                //dd($incidentCount2);
 
                 return view('admin.home', [
                     'data' => $data,
@@ -491,6 +579,9 @@ class HomeController extends Controller
                     'incidentCount' => $incidentCount,
                     'streetY' => $streetY,
                     'monthX' => $monthX,
+
+                    'incidentCount2' => $incidentCount2,
+                    'monthIPM' => $monthIPM,
                 ]);
             } else {
                 return view('user.home');
@@ -502,6 +593,102 @@ class HomeController extends Controller
 
     public function index()
     {
-        return view('user.home');
+        //top 5 incident arlegui
+        $top_incident_arlegui = Report::select('type', DB::raw('count(*) as total'))->where('street', 'Arlegui St.')->groupBy('type')->take(5)->orderBy('total', 'desc')->get();
+        $type_ARL = [];
+        $type_count_ARL = [];
+        foreach ($top_incident_arlegui as $street) {
+            $type_ARL[] = $street->type;
+            $type_count_ARL[] = $street->total;
+        }
+
+        //top 5 incident castillejos
+        $top_incident_castillejos = Report::select('type', DB::raw('count(*) as total'))->where('street', 'Castillejos St.')->groupBy('type')->take(5)->orderBy('total', 'desc')->get();
+        $type_CAS = [];
+        $type_count_CAS = [];
+        foreach ($top_incident_castillejos as $street) {
+            $type_CAS[] = $street->type;
+            $type_count_CAS[] = $street->total;
+        }
+
+        //top 5 incident duque
+        $top_incident_duque = Report::select('type', DB::raw('count(*) as total'))->where('street', 'Duque St.')->groupBy('type')->take(5)->orderBy('total', 'desc')->get();
+        $type_DUQ = [];
+        $type_count_DUQ = [];
+        foreach ($top_incident_duque as $street) {
+            $type_DUQ[] = $street->type;
+            $type_count_DUQ[] = $street->total;
+        }
+
+        //top 5 incident farnecio
+        $top_incident_farnecio = Report::select('type', DB::raw('count(*) as total'))->where('street', 'Farnecio St.')->groupBy('type')->take(5)->orderBy('total', 'desc')->get();
+        $type_FAR = [];
+        $type_count_FAR = [];
+        foreach ($top_incident_farnecio as $street) {
+            $type_FAR[] = $street->type;
+            $type_count_FAR[] = $street->total;
+        }
+
+        //top 5 incident fraternal
+        $top_incident_fraternal = Report::select('type', DB::raw('count(*) as total'))->where('street', 'Fraternal St.')->groupBy('type')->take(5)->orderBy('total', 'desc')->get();
+        $type_FRA = [];
+        $type_count_FRA = [];
+        foreach ($top_incident_fraternal as $street) {
+            $type_FRA[] = $street->type;
+            $type_count_FRA[] = $street->total;
+        }
+
+        //top 5 incident casal
+        $top_incident_casal = Report::select('type', DB::raw('count(*) as total'))->where('street', 'Pascual Casal St.')->groupBy('type')->take(5)->orderBy('total', 'desc')->get();
+        $type_PCASAL = [];
+        $type_count_PCASAL = [];
+        foreach ($top_incident_casal as $street) {
+            $type_PCASAL[] = $street->type;
+            $type_count_PCASAL[] = $street->total;
+        }
+
+        //top 5 incident pax
+        $top_incident_pax = Report::select('type', DB::raw('count(*) as total'))->where('street', 'Pax St.')->groupBy('type')->take(5)->orderBy('total', 'desc')->get();
+        $type_PAX = [];
+        $type_count_PAX = [];
+        foreach ($top_incident_pax as $street) {
+            $type_PAX[] = $street->type;
+            $type_count_PAX[] = $street->total;
+        }
+
+        //top 5 incident vergara
+        $top_incident_pax = Report::select('type', DB::raw('count(*) as total'))->where('street', 'Vergara St.')->groupBy('type')->take(5)->orderBy('total', 'desc')->get();
+        $type_VER = [];
+        $type_count_VER = [];
+        foreach ($top_incident_pax as $street) {
+            $type_VER[] = $street->type;
+            $type_count_VER[] = $street->total;
+        }
+
+        return view('user.home', [
+            'type_ARL' => $type_ARL,
+            'type_count_ARL' => $type_count_ARL,
+
+            'type_CAS' => $type_CAS,
+            'type_count_CAS' => $type_count_CAS,
+
+            'type_DUQ' => $type_DUQ,
+            'type_count_DUQ' => $type_count_DUQ,
+
+            'type_FAR' => $type_FAR,
+            'type_count_FAR' => $type_count_FAR,
+
+            'type_FRA' => $type_FRA,
+            'type_count_FRA' => $type_count_FRA,
+
+            'type_PCASAL' => $type_PCASAL,
+            'type_count_PCASAL' => $type_count_PCASAL,
+
+            'type_PAX' => $type_PAX,
+            'type_count_PAX' => $type_count_PAX,
+
+            'type_VER' => $type_VER,
+            'type_count_VER' => $type_count_VER,
+        ]);
     }
 }

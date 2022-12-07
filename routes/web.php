@@ -9,6 +9,7 @@ use App\Http\Livewire\Reports;
 use App\Http\Livewire\SettlementController;
 use App\Http\Livewire\UsersController;
 use App\Models\Blotter;
+use Illuminate\Support\Facades\Artisan;
 
 /*
 |--------------------------------------------------------------------------
@@ -139,3 +140,10 @@ Route::post('/contactForm', 'App\Http\Controllers\ContactFormController@contactF
 //FEDBACKS UI
 Route::get('feedbacks/show', [Reports::class, 'feedbacks_show'])->name('feedbacks.show');
 Route::get('feedbacks/list', [Reports::class, 'getFeedbacks'])->name('feedbacks.list');
+
+//Create Database Backup
+Route::get('backup', function(){
+    Artisan::call('db:backup');
+    return redirect()->back()->with('backupSuccess', '');
+    
+})->name('DbBackup');

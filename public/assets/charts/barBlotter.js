@@ -4,25 +4,15 @@ const dataLineBlotter = {
     datasets: [{
         label:  '# of Blotter Cases',
         data: _xdata,
-        backgroundColor: [
-            '#264ED0',
-            '#FFA800',
-            '#333333',
-            '#C23B21',
-        ],
-        borderColor: [
-            '#264ED0',
-            '#FFA800',
-            '#333333',
-            '#C23B21',
-        ],
+        backgroundColor:'#FFA800',
+        borderColor: '#333333',
         borderWidth: 1
     }]
 };
 
 // config 
 const configLineBlotter = {
-    type: 'bar',
+    type: 'line',
     data: dataLineBlotter,
     options: {
         plugins: {

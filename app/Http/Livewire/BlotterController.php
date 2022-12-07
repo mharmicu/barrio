@@ -380,7 +380,12 @@ class BlotterController extends Component
                     if ($compliance->compliance == 1) return '<span class="badge rounded-pill bg-dark">COMPLIANCE</span>';
                 })
                 ->editColumn('date_of_execution', function ($date_of_execution) {
-                    return date('F d, Y', strtotime($date_of_execution->date_of_execution));
+                    if (is_null($date_of_execution->date_of_execution)) {
+                        $strdate = '';
+                    } else {
+                        return date('F d, Y', strtotime($date_of_execution->date_of_execution));
+                    }
+                    return $strdate;
                 })
                 ->addColumn('agreement', function ($row) {
                     $case_hearing = CaseHearing::where('case_no', $row->case_no)->latest()->first();
@@ -550,7 +555,7 @@ class BlotterController extends Component
                     $case_title = $complainant->first_name . " " . $complainant->last_name . " vs " . $respondent->first_name . " " . $respondent->last_name;
                     return  $case_title;
                 })
-                ->editColumn('date_filed', function($row){
+                ->editColumn('date_filed', function ($row) {
                     return date('F d, Y', strtotime($row->date_filed));
                 })
                 ->rawColumns(['action'])

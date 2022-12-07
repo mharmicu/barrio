@@ -3,21 +3,15 @@ const dataArticle = {
     labels: article_no,
     datasets: [{
         axis: 'y',
-        label: 'Blotter Case',
+        label: 'Case article no.',
         data: article_count,
         fill: false,
-        backgroundColor: [
-            '#264ED0',
-            '#FFA800',
-            '#333333',
+        backgroundColor: 
             '#C23B21',
-        ],
-        borderColor: [
-            '#264ED0',
-            '#FFA800',
+            
+        borderColor: 
             '#333333',
-            '#C23B21',
-        ],
+   
         borderWidth: 1
     }]
 };

@@ -22,7 +22,7 @@ const dataPieBlotter = {
 
 // config 
 const configPieBlotter = {
-    type: 'pie',
+    type: 'doughnut',
     data: dataPieBlotter,
     options: {
         plugins: {

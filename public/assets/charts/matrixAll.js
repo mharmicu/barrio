@@ -50,7 +50,7 @@ const configMatrixAll = {
                 ticks: {
                     maxTicksLimit: 100,
                     callback: function (label, index, labels) {
-                        console.log(label)
+                        //console.log(label)
                         switch (label) {
                             case 1:
                                 return 'JAN';

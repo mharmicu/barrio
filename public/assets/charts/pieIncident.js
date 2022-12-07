@@ -2,22 +2,17 @@
 const dataPieIncident = {
     labels: x_type2,
     datasets: [{
-        label: 'Weekly Sales',
+        label: 'Incident type',
         data: y_type2,
         backgroundColor: [
-            '#264ED0',
+           
             '#FFA800',
-            '#333333',
-            '#C23B21',
-            '#526144',
+            
             
         ],
         borderColor: [
-            '#264ED0',
-            '#FFA800',
+            
             '#333333',
-            '#C23B21',
-            '#526144',
         ],
         borderWidth: 1
     }]
@@ -25,7 +20,7 @@ const dataPieIncident = {
 
 // config 
 const configPieIncident = {
-    type: 'pie',
+    type: 'bar',
     data: dataPieIncident,
     options: {
         plugins: {
