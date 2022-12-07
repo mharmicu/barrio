@@ -370,9 +370,15 @@ class BlotterController extends Component
                     }
                 }
 
+
+                //person summary
+                $persons = Person::select('first_name', 'middle_name', 'last_name', DB::raw('count(*) as total'))->orderBy('total', 'desc')->groupBy('first_name', 'middle_name', 'last_name')->paginate(15);
+                //dd($persons);
+
                 return view('blotter.settled-cases', [
                     'data2' => $data2,
                     'supposed_date_of_exe' => $supposed_date_of_exe,
+                    'persons' => $persons,
                 ]);
             } else {
                 return redirect()->back();

@@ -28,6 +28,7 @@
             max-height: 250px;
             margin-bottom: 10px;
             overflow: scroll;
+            overflow-x: hidden;
             -webkit-overflow-scrolling: touch;
         }
     </style>
@@ -108,44 +109,83 @@
                     </nav>
 
                     <div class="row justify-content-start">
-                        <div class="card col p-3 shadow">
-                            <p class="fs-4 fw-bold">Settled Cases</p>
-                            <div class="table-responsive">
-                                <table class="table table-bordered  yajra-datatable">
-                                    <thead>
-                                        <tr>
-                                            <th>Case No.</th>
-                                            <th>Case Title</th>
-                                            <th>Compliant Case</th>
-                                            <th>Hearing/Action</th>
-                                            <th>Date of Agreement</th>
-                                            <th>Date of Execution</th>
-                                            <th>Agreement</th>
-                                            <th>Status of Compliance</th>
-                                            <th>Remarks</th>
-                                            <th>Action</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                    </tbody>
+                        <div class="col-9">
+                            <div class="card p-3 shadow">
+                                <p class="fs-4 fw-bold">Settled Cases</p>
+                                <div class="table-responsive">
+                                    <table class="table table-bordered  yajra-datatable">
+                                        <thead>
+                                            <tr>
+                                                <th>Case No.</th>
+                                                <th>Case Title</th>
+                                                <th>Compliant Case</th>
+                                                <th>Hearing / Action</th>
+                                                <th>Date of Agreement</th>
+                                                <th>Date of Execution</th>
+                                                <th>Agreement</th>
+                                                <th>Status of Compliance</th>
+                                                <th>Remarks</th>
+                                                <th>Action</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                        </tbody>
 
-                                </table>
+                                    </table>
+                                </div>
                             </div>
                         </div>
 
-                        <div class="card col-2 p-3 shadow ms-3 h-25">
-                            <p class="fs-4 fw-bold">Cases to execute</p>
-                            <ul class="list-group list-group-flush cases-to-execute">
-                                @foreach($data2 as $data)
-                                <li class="list-group-item list-group-item-action">
-                                    <span class="badge bg-warning text-dark"> {{$data->case_no}} | {{$data->case_title}}</span>
-                                    <span class="badge rounded-pill bg-primary"> {{$supposed_date_of_exe[$loop->index]}} </span>
-                                </li>
-                                @endforeach
-                                <hr>
-                            </ul>
+                        <div class="col-3 mt-xl-0 mt-3">
+                            <div class="row">
+                                <div class="card p-3 shadow h-25">
+                                    <p class="fs-4 fw-bold">Cases to execute</p>
+                                    <ul class="list-group list-group-flush cases-to-execute">
+                                        @foreach($data2 as $data)
+                                        <li class="list-group-item list-group-item-action">
+                                            <span class="badge bg-warning text-dark"> {{$data->case_no}} | {{$data->case_title}}</span>
+                                            <span class="badge rounded-pill bg-primary"> {{$supposed_date_of_exe[$loop->index]}} </span>
+                                        </li>
+                                        @endforeach
+                                        <hr>
+                                    </ul>
+                                </div>
+                            </div>
 
+                            <div class="row mt-3">
+                                <div class="card p-3 shadow h-25 table-responsive">
+                                    <p class="fs-4 fw-bold">Person Summary</p>
+                                    <div class="table-responsive-sm">
+                                        <table class="table table-hover">
+                                            <thead>
+                                                <tr>
+                                                    <th scope="col">Last</th>
+                                                    <th scope="col">First</th>
+                                                    <th scope="col">M.I.</th>
+                                                    <th scope="col">Occurence(s)</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @foreach($persons as $ind)
+                                                <tr>
+                                                    <td scope="row"><span class="badge bg-light text-dark">{{$ind->last_name}}</span></td>
+                                                    <td><span class="badge bg-light text-dark">{{$ind->first_name}}</span></td>
+                                                    <td><span class="badge bg-light text-dark">{{$ind->middle_name[0]}}</span></td>
+                                                    <th class="text-center"><span class="badge bg-primary">{{$ind->total}}</span></th>
+                                                </tr>
+                                                @endforeach
+                                            </tbody>
+                                        </table>
+                                        
+                                    </div>
+                                    <div class="justify-content-end">{{$persons->links("pagination::bootstrap-5")}} </div>
+                                </div>
+                            </div>
                         </div>
+
+
+
+
                     </div>
                 </div>
             </div>
@@ -218,7 +258,8 @@
             ],
             columns: [{
                     data: 'case_no',
-                    name: 'case_no'
+                    name: 'case_no',
+
                 },
                 {
                     data: 'case_title',
@@ -226,7 +267,8 @@
                 },
                 {
                     data: 'article_no',
-                    name: 'article_no'
+                    name: 'article_no',
+                    width: '50%'
                 },
                 {
                     data: 'status',
