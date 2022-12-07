@@ -338,7 +338,42 @@ class BlotterController extends Component
         if (Auth::id()) {
             if (Auth::user()->user_type_id == 1 || Auth::user()->user_type_id == 2) {
 
-                return view('blotter.settled-cases');
+                $all_case_hearing = DB::select('SELECT * FROM case_hearings WHERE id IN (SELECT MAX(id) FROM case_hearings GROUP BY case_no)');
+                $data2 = array();
+                $hearings2 = array();
+                $supposed_date_of_exe = [];
+
+                foreach ($all_case_hearing as $ch) {
+                    $hearings2[] = Hearing::where('hearing_id', $ch->hearing_id)->first();
+                }
+
+                foreach ($all_case_hearing as $key => $value) {
+                    $blotter = Blotter::where('case_no', $value->case_no)->first();
+                    if ($hearings2[$key]->settlement_id) {
+                        $amicable_settlement = Amicable_Settlement::where('settlement_id', $hearings2[$key]->settlement_id)->first();
+
+                        $date_of_exe = strtotime($amicable_settlement->date_agreed . ' + 10 days');
+
+                        if ($date_of_exe > strtotime("now") && is_null($blotter->date_of_execution)) {
+                            $data2[] = $blotter;
+                            $supposed_date_of_exe[] = date('F d, Y', $date_of_exe);
+                        }
+                    } else if ($hearings2[$key]->award_id) {
+                        $arbitration_awards = Arbitration_Award::where('award_id', $hearings2[$key]->award_id)->first();
+
+                        $date_of_exe = strtotime($arbitration_awards->date_agreed . ' + 10 days');
+
+                        if ($date_of_exe > strtotime("now") && is_null($blotter->date_of_execution)) {
+                            $data2[] = $blotter;
+                            $supposed_date_of_exe[] = date('F d, Y', $date_of_exe);
+                        }
+                    }
+                }
+
+                return view('blotter.settled-cases', [
+                    'data2' => $data2,
+                    'supposed_date_of_exe' => $supposed_date_of_exe,
+                ]);
             } else {
                 return redirect()->back();
             }
@@ -380,8 +415,24 @@ class BlotterController extends Component
                     if ($compliance->compliance == 1) return '<span class="badge rounded-pill bg-dark">COMPLIANCE</span>';
                 })
                 ->editColumn('date_of_execution', function ($date_of_execution) {
+                    $case_hearing = CaseHearing::where('case_no', $date_of_execution->case_no)->latest()->first();
+                    $hearing = Hearing::where('hearing_id', $case_hearing->hearing_id)->first();
+                    if ($hearing->settlement_id) {
+                        $amicable_settlement = Amicable_Settlement::where('settlement_id', $hearing->settlement_id)->first();
+                        $exc_date = date('F d, Y', strtotime($amicable_settlement->date_agreed . ' + 10 days'));
+                    } else if ($hearing->award_id) {
+                        $arbitration_awards = Arbitration_Award::where('award_id', $hearing->award_id)->first();
+                        $exc_date = date('F d, Y', strtotime($arbitration_awards->date_agreed . ' + 10 days'));
+                    }
+
                     if (is_null($date_of_execution->date_of_execution)) {
-                        $strdate = '';
+                        $strdate = '
+                        <a tabindex="0" class="btn btn-sm btn-danger popover-dismiss-' . $date_of_execution->case_no . '" role="button" data-bs-toggle="popover" data-bs-trigger="focus" title="Update after 10 days of agreement" data-bs-content="Update by: <b>' . $exc_date . '</b>" data-bs-html="true">to update</a>
+                        <script>
+                        var popover = new bootstrap.Popover(document.querySelector(".popover-dismiss-' . $date_of_execution->case_no . '"), {
+                            trigger: "focus"
+                          })
+                        </script>';
                     } else {
                         return date('F d, Y', strtotime($date_of_execution->date_of_execution));
                     }
@@ -433,15 +484,15 @@ class BlotterController extends Component
                     $case_hearing = CaseHearing::where('case_no', $row->case_no)->latest()->first();
                     $hearing = Hearing::where('hearing_id', $case_hearing->hearing_id)->first();
                     if ($hearing->settlement_id) {
-                        $amicable_settlement = Amicable_Settlement::find($hearing->settlement_id)->first();
+                        $amicable_settlement = Amicable_Settlement::where('settlement_id', $hearing->settlement_id)->first();
                         $strdate = date('F d, Y', strtotime($amicable_settlement->date_agreed));
                     } else if ($hearing->award_id) {
-                        $arbitration_awards = Arbitration_Award::find($hearing->award_id)->first();
+                        $arbitration_awards = Arbitration_Award::where('award_id', $hearing->award_id)->first();
                         $strdate = date('F d, Y', strtotime($arbitration_awards->date_agreed));
                     }
                     return $strdate;
                 })
-                ->rawColumns(['status', 'agreement', 'date_agreed', 'compliance', 'action'])
+                ->rawColumns(['status', 'agreement', 'date_agreed', 'date_of_execution', 'compliance', 'action'])
                 ->make(true);
         }
     }

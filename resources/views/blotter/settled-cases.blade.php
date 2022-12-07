@@ -22,6 +22,14 @@
         .navbar-nav .nav-item:hover .nav-link {
             color: blue !important;
         }
+
+        .cases-to-execute {
+            height: 250px;
+            max-height: 250px;
+            margin-bottom: 10px;
+            overflow: scroll;
+            -webkit-overflow-scrolling: touch;
+        }
     </style>
 </head>
 
@@ -99,28 +107,44 @@
                         </ol>
                     </nav>
 
-                    <div class="card p-3 shadow">
-                        <p class="fs-4 fw-bold">Settled Cases</p>
-                        <div class="table-responsive">
-                            <table class="table table-bordered  yajra-datatable">
-                                <thead>
-                                    <tr>
-                                        <th>Case No.</th>
-                                        <th>Case Title</th>
-                                        <th>Compliant Case</th>
-                                        <th>Hearing/Action</th>
-                                        <th>Date of Agreement</th>
-                                        <th>Date of Execution</th>
-                                        <th>Agreement</th>
-                                        <th>Status of Compliance</th>
-                                        <th>Remarks</th>
-                                        <th>Action</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                </tbody>
+                    <div class="row justify-content-start">
+                        <div class="card col p-3 shadow">
+                            <p class="fs-4 fw-bold">Settled Cases</p>
+                            <div class="table-responsive">
+                                <table class="table table-bordered  yajra-datatable">
+                                    <thead>
+                                        <tr>
+                                            <th>Case No.</th>
+                                            <th>Case Title</th>
+                                            <th>Compliant Case</th>
+                                            <th>Hearing/Action</th>
+                                            <th>Date of Agreement</th>
+                                            <th>Date of Execution</th>
+                                            <th>Agreement</th>
+                                            <th>Status of Compliance</th>
+                                            <th>Remarks</th>
+                                            <th>Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    </tbody>
 
-                            </table>
+                                </table>
+                            </div>
+                        </div>
+
+                        <div class="card col-2 p-3 shadow ms-3 h-25">
+                            <p class="fs-4 fw-bold">Cases to execute</p>
+                            <ul class="list-group list-group-flush cases-to-execute">
+                                @foreach($data2 as $data)
+                                <li class="list-group-item list-group-item-action">
+                                    <span class="badge bg-warning text-dark"> {{$data->case_no}} | {{$data->case_title}}</span>
+                                    <span class="badge rounded-pill bg-primary"> {{$supposed_date_of_exe[$loop->index]}} </span>
+                                </li>
+                                @endforeach
+                                <hr>
+                            </ul>
+
                         </div>
                     </div>
                 </div>
@@ -139,6 +163,7 @@
 <script src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
 <script src="https://cdn.datatables.net/1.10.21/js/dataTables.bootstrap4.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
 <script type="text/javascript">
     $(function() {
 
@@ -188,7 +213,9 @@
             processing: true,
             serverSide: true,
             ajax: "{{ route('blotter.settled-list') }}",
-            order: [[0, 'desc']],
+            order: [
+                [0, 'desc']
+            ],
             columns: [{
                     data: 'case_no',
                     name: 'case_no'
@@ -238,7 +265,5 @@
 
     });
 </script>
-
-
 
 </html>

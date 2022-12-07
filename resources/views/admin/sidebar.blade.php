@@ -84,6 +84,54 @@
             </li>
 
             <li>
+                <?php
+
+                use App\Models\Amicable_Settlement;
+                use App\Models\Arbitration_Award;
+                use Illuminate\Support\Facades\DB;
+
+                $all_case_hearing = DB::select('SELECT * FROM case_hearings WHERE id IN (SELECT MAX(id) FROM case_hearings GROUP BY case_no)');
+                $data2 = array();
+                $hearings2 = array();
+
+                foreach ($all_case_hearing as $ch) {
+                    $hearings2[] = Hearing::where('hearing_id', $ch->hearing_id)->first();
+                }
+
+                foreach ($all_case_hearing as $key => $value) {
+                    $blotter = Blotter::where('case_no', $value->case_no)->first();
+                    if ($hearings2[$key]->settlement_id) {
+                        $amicable_settlement = Amicable_Settlement::where('settlement_id', $hearings2[$key]->settlement_id)->first();
+
+                        $date_of_exe = strtotime($amicable_settlement->date_agreed . ' + 10 days');
+
+                        if ($date_of_exe > strtotime("now") && is_null($blotter->date_of_execution)) {
+                            $data2[] = $amicable_settlement->date_agreed;
+                        }
+                    } else if ($hearings2[$key]->award_id) {
+                        $arbitration_awards = Arbitration_Award::where('award_id', $hearings2[$key]->award_id)->first();
+
+                        $date_of_exe = strtotime($arbitration_awards->date_agreed . ' + 10 days');
+
+                        if ($date_of_exe > strtotime("now") && is_null($blotter->date_of_execution)) {
+                            $data2[] = $arbitration_awards->date_agreed;
+                        }
+                    }
+                }
+
+                $settledCount = count($data2);
+                ?>
+                <a href="{{route('blotter.settled')}}" class="subMenu p-2 position-relative">Settled Cases
+                    <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+
+                        {{$settledCount}}
+                        <span class="visually-hidden">unread messages</span>
+                    </span>
+                </a>
+                <hr>
+            </li>
+
+            <li>
                 <a href="{{route('blotter.court-actions')}}" class="subMenu p-2">Court Actions</a>
                 <hr>
             </li>
