@@ -597,107 +597,22 @@ class HomeController extends Controller
 
     public function index()
     {
-        //top 5 incident arlegui
-        $top_incident_arlegui = Report::select('type', DB::raw('count(*) as total'))->where('street', 'Arlegui St.')->groupBy('type')->take(5)->orderBy('total', 'desc')->get();
-        $type_ARL = [];
-        $type_count_ARL = [];
-        foreach ($top_incident_arlegui as $street) {
-            $type_ARL[] = $street->type;
-            $type_count_ARL[] = $street->total;
+        
+
+        return view('user.home');
+    }
+
+    public function user_manual()
+    {
+        if (Auth::id()) {
+            if (Auth::user()->user_type_id == 1 || Auth::user()->user_type_id == 2) {
+
+                return view('admin.user_manual');
+            } else {
+                return redirect()->back();
+            }
+        } else {
+            return redirect('login');
         }
-
-        //top 5 incident castillejos
-        $top_incident_castillejos = Report::select('type', DB::raw('count(*) as total'))->where('street', 'Castillejos St.')->groupBy('type')->take(5)->orderBy('total', 'desc')->get();
-        $type_CAS = [];
-        $type_count_CAS = [];
-        foreach ($top_incident_castillejos as $street) {
-            $type_CAS[] = $street->type;
-            $type_count_CAS[] = $street->total;
-        }
-
-        //top 5 incident duque
-        $top_incident_duque = Report::select('type', DB::raw('count(*) as total'))->where('street', 'Duque St.')->groupBy('type')->take(5)->orderBy('total', 'desc')->get();
-        $type_DUQ = [];
-        $type_count_DUQ = [];
-        foreach ($top_incident_duque as $street) {
-            $type_DUQ[] = $street->type;
-            $type_count_DUQ[] = $street->total;
-        }
-
-        //top 5 incident farnecio
-        $top_incident_farnecio = Report::select('type', DB::raw('count(*) as total'))->where('street', 'Farnecio St.')->groupBy('type')->take(5)->orderBy('total', 'desc')->get();
-        $type_FAR = [];
-        $type_count_FAR = [];
-        foreach ($top_incident_farnecio as $street) {
-            $type_FAR[] = $street->type;
-            $type_count_FAR[] = $street->total;
-        }
-
-        //top 5 incident fraternal
-        $top_incident_fraternal = Report::select('type', DB::raw('count(*) as total'))->where('street', 'Fraternal St.')->groupBy('type')->take(5)->orderBy('total', 'desc')->get();
-        $type_FRA = [];
-        $type_count_FRA = [];
-        foreach ($top_incident_fraternal as $street) {
-            $type_FRA[] = $street->type;
-            $type_count_FRA[] = $street->total;
-        }
-
-        //top 5 incident casal
-        $top_incident_casal = Report::select('type', DB::raw('count(*) as total'))->where('street', 'Pascual Casal St.')->groupBy('type')->take(5)->orderBy('total', 'desc')->get();
-        $type_PCASAL = [];
-        $type_count_PCASAL = [];
-        foreach ($top_incident_casal as $street) {
-            $type_PCASAL[] = $street->type;
-            $type_count_PCASAL[] = $street->total;
-        }
-
-        //top 5 incident pax
-        $top_incident_pax = Report::select('type', DB::raw('count(*) as total'))->where('street', 'Pax St.')->groupBy('type')->take(5)->orderBy('total', 'desc')->get();
-        $type_PAX = [];
-        $type_count_PAX = [];
-        foreach ($top_incident_pax as $street) {
-            $type_PAX[] = $street->type;
-            $type_count_PAX[] = $street->total;
-        }
-
-        //top 5 incident vergara
-        $top_incident_pax = Report::select('type', DB::raw('count(*) as total'))->where('street', 'Vergara St.')->groupBy('type')->take(5)->orderBy('total', 'desc')->get();
-        $type_VER = [];
-        $type_count_VER = [];
-        foreach ($top_incident_pax as $street) {
-            $type_VER[] = $street->type;
-            $type_count_VER[] = $street->total;
-        }
-
-        $total_incident_street = Report::select('street', DB::raw('count(*) as total'))->groupBy('street')->orderBy('street', 'asc')->get();
-        //dd($total_incident_street);
-
-        return view('user.home', [
-            'type_ARL' => $type_ARL,
-            'type_count_ARL' => $type_count_ARL,
-
-            'type_CAS' => $type_CAS,
-            'type_count_CAS' => $type_count_CAS,
-
-            'type_DUQ' => $type_DUQ,
-            'type_count_DUQ' => $type_count_DUQ,
-
-            'type_FAR' => $type_FAR,
-            'type_count_FAR' => $type_count_FAR,
-
-            'type_FRA' => $type_FRA,
-            'type_count_FRA' => $type_count_FRA,
-
-            'type_PCASAL' => $type_PCASAL,
-            'type_count_PCASAL' => $type_count_PCASAL,
-
-            'type_PAX' => $type_PAX,
-            'type_count_PAX' => $type_count_PAX,
-
-            'type_VER' => $type_VER,
-            'type_count_VER' => $type_count_VER,
-
-            'total_incident_street' => $total_incident_street,
-        ]);
     }
 }

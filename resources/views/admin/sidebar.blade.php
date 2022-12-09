@@ -200,6 +200,7 @@
         <a class="list-group-item list-group-item-action  p-3 " href="{{route('blotter.kp_case')}}"><i class="bi bi-list-check"></i> KP Cases</a>
         <a class="list-group-item list-group-item-action  p-3 " href="{{route('feedbacks.show')}}"><i class="bi bi-signpost"></i> Feedbacks & Queries</a>
         <a class="list-group-item list-group-item-action  p-3 " href="{{route('activity_logs.show')}}"><i class="bi bi-flag"></i> Activity Logs</a>
+        <a class="list-group-item list-group-item-action  p-3 " href="{{route('user_manual.show')}}"><i class="bi bi-question-square"></i> User Manual</a>
 
     </div>
 </div>

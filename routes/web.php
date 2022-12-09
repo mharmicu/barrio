@@ -141,6 +141,9 @@ Route::post('/contactForm', 'App\Http\Controllers\ContactFormController@contactF
 Route::get('feedbacks/show', [Reports::class, 'feedbacks_show'])->name('feedbacks.show');
 Route::get('feedbacks/list', [Reports::class, 'getFeedbacks'])->name('feedbacks.list');
 
+//USER MANUAL
+Route::get('user-manual', [HomeController::class, 'user_manual'])->name('user_manual.show');
+
 //Create Database Backup
 Route::get('backup', function(){
     Artisan::call('db:backup');
