@@ -27,6 +27,11 @@ use Maize\Encryptable\Encryption;
     <script src="https://code.highcharts.com/modules/export-data.js"></script>
     <script src="https://code.highcharts.com/modules/accessibility.js"></script>
     <script src="https://code.highcharts.com/themes/dark-unica.js"></script>
+
+
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.css" />
+
     <style>
         /*styling the controls of basic carousel */
         .carousel-control-prev {
@@ -155,6 +160,39 @@ use Maize\Encryptable\Encryption;
 
         #stats {
             height: 100% !important;
+        }
+
+
+        #map {
+            height: 100vh;
+            width: 100%;
+        }
+
+        .info {
+            padding: 6px 8px;
+            font: 14px/16px Arial, Helvetica, sans-serif;
+            background: white;
+            background: rgba(255, 255, 255, 0.8);
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+            border-radius: 5px;
+        }
+
+        .info h4 {
+            margin: 0 0 5px;
+            color: #777;
+        }
+
+        .legend {
+            line-height: 18px;
+            color: #555;
+        }
+
+        .legend i {
+            width: 18px;
+            height: 18px;
+            float: left;
+            margin-right: 8px;
+            opacity: 0.7;
         }
     </style>
 </head>
@@ -464,6 +502,21 @@ use Maize\Encryptable\Encryption;
                     </div>
                 </div>
 
+                <div class="row mb-3">
+                    <div class="col">
+                        <div class="card">
+                            <h5 class="card-header"><i class="bi bi-geo-alt-fill"></i> Street Map Incidents</h5>
+                            <div class="card-body">
+                                <div class="row g-0">
+                                    <div class="col">
+                                        <div id="map" style="max-height: 560px;"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
                 <div class="row mb-3 ">
                     <div class="col">
                         <div class="card">
@@ -489,7 +542,7 @@ use Maize\Encryptable\Encryption;
                                             <h5><span class="badge rounded-pill bg-dark"></span></h5>
                                             <canvas id="matrixAll" class=""></canvas>
                                         </div>
-                                        <div class="carousel-item " data-bs-interval="10000">
+                                        <!-- <div class="carousel-item " data-bs-interval="10000">
                                             <h5><span class="badge rounded-pill bg-dark">1. Arlegui St.</span></h5>
                                             <canvas id="matrixChartArlegui" class=""></canvas>
                                         </div>
@@ -520,22 +573,22 @@ use Maize\Encryptable\Encryption;
                                         <div class="carousel-item " data-bs-interval="100000">
                                             <h5><span class="badge rounded-pill bg-dark">8. Vergara St.</span></h5>
                                             <canvas id="matrixChartVergara" class=""></canvas>
-                                        </div>
+                                        </div> -->
 
                                     </div>
-                                    <button class="carousel-control-prev " type="button" data-bs-target="#matrixCarousel" data-bs-slide="prev">
+                                    <!-- <button class="carousel-control-prev " type="button" data-bs-target="#matrixCarousel" data-bs-slide="prev">
                                         <span class="carousel-control-prev-icon prevIcon" aria-hidden="true"></span>
                                         <span class="visually-hidden">Previous</span>
                                     </button>
                                     <button class="carousel-control-next " type="button" data-bs-target="#matrixCarousel" data-bs-slide="next">
                                         <span class="carousel-control-next-icon nextIcon" aria-hidden="true"></span>
                                         <span class="visually-hidden">Next</span>
-                                    </button>
+                                    </button> -->
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
+                </div>  
             </div>
         </div>
 
@@ -605,18 +658,21 @@ use Maize\Encryptable\Encryption;
             for (var i = 0; i < length; i++) {
                 numberArray2.push(parseInt(_incidentCount2[i]));
             }
+
+            var _total_incident_street = JSON.parse('{!! json_encode($total_incident_street) !!}');
+            //console.log(_total_incident_street);
         </script>
         <!-- <script src="{{ asset('assets/charts/bar.js')}} "></script> -->
         <!-- <script src="{{ asset('assets/charts/line.js')}} "></script> -->
         <!-- <script src="{{ asset('assets/charts/matrix.js')}} "></script> -->
-        <script src="{{ asset('assets/charts/matrixArlegui.js')}} "></script>
+        <!-- <script src="{{ asset('assets/charts/matrixArlegui.js')}} "></script>
         <script src="{{ asset('assets/charts/matrixCastillejos.js')}} "></script>
         <script src="{{ asset('assets/charts/matrixDuque.js')}} "></script>
         <script src="{{ asset('assets/charts/matrixFarnecio.js')}} "></script>
         <script src="{{ asset('assets/charts/matrixFraternal.js')}} "></script>
         <script src="{{ asset('assets/charts/matrixPCasal.js')}} "></script>
         <script src="{{ asset('assets/charts/matrixPax.js')}} "></script>
-        <script src="{{ asset('assets/charts/matrixVergara.js')}} "></script>
+        <script src="{{ asset('assets/charts/matrixVergara.js')}} "></script> -->
         <!-- <script src="{{ asset('assets/charts/doughnutReports.js')}} "></script> -->
         <script src="{{ asset('assets/charts/wordCloud.js')}} "></script>
         <script src="{{ asset('assets/charts/pieIncident.js')}} "></script>
@@ -630,3 +686,232 @@ use Maize\Encryptable\Encryption;
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js" integrity="sha512-ElRFoEQdI5Ht6kZvyzXhYG9NqjtkmlkfYk0wr6wHxU9JEHakS7UJZNeml5ALk+8IKlU6jDgMabC3vkumRokgJA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
 </html>
+
+<script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+<script src="{{ asset('assets/leaflet-geochart/data/line.js')}}"></script>
+<script src="{{ asset('assets/leaflet-geochart/data/point.js')}}"></script>
+<script src="{{ asset('assets/leaflet-geochart//data/polygon.js')}}"></script>
+<script src="{{ asset('assets/leaflet-geochart/data/nepaldata.js')}}"></script>
+
+<!-- Choropleth -->
+<script src="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.js"></script>
+
+<script src="{{ asset('assets/leaflet-geochart/data/quiapo.js')}}"></script>
+<script>
+
+    /*===================================================
+                      OSM  LAYER               
+===================================================*/
+
+    var map = L.map('map').setView([14.5958, 120.9875], 18);
+    var osm = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+    });
+    osm.addTo(map);
+
+    /*===================================================
+                          MARKER               
+    ===================================================*/
+
+    var singleMarker = L.marker([28.25255, 83.97669]);
+    singleMarker.addTo(map);
+    var popup = singleMarker.bindPopup('This is a popup')
+    popup.addTo(map);
+
+    /*===================================================
+                         TILE LAYER               
+    ===================================================*/
+
+    var CartoDB_DarkMatter = L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
+        subdomains: 'abcd',
+        maxZoom: 19
+    });
+    CartoDB_DarkMatter.addTo(map);
+
+    // Google Map Layer
+
+    googleStreets = L.tileLayer('http://{s}.google.com/vt/lyrs=m&x={x}&y={y}&z={z}', {
+        maxZoom: 20,
+        subdomains: ['mt0', 'mt1', 'mt2', 'mt3']
+    });
+    googleStreets.addTo(map);
+
+    // Satelite Layer
+    googleSat = L.tileLayer('http://{s}.google.com/vt/lyrs=s&x={x}&y={y}&z={z}', {
+        maxZoom: 20,
+        subdomains: ['mt0', 'mt1', 'mt2', 'mt3']
+    });
+    googleSat.addTo(map);
+
+    var Stamen_Watercolor = L.tileLayer('https://stamen-tiles-{s}.a.ssl.fastly.net/watercolor/{z}/{x}/{y}.{ext}', {
+        attribution: 'Map tiles by <a href="http://stamen.com">Stamen Design</a>, <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a> &mdash; Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+        subdomains: 'abcd',
+        minZoom: 1,
+        maxZoom: 16,
+        ext: 'jpg'
+    });
+    Stamen_Watercolor.addTo(map);
+
+
+    /*===================================================
+                          GEOJSON               
+    ===================================================*/
+
+    var linedata = L.geoJSON(lineJSON).addTo(map);
+    var pointdata = L.geoJSON(pointJSON).addTo(map);
+    var nepalData = L.geoJSON(nepaldataa).addTo(map);
+    var polygondata = L.geoJSON(polygonJSON, {
+        onEachFeature: function (feature, layer) {
+            layer.bindPopup('<b>This is a </b>' + feature.properties.name)
+        },
+        style: {
+            fillColor: 'red',
+            fillOpacity: 1,
+            color: 'green'
+        }
+    }).addTo(map);
+
+    /*===================================================
+                          LAYER CONTROL               
+    ===================================================*/
+
+    var baseLayers = {
+        "Satellite": googleSat,
+        "Google Map": googleStreets,
+        "Water Color": Stamen_Watercolor,
+        "OpenStreetMap": osm,
+    };
+
+    var overlays = {
+        "Marker": singleMarker,
+        "PointData": pointdata,
+        "LineData": linedata,
+        "PolygonData": polygondata
+    };
+
+    L.control.layers(baseLayers, overlays).addTo(map);
+
+
+    /*===================================================
+                          SEARCH BUTTON               
+    ===================================================*/
+
+    L.Control.geocoder().addTo(map);
+
+
+    /*===================================================
+                          Choropleth Map               
+    ===================================================*/
+
+    L.geoJSON(quiapoData).addTo(map);
+
+
+    function getColor(d) {
+        return d > 1000 ? '#800026' :
+            d > 500 ? '#BD0026' :
+            d > 200 ? '#E31A1C' :
+            d > 100 ? '#FC4E2A' :
+            d > 50 ? '#FD8D3C' :
+            d > 20 ? '#FEB24C' :
+            d > 10 ? '#FED976' :
+                    '#FFEDA0';
+    }
+
+    function style(feature) {
+        return {
+            fillColor: getColor(feature.properties.density),
+            weight: 2,
+            opacity: 1,
+            color: 'white',
+            dashArray: '3',
+            fillOpacity: 0.7
+        };
+    }
+
+    L.geoJson(quiapoData, { style: style }).addTo(map);
+
+    function highlightFeature(e) {
+        var layer = e.target;
+
+        layer.setStyle({
+            weight: 5,
+            color: '#666',
+            dashArray: '',
+            fillOpacity: 0.7
+        });
+
+        if (!L.Browser.ie && !L.Browser.opera && !L.Browser.edge) {
+            layer.bringToFront();
+        }
+
+        info.update(layer.feature.properties);
+        //console.log(layer.feature.properties);
+        //console.log(_total_incident_street);
+    }
+
+    function resetHighlight(e) {
+        geojson.resetStyle(e.target);
+        info.update();
+    }
+
+    var geojson;
+    // ... our listeners
+    geojson = L.geoJson(quiapoData);
+
+    function zoomToFeature(e) {
+        map.fitBounds(e.target.getBounds());
+    }
+
+    function onEachFeature(feature, layer) {
+        layer.on({
+            mouseover: highlightFeature,
+            mouseout: resetHighlight,
+            click: zoomToFeature
+        });
+    }
+
+    geojson = L.geoJson(quiapoData, {
+        style: style,
+        onEachFeature: onEachFeature
+    }).addTo(map);
+
+    var info = L.control();
+
+    info.onAdd = function (map) {
+        this._div = L.DomUtil.create('div', 'info'); // create a div with a class "info"
+        this.update();
+        return this._div;
+    };
+
+    // method that we will use to update the control based on feature properties passed
+    info.update = function (props) {
+        this._div.innerHTML = '<h4>Barangay 385 Incident Density</h4>' + (props ?
+            '<b>' + props.name + '</b><br />' + props.density + ' incident reports'
+            : 'Hover over a street');
+    };
+
+    info.addTo(map);
+
+    var legend = L.control({ position: 'bottomright' });
+
+    legend.onAdd = function (map) {
+
+        var div = L.DomUtil.create('div', 'info legend'),
+            grades = [0, 10, 20, 50, 100, 200, 500, 1000],
+            labels = [];
+
+        // loop through our density intervals and generate a label with a colored square for each interval
+        for (var i = 0; i < grades.length; i++) {
+            div.innerHTML +=
+                '<i style="background:' + getColor(grades[i] + 1) + '"></i> ' +
+                grades[i] + (grades[i + 1] ? '&ndash;' + grades[i + 1] + '<br>' : '+');
+        }
+
+        return div;
+    };
+
+    legend.addTo(map);
+
+
+</script>

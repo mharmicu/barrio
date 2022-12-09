@@ -18,8 +18,8 @@ class ReportFactory extends Factory
     {
         return [
             'date_of_incident' => $this->faker->dateTimeBetween($startDate = '-1 years', $endDate = 'now', $timezone = 'Asia/Manila'),
-            'type' => $this->faker->randomElement($array = array('gambling','drunkenness', 'vandalism', 'disorderly conduct', 'public scandal')),
-            'street' => $this->faker->randomElement($array = array('Arlegui St.', 'Castillejos St.', 'Duque St.', 'Farnecio St.', 'Fraternal St.', 'Pascual Casal St.', 'Pax St.', 'Vergara St.')),
+            'type' => $this->faker->randomElement($array = array('gambling','drunkenness', 'catcalling', 'disorderly conduct', 'cursing')),
+            'street' => $this->faker->randomElement($array = array('Fraternal St.')),
             'location' => $this->faker->streetAddress,
             'persons' => $this->faker->name(),
             'narrative' => $this->faker->text($maxNbChars = 50),

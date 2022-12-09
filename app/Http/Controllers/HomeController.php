@@ -517,7 +517,9 @@ class HomeController extends Controller
                         }
                     }
                 }
-                //dd($incidentCount2);
+
+                $total_incident_street = Report::select('street', DB::raw('count(*) as total'))->groupBy('street')->orderBy('street', 'asc')->get();
+                //dd($total_incident_street);
 
                 return view('admin.home', [
                     'data' => $data,
@@ -582,6 +584,8 @@ class HomeController extends Controller
 
                     'incidentCount2' => $incidentCount2,
                     'monthIPM' => $monthIPM,
+
+                    'total_incident_street' => $total_incident_street,
                 ]);
             } else {
                 return view('user.home');
@@ -665,6 +669,9 @@ class HomeController extends Controller
             $type_count_VER[] = $street->total;
         }
 
+        $total_incident_street = Report::select('street', DB::raw('count(*) as total'))->groupBy('street')->orderBy('street', 'asc')->get();
+        //dd($total_incident_street);
+
         return view('user.home', [
             'type_ARL' => $type_ARL,
             'type_count_ARL' => $type_count_ARL,
@@ -689,6 +696,8 @@ class HomeController extends Controller
 
             'type_VER' => $type_VER,
             'type_count_VER' => $type_count_VER,
+
+            'total_incident_street' => $total_incident_street,
         ]);
     }
 }
