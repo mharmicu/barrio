@@ -443,7 +443,7 @@ use Maize\Encryptable\Encryption;
 
                     <div class="col">
                         <div class="card h-100">
-                            <h5 class="card-header"><i class="bi bi-bar-chart-line-fill"></i> Total Hearings</h5>
+                            <h5 class="card-header"><i class="bi bi-bar-chart-line-fill"></i> Total Hearings of Settled Cases</h5>
                             <div class="card-body">
                                 <canvas id="pieBlotter"></canvas>
                             </div>

@@ -3,7 +3,7 @@ const dataArticle = {
     labels: article_no,
     datasets: [{
         axis: 'y',
-        label: 'Case article no.',
+        label: 'Total number of cases',
         data: article_count,
         fill: false,
         backgroundColor: 
